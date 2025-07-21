@@ -340,32 +340,32 @@
   width: 100px;
   height: 50px;
   top: 130px;
-  left: 200px;
-  background-color: #76a0e379;
+  left: 100px;
+  background-color: #76a0e3a5;
 }
 
 .plants {
-  width: 100px;
+  width: 120px;
   height: 50px;
   top: 130px;
-  left: 350px;
-  background-color: #76a0e379;
+  left: 250px;
+  background-color: #76a0e3a5;
 }
 
 .supplies {
   width: 100px;
   height: 50px;
   top: 130px;
-  left: 500px;
-  background-color: #76a0e379;
+  left: 400px;
+  background-color: #76a0e3a5;
 }
 
 .equipment {
   width: 120px;
   height: 50px;
   top: 130px;
-  left: 650px;
-  background-color: #76a0e379;
+  left: 550px;
+  background-color: #76a0e3a5;
 }
 
 /* animation delays when active */
@@ -388,61 +388,56 @@
 .option-button::before {
   content: "";
   position: absolute;
-  top: 50%;
-  left: -80px; /* Adjust this based on curve direction */
-  width: 80px;
+  width: 50px;
   height: 50px;
-  border: 2px solid #a8c5f3;
+  border: 2px solid #e1ecfe;
   border-right: none;
   border-bottom: none;
-  border-radius: 50px 0 0 0; /* Top-left quarter-circle */
-  transform: translateY(-50%) scaleX(0);
-  transform-origin: right;
-  transition: transform 0.6s ease-out;
+  border-radius: 100% 0 0 0; /* Top-left quarter-circle */
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.6s ease;
   z-index: -1;
 }
 
 /* Animate line when active */
 .floating-button-group.active .option-button::before {
-  transform: translateY(-50%) scaleX(1);
+  opacity: 1;
+  transform: scale(1);
 }
 
 .floating-button-group.active .fish::before {
-  left: -100px;
-  width: 100px;
-  height: 60px;
-  border-radius: 0 0 0 50px;
-  border-top: none;
-  border-right: none;
+  left: 10px;
+  top: -70px;
+  transform: rotate(90deg);
 }
 
 .floating-button-group.active .plants::before {
-  top: -50px;
-  left: 50%;
-  transform: translateX(-50%) scaleY(0);
-  width: 2px;
-  height: 60px;
-  border-radius: 0;
-  border-top: 2px solid #a8c5f3;
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
-  transform-origin: bottom;
+  left: 10px;
+  top: -70px;
+  transform: rotate(90deg);
 }
 
-.floating-button-group.active .plants::before {
-  transform: translateX(-50%) scaleY(1);
+.floating-button-group.active .supplies::before {
+  left: 10px;
+  top: -70px;
+  transform: rotate(90deg);
+}
+
+.floating-button-group.active .equipment::before {
+  left: 10px;
+  top: -70px;
+  transform: rotate(90deg);
 }
 
 
 
-
-.hero-animated {
+.section-gradient {
   background: linear-gradient(-45deg, #2d3b94, #251b8b, #26053b, #0e1f41);
   background-size: 400% 400%;
   animation: gradientFlow 10s ease infinite;
-  color: white;
   padding: 100px 20px;
+  height: auto;
 }
 
 @keyframes gradientFlow {
@@ -509,3 +504,48 @@
 .animate-fade-in-up {
   animation: fade-in-up 1.2s ease forwards;
 }
+
+.footer-glass {
+  padding: 30px 20px;
+  background: linear-gradient(90deg, #09063c, #12123f, #241b66);
+  background-size: 400% 400%;
+  animation: gradientFlow 10s ease infinite;
+  color: white;
+}
+
+/* ✅ FIX HERE — REMOVE flex from .footer-container */
+.footer-container {
+  width: auto;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* This stays the same — the glass box handles layout */
+.glass-box {
+  width: 100%;
+  max-width: 1350px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 14px;
+  gap: 150px 260px;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+  flex: 1 1 250px;
+  color: white;
+}
+
+
+
+

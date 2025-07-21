@@ -42,7 +42,7 @@
           <!-- Dropdown Items -->
           <div x-show="open" x-transition class="dropdown-menu">
             <a href="fish.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Fish</a>
-            <a href="plants.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Plants</a>
+            <a href="plants.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Coral Reefs</a>
             <a href="supplies.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Supplies</a>
             <a href="equipment.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Equipment</a>
           </div>
@@ -81,12 +81,12 @@
 
         <!-- Floating Action Button -->
         <div class="floating-button-group">
-          <button class="main-circle" onclick="toggleOptions()">Build Your Dream Aquarium Now</button>
+          <button class="main-circle" onclick="toggleOptions()" data-sound="/sounds/click_pop.mp3">Build Your Dream Aquarium Now</button>
 
-          <a href="/fish.html" class="option-button fish">Fish</a>
-          <a href="/plants.html" class="option-button plants">Plants</a>
-          <a href="/supplies.html" class="option-button supplies">Supplies</a>
-          <a href="/equipment.html" class="option-button equipment">Equipment</a>
+          <a href="/fish.html" class="option-button fish" data-sound="/sounds/click_pop.mp3">Fish</a>
+          <a href="/plants.html" class="option-button plants" data-sound="/sounds/click_pop.mp3">Coral Reefs</a>
+          <a href="/supplies.html" class="option-button supplies" data-sound="/sounds/click_pop.mp3">Supplies</a>
+          <a href="/equipment.html" class="option-button equipment" data-sound="/sounds/click_pop.mp3">Equipment</a>
         </div>
 
       </div>
@@ -98,23 +98,17 @@
 
     </section>
 
-    
-
   </section>
 
-  <section class="">
-    <!-- Glass Box -->
-    <div class="absolute bottom-0 left-10 bg-white/10 backdrop-blur-md rounded-xl p-4 text-sm w-[280px] shadow-xl">
-      <p><strong>Address:</strong><br>Mandalay Fish Market, MM</p>
-      <p class="mt-2"><strong>Hours:</strong><br>Mon–Fri: 10am–7pm<br>Sat–Sun: 10am–9pm</p>
-    </div>
+  
 
-  </section>
-
-  <section class="hero-animated">
+  <section class="section-gradient">
     <h1>Glowing Reefs</h1>
     <p>Colorful coral and marine ecosystems</p>
   </section>
+
+<?php include 'footer.php'; ?>
+
 
 
   <!-- Page Active Indicator -->
