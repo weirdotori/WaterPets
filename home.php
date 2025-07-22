@@ -12,6 +12,7 @@
 </head>
 
 <body>
+
   <section class="section-bg">
     <!-- BUBBLES CONTAINER -->
     <div class="bubbles-container">
@@ -23,48 +24,8 @@
       <div class="bubble" style="left: 90%; width: 25px; height: 25px; animation-delay: 5s;"></div>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-      <div class="flex items-center space-x-2 animate-logo">
-        <img src="/images/oystergif.gif" alt="Fish Icon" class="h-11 w-11" />
-        <span class="h-8 border-l-2 border-blue-500 mx-3"></span>
-        <a href="#" class="logo-font animate-slide-in-left" data-sound="/sounds/notification_pop.mp3">WaterPets</a>
-      </div>
+    <?php include 'header.php'; ?>
 
-
-      <div class="hidden md:flex items-center space-x-6" x-data="{ open: false }">
-        <a href="home.php" class="nav-link" data-sound="/sounds/notification_pop.mp3">Home</a>
-
-        <!-- Dropdown Menu for Shop -->
-        <div class="relative" @mouseenter="open = true" @mouseleave="open = false">
-          <button class="nav-link">Shop</button>
-
-          <!-- Dropdown Items -->
-          <div x-show="open" x-transition class="dropdown-menu">
-            <a href="fish.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Fish</a>
-            <a href="plants.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Coral Reefs</a>
-            <a href="supplies.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Supplies</a>
-            <a href="equipment.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Equipment</a>
-          </div>
-
-        </div>
-
-        <a href="about.php" class="nav-link" data-sound="/sounds/notification_pop.mp3">About</a>
-        <a href="contact.php" class="nav-link" data-sound="/sounds/notification_pop.mp3">Contact</a>
-      </div>
-
-
-      <div class="hidden md:flex">
-        <a href="#" class="nav-link" data-sound="/sounds/notification_pop.mp3">Login</a>
-        <a href="#" class="nav-link" data-sound="/sounds/notification_pop.mp3">Register</a>
-
-        <!-- Sound Toggle Button -->
-        <button id="sound-toggle" class="nav-link" title="Toggle Sound">
-          <img id="sound-icon" src="/images/volume.png" alt="Sound Icon" class="h-7 w-7" />
-        </button>
-
-      </div>
-    </nav>
 
     <!-- Content SECTION -->
     <section class="relative h-[90vh] flex items-center justify-between px-10">
@@ -112,16 +73,7 @@
 
 
   <!-- Page Active Indicator -->
-  <script>
-    const links = document.querySelectorAll('.nav-link');
-    const current = window.location.pathname.split("/").pop();
-
-    links.forEach(link => {
-      if (link.getAttribute("href") === current) {
-        link.classList.add("border-b-2", "border-red-500");
-      }
-    });
-  </script>
+  <script src="/js/pageActive.js"></script>
 
   <!-- Scroll-based -->
   <script>
@@ -137,41 +89,10 @@
   </script>
 
 
-  <!-- Toggle Sounds -->
-  <script>
-    const clickSound = new Audio('/sounds/glassyclick_pop.mp3'); // sound toggle
-    clickSound.volume = 0.5;
+  <!-- Toggle Sounds + Background Music -->
+<script src="/js/soundControl.js"></script>
 
-    let soundEnabled = true;
 
-    const soundToggle = document.getElementById('sound-toggle');
-    const soundIcon = document.getElementById('sound-icon');
-
-    // Toggle sound ON/OFF
-    soundToggle.addEventListener('click', (e) => {
-      e.preventDefault();
-      soundEnabled = !soundEnabled;
-      soundIcon.src = soundEnabled ? '/images/volume.png' : '/images/volume-mute.png';
-
-      // Optional: play toggle sound
-      if (soundEnabled) {
-        clickSound.currentTime = 0;
-        clickSound.play();
-      }
-    });
-
-    // Play specific sound for each link
-    document.querySelectorAll('[data-sound]').forEach(el => {
-      el.addEventListener('click', e => {
-        const soundPath = el.getAttribute('data-sound');
-        if (soundEnabled && soundPath) {
-          const customSound = new Audio(soundPath);
-          customSound.volume = 0.5;
-          customSound.play();
-        }
-      });
-    });
-  </script>
 
   <!-- Float Circle Button -->
   <script>

@@ -507,13 +507,12 @@
 
 .footer-glass {
   padding: 30px 20px;
-  background: linear-gradient(90deg, #09063c, #12123f, #241b66);
+  background: linear-gradient(90deg, #09063c, #241975, #09063c);
   background-size: 400% 400%;
   animation: gradientFlow 10s ease infinite;
   color: white;
 }
 
-/* ✅ FIX HERE — REMOVE flex from .footer-container */
 .footer-container {
   width: auto;
   margin: 0 auto;
@@ -539,12 +538,69 @@
   gap: 150px 260px;
 }
 
+.footer-left-text {
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
 .footer-left,
 .footer-center,
 .footer-right {
   flex: 1 1 250px;
   color: white;
+  font-family: "Quicksand", sans-serif;
+  font-size: small;
+  font-weight: 400;
 }
+
+.footer-title {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-weight: bold;
+  font-size: 0.9rem; /* Optional: slightly larger */
+  color: white; /* Adjust to match theme */
+}
+
+.footer-link {
+  display: inline-block;
+  margin-bottom: 4px;
+}
+.footer-link:hover {
+  transform: scale(1.05);
+  text-shadow: 2px 2px 16px rgb(255, 255, 255);
+}
+
+.footer-divider {
+  margin: 50px auto;
+  border: none;
+  height: 1px;
+  background: rgb(255, 255, 255); /* light translucent line */
+  width: 100%;
+}
+
+.footer-social {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.footer-social a img {
+  width: 24px;
+  height: 24px;
+  filter: invert(1); /* makes black icons white */
+  transition: transform 0.2s ease;
+}
+
+.footer-social a:hover img {
+  transform: scale(1.2);
+}
+
+.copyright-text {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
 
 
 
