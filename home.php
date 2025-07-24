@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 
 <body>
@@ -61,16 +62,100 @@
 
   </section>
 
-  
+
 
   <section class="section-gradient">
-    <h1>Glowing Reefs</h1>
-    <p>Colorful coral and marine ecosystems</p>
+    <div class="feature-product">
+      <p class="popular-pick-text">Popular Picks</p>
+
+      <!-- <div class="carousel-container">
+        <div class="carousel-slider" id="coverflowSlider">
+          <div class="carousel-item">
+            <img src="/images/fish1.jpg">
+            <p>Neon Tetra</p>
+          </div>
+
+          <div class="carousel-item">
+            <img src="/images/plant1.jpg">
+            <p>Water Plant</p>
+          </div>
+
+          <div class="carousel-item">
+            <img src="/images/coral1.jpg">
+            <p>Live Coral</p>
+          </div>
+
+        </div>
+        <div class="carousel-buttons">
+          <button onclick="prevSlide()">❮</button>
+          <button onclick="nextSlide()">❯</button>
+        </div>
+      </div> -->
+
+      <!-- Slider main container -->
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+          <div class="swiper-slide">
+            <img src="/images/clownfish.jpg" alt="">
+            <div class="title">
+              <span>Clown Fish</span>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <img src="/images/blue-betta.jpg" alt="">
+            <div class="title">
+              <span>Navy Blue Betta</span>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <img src="/images/betta-tank.jpg" alt="">
+            <div class="title">
+              <span>Square Fish Tank</span>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <img src="/images/seahorse.jpg" alt="">
+            <div class="title">
+              <span>Sea Horse</span>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <img src="/images/shellfishtank.jpg" alt="">
+            <div class="title">
+              <span>Fish Tank Decoration</span>
+            </div>
+          </div>
+        
+        </div>
+        
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+
+    <div class="latest-offer">
+
+    </div>
+
+    <div class="care-tips">
+
+    </div>
+
+    <div class="testimonial">
+
+    </div>
   </section>
 
-<?php include 'footer.php'; ?>
+  <?php include 'footer.php'; ?>
 
-
+  <!-- SwiperJs -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- Page Active Indicator -->
   <script src="/js/pageActive.js"></script>
@@ -90,9 +175,7 @@
 
 
   <!-- Toggle Sounds + Background Music -->
-<script src="/js/soundControl.js"></script>
-
-
+  <script src="/js/soundControl.js"></script>
 
   <!-- Float Circle Button -->
   <script>
@@ -102,8 +185,8 @@
     }
   </script>
 
-
-
+  <!-- featured products carousel -->
+  <script src="/js/featuredProductSlider.js"></script>
 </body>
 
 </html>
