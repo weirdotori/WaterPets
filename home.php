@@ -8,8 +8,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home-style.css">
+
+  <!-- AOS Animate On Scroll -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- Swiper JS library -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
 </head>
 
 <body>
@@ -39,7 +45,7 @@
       <div class="main-content">
         <p class="main-text">WaterPets</p>
         <p class="sub-text">Your One-Stop Aquatic Store!</p>
-        <p class="sub-text">Shop variety of aquarium fish, plants and fish care products at one place.</p>
+        <p class="sub-text">Shop variety of aquarium fish, coral reefs and fish care products at one place.</p>
 
         <!-- Floating Action Button -->
         <div class="floating-button-group">
@@ -62,95 +68,196 @@
 
   </section>
 
+  <!-- Latest Offer Section -->
+  <section class="latest-offers">
+    <div class="latest-offer-container">
+      <!-- left side -->
+      <div class="offer-left" data-aos="fade-up">
+        <div class="latest-offer-text">
+          <h2>Special Summer Offer</h2>
+          <p>Enjoy up to 15% off on any Betta Fish species with different color patterns. <br> Limited time only!</p>
+          <a href="fish.php">Shop Now</a>
+        </div>
 
+        <div class="offer-thumbnails" data-aos="fade-up">
+          <a href="fish.php?type=betta-red">
+            <img src="/images/whitebetta.png" alt="Red Betta">
+          </a>
+          <a href="fish.php?type=betta-blue">
+            <img src="/images/whiteredbetta.png" alt="Blue Betta">
+          </a>
+          <a href="fish.php?type=betta-white">
+            <img src="/images/redmoonbetta.png" alt="White Betta">
+          </a>
+        </div>
+      </div>
 
+      <!-- right side -->
+      <div class="latest-offer-box" data-aos="zoom-in-up">
+        <video autoplay muted loop playsinline class="rounded-lg shadow-xl w-[450px] h-[600px] object-cover">
+          <source src="/videos/bettavideo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Popular Pick Section -->
   <section class="section-gradient">
-    <div class="feature-product">
-      <p class="popular-pick-text">Popular Picks</p>
+    <video autoplay muted loop playsinline class="bg-video">
+      <source src="/videos/underwater.mp4">
+    </video>
 
-      <!-- <div class="carousel-container">
-        <div class="carousel-slider" id="coverflowSlider">
-          <div class="carousel-item">
-            <img src="/images/fish1.jpg">
-            <p>Neon Tetra</p>
-          </div>
-
-          <div class="carousel-item">
-            <img src="/images/plant1.jpg">
-            <p>Water Plant</p>
-          </div>
-
-          <div class="carousel-item">
-            <img src="/images/coral1.jpg">
-            <p>Live Coral</p>
-          </div>
-
-        </div>
-        <div class="carousel-buttons">
-          <button onclick="prevSlide()">❮</button>
-          <button onclick="nextSlide()">❯</button>
-        </div>
-      </div> -->
+    <div class="feature-product" data-aos="fade-up" data-aos-delay="100">
+      <p class="popular-pick-text" data-aos="fade-up">Popular Picks</p>
 
       <!-- Slider main container -->
-      <div class="swiper">
+      <div class="swiper" data-aos="zoom-in-up" data-aos-duration="1000" data-aos-delay="300">
         <div class="swiper-wrapper">
           <!-- Slides -->
           <div class="swiper-slide">
             <img src="/images/clownfish.jpg" alt="">
             <div class="title">
-              <span>Clown Fish</span>
+              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Clown Fish</a>
             </div>
           </div>
 
           <div class="swiper-slide">
             <img src="/images/blue-betta.jpg" alt="">
             <div class="title">
-              <span>Navy Blue Betta</span>
+              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Navy Blue Betta</a>
             </div>
           </div>
 
           <div class="swiper-slide">
             <img src="/images/betta-tank.jpg" alt="">
             <div class="title">
-              <span>Square Fish Tank</span>
+              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Square Fish Tank</a>
             </div>
           </div>
 
           <div class="swiper-slide">
             <img src="/images/seahorse.jpg" alt="">
             <div class="title">
-              <span>Sea Horse</span>
+              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Sea Horse</a>
             </div>
           </div>
 
           <div class="swiper-slide">
             <img src="/images/shellfishtank.jpg" alt="">
             <div class="title">
-              <span>Fish Tank Decoration</span>
+              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Fish Tank Decoration</a>
             </div>
           </div>
-        
+
         </div>
-        
-        <!-- If we need pagination -->
+
+        <!-- pagination -->
         <div class="swiper-pagination"></div>
+      </div>
+      <div class="swiper-caption-container" data-aos="fade-up" data-aos-delay="500">
+        <p class="swiper-caption">Top-rated picks — only the best for your tank.</p>
+        <a href="shop.php" class="swiper-caption-btn">Shop Now</a>
       </div>
     </div>
 
+  </section>
 
-    <div class="latest-offer">
 
-    </div>
+  <!-- Care tips section -->
+  <section class="care-tips">
+    <div class="tips-container">
 
-    <div class="care-tips">
+      <!-- Tip 1 -->
+      <div class="tip-box" data-aos="fade-up">
+        <img src="/images/goldfishacc.jpg" alt="Tip 1">
+        <div class="tip-text">
+          <p class="tip-subtitle">Tank Setup</p>
+          <h3>Setting Up Your Aquarium</h3>
+          <p>Learn how to prepare your tank environment to keep your fish safe, healthy, and happy.</p>
+          <a href="#">read more →</a>
+        </div>
+      </div>
 
-    </div>
-
-    <div class="testimonial">
+      <!-- Tip 2 -->
+      <div class="tip-box reverse" data-aos="fade-up">
+        <img src="/images/goldfishforcare.jpg" alt="Tip 2">
+        <div class="tip-text">
+          <p class="tip-subtitle">Feeding</p>
+          <h3>What & When to Feed</h3>
+          <p>Tips on feeding schedules, portion sizes, and nutrition for your aquatic friends.</p>
+          <a href="#">read more →</a>
+        </div>
+      </div>
 
     </div>
   </section>
+
+
+  <!-- Testimonials section -->
+
+  <section class="testimonials">
+    <div class="flex items-center justify-between my-4 px-10 py-6">
+      <hr class="flex-grow border-t-2 border-white" />
+    </div>
+    <div class="testimonial-text">
+      <h2>Read reviews,</h2>
+      <p><strong>ride with confidence.</strong></p>
+    </div>
+
+    <!-- testimonial main container -->
+    <div class="testimonial-box">
+      <div class="testimonial-wrapper">
+        <!-- quotes -->
+        <div class="quotes" data-aos="fade-up">
+          <img src="/images/quote.png" class="quote-symbol h-10 w-10" />
+          <div class="text-white pt-4 text-xl">
+            What our customers are saying
+            <div class="flex items-center justify-between my-4">
+              <hr class="flex-grow border-t-2 border-white" />
+            </div>
+          </div>
+        </div>
+
+        <div class="quotes" data-aos="fade-up">
+          <p>"Amazing customer service! They explain so well and patiently to a beginner fish hobbist like me."</p>
+          <div class="quote-author">
+            <img src="/images/old-woman.png" alt="Reviewer" />
+            <div class="quote-author-name">
+              <strong>Tori</strong><br />
+              3 days ago
+            </div>
+          </div>
+        </div>
+
+        <div class="quotes" data-aos="fade-up">
+          <p>"Super fast delivery and the care guide really helped me maintain a healthy tank. Highly recommended!"</p>
+          <div class="quote-author">
+            <img src="/images/detective.png" alt="Reviewer" />
+            <div class="quote-author-name">
+              <strong>Orlando</strong><br />
+              10 days ago
+            </div>
+          </div>
+        </div>
+
+        <div class="quotes" data-aos="fade-up">
+          <p>"Quick process and my dream aquarium fish is available so it was worth it."</p>
+          <div class="quote-author">
+            <img src="/images/grandmother.png" alt="Reviewer" />
+            <div class="quote-author-name">
+              <strong>Sydeny</strong><br />
+              1 month ago
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
 
   <?php include 'footer.php'; ?>
 
@@ -187,6 +294,24 @@
 
   <!-- featured products carousel -->
   <script src="/js/featuredProductSlider.js"></script>
+
+  <!-- animation aos on scroll -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: false,
+      mirror: true
+    });
+  </script>
+
+  <!-- back to top button -->
+  <button id="backToTop" title="Back to top" style="display:none;">
+    ➤
+  </button>
+  <script src="/js/backtoTop.js"></script>
+
 </body>
 
 </html>

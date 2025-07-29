@@ -8,6 +8,10 @@ let soundEnabled = true;
 const soundToggle = document.getElementById('sound-toggle');
 const soundIcon = document.getElementById('sound-icon');
 
+// For mobile menu
+const soundToggleMobile = document.getElementById('sound-toggle-mobile');
+const soundIconMobile = document.getElementById('sound-icon-mobile');
+
 // Background music setup
 const bgAudio = new Audio('/sounds/underwater.mp3');
 bgAudio.loop = true;
@@ -24,21 +28,35 @@ const tryPlayBgAudio = () => {
 };
 document.addEventListener('click', tryPlayBgAudio);
 
-// Toggle sound ON/OFF
-soundToggle.addEventListener('click', (e) => {
+// Function to update both icons
+function updateSoundIcons() {
+  const src = soundEnabled ? '/images/volume.png' : '/images/volume-mute.png';
+  if (soundIcon) soundIcon.src = src;
+  if (soundIconMobile) soundIconMobile.src = src;
+}
+
+// Shared toggle function
+function toggleSound(e) {
   e.preventDefault();
   soundEnabled = !soundEnabled;
-  soundIcon.src = soundEnabled ? '/images/volume.png' : '/images/volume-mute.png';
+  updateSoundIcons();
 
-  // Play toggle click sound
   if (soundEnabled) {
     clickSound.currentTime = 0;
     clickSound.play();
-    bgAudio.play(); // Resume bg audio
+    bgAudio.play();
   } else {
-    bgAudio.pause(); // Mute bg audio
+    bgAudio.pause();
   }
-});
+}
+
+// Add event listeners for both toggles
+if (soundToggle) {
+  soundToggle.addEventListener('click', toggleSound);
+}
+if (soundToggleMobile) {
+  soundToggleMobile.addEventListener('click', toggleSound);
+}
 
 // Custom sounds on links/buttons
 document.querySelectorAll('[data-sound]').forEach(el => {
