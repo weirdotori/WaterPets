@@ -33,9 +33,9 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
             <li><a href="admin_account.php">Account</a></li>
             <li><a href="admin_reports.php">Reports</a></li>
             <li><a href="manage_orders.php">Orders</a></li>
-            <li><a href="manage_users.php">Manage Users</a></li>
-            <li><a href="manage_products.php">Manage Products</a></li>
-            <li><a href="view_messages.php">Messages</a></li>
+            <li><a href="manage_users.php">Users</a></li>
+            <li><a href="manage_products.php">Products</a></li>
+            <li><a href="view_messages.php">Inquires</a></li>
             <li><a href="admin_reviews.php">Reviews</a></li>
             <li><a href="logout.php" class="logout">Logout</a></li>
         </ul>
