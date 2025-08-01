@@ -3,7 +3,7 @@
     <div class="w-full flex justify-between items-center">
         <!-- real nav starts here -->
         <div class="flex items-center space-x-2 animate-logo">
-            <img src="/images/oystergif.gif" alt="Fish Icon" class="h-11 w-11" />
+            <img src="/images/oystergif.gif" alt="waterpets logo" class="h-11 w-11" />
             <span class="h-8 border-l-2 border-blue-500 mx-3"></span>
             <a href="#" class="logo-font animate-slide-in-left" data-sound="/sounds/notification_pop.mp3">WaterPets</a>
         </div>

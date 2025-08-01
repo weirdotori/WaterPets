@@ -6,26 +6,71 @@ body {
     margin: 0;
 }
 
+/* Dark Mode Variables */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --sidebar-bg: #ffffff;
+    --username-highlight: #3d23a8;
+}
+
+.dark-mode {
+    --bg-color: #141c30;
+    --text-color: #ffffff;
+    --sidebar-bg: #141c30;
+    --username-highlight: #fcd34d;
+}
+
+/* Transition effect for smooth change */
+body, .top-navbar, .sidebar, .card {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .admin-container {
     display: flex;
 }
 
-/* Sidebar */
-.sidebar {
-    background-color: #2c3e50;
-    color: white;
-    width: 250px;
-    min-height: 100vh;
-    padding: 20px 10px;
+
+/* Full-width Top Navbar */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* fixed height */
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    z-index: 1100;
+    border-bottom: 1px solid #ddd;
 }
 
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    padding-bottom: 10px;
+.logo-font {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    text-decoration: none;
 }
+
+/* Push page content down so it's not hidden under navbar */
+.admin-container {
+    display: flex;
+    margin-top: 60px; /* same as navbar height */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    min-height: calc(100vh - 60px); /* adjust for navbar */
+    background-color: var(--sidebar-bg);
+    position: fixed;
+    top: 60px; /* below navbar */
+    left: 0;
+    padding-top: 1rem;
+    color: var(--text-color);
+    border-right: 1px solid #dfdddd;
+}
+
 
 .sidebar ul {
     list-style: none;
@@ -38,7 +83,7 @@ body {
 
 .sidebar ul li a {
     text-decoration: none;
-    color: white;
+    color: var(--text-color);
     display: block;
     padding: 10px;
     border-radius: 5px;
@@ -63,9 +108,18 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
+    margin-left: 250px; /* sidebar width */
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: var(--bg-color);
+    min-height: calc(100vh - 60px);
+    color: var(--text-color);
 }
+
+.username-highlight {
+    color: var(--username-highlight);
+    font-weight: bold;
+}
+
 
 .dashboard-header {
     margin-bottom: 30px;
@@ -75,3 +129,5 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
+

@@ -9,27 +9,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
 
     try {
         // Query with username + email + role
-        $sql = "SELECT username, email, password, role 
-                FROM users 
-                WHERE username = :username 
-                AND email = :email 
-                AND role = 'admin'";
+        $sql = "SELECT userid, username, email, password, role 
+        FROM users 
+        WHERE username = :username 
+        AND email = :email 
+        AND role = 'admin'";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
-        $user = $stmt->fetch();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            // Save session
+            // Save all necessary session data
+            $_SESSION['userid'] = $user['userid'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['adminLogin'] = true;
 
-            // Redirect to admin dashboard
             header("Location: adminDashboard.php");
             exit();
         } else {
@@ -43,12 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <div class="container my-5">
         <h2 class="mb-4">Admin Login</h2>
@@ -79,4 +81,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
         </form>
     </div>
 </body>
+
 </html>
