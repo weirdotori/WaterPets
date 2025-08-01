@@ -510,11 +510,13 @@ html {
   }
 
   .main-text {
-    font-size: 2rem; /* Reduce main text */
+    font-size: 2rem;
+    /* Reduce main text */
   }
 
   .sub-text {
-    font-size: 1rem; /* Reduce subtitle size */
+    font-size: 1rem;
+    /* Reduce subtitle size */
     padding: 0 10px;
   }
 
@@ -535,17 +537,19 @@ html {
   }
 
   .section-bg {
-    padding: 40px 10px; /* Slightly smaller padding */
+    padding: 40px 10px;
+    /* Slightly smaller padding */
   }
 
   .corner-deco {
-    transform: scale(0.8); /* Shrink decorative elements if needed */
+    transform: scale(0.8);
+    /* Shrink decorative elements if needed */
   }
 
   img[alt="Jellyfish"] {
     height: 250px !important;
-    right: 20px !important;
-    bottom: 40px !important;
+    right: 60px !important;
+    bottom: 70px !important;
   }
 }
 
@@ -558,16 +562,53 @@ html {
     font-size: 0.9rem;
   }
 
+  .floating-button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .corner-deco {
+    margin: -25px;
+  }
+
+  /* Main button smaller */
   .main-circle {
+    width: 300px;
+    padding: 10px;
     font-size: 0.9rem;
   }
 
+
+  /* Reset absolute positioning for mobile */
   .option-button {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: scale(0) !important;
+    margin: 5px;
+    opacity: 0;
+    width: 100px;
+    height: 45px;
     font-size: 0.8rem;
   }
 
+  /* When active, show them in 2×2 grid */
+  .floating-button-group.active {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .floating-button-group.active .option-button {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+
   img[alt="Jellyfish"] {
-    display: none; /* hide on small devices */
+    height: 150px !important;
+    right: 50px !important;
+    bottom: 70px !important;
   }
 }
 
@@ -846,7 +887,7 @@ html {
   /* background-size: 400% 400%; */
 
   /* background-color: #060417; */
-  
+
 
   position: relative;
   /* Required for video */
@@ -855,7 +896,7 @@ html {
 
   /* animation: gradientFlow 5s ease infinite; */
   padding: 20px 20px;
-  
+
   height: auto;
   /* Required for video */
   z-index: 1;
@@ -1148,7 +1189,7 @@ html {
   height: 280px;
   object-fit: cover;
   border-radius: 100px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .tip-text {
@@ -1192,6 +1233,7 @@ html {
 
 /* Responsive */
 @media (max-width: 768px) {
+
   .tip-box,
   .tip-box.reverse {
     flex-direction: column;
@@ -1256,7 +1298,7 @@ html {
   background: #3e3d3d49;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   text-align: left;
   transition: transform 0.3s ease;
 }
