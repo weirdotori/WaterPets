@@ -66,8 +66,9 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                         <span class="ms-2"><?= htmlspecialchars($_SESSION['username']) ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="adminProfile.php">My Profile</a></li>
-                        <li><a class="dropdown-item" href="admin_settings.php">Settings</a></li>
+                        <li><a class="dropdown-item" href="#" id="openProfileModal">My Profile</a></li>
+
+                        <li><a class="dropdown-item" href="#" id="">Settings</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -77,6 +78,37 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
 
             </div>
         </nav>
+
+        <!-- Profile Modal -->
+        <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="profileModalLabel">Update Profile Picture</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="profileForm" enctype="multipart/form-data">
+                            <div class="text-center mb-3">
+                                <img src="<?= htmlspecialchars($_SESSION['profile_pic'] ?? '/images/admin-profile.jpg') ?>"
+                                    id="currentProfilePreview"
+                                    class="rounded-circle"
+                                    style="width:100px; height:100px; object-fit:cover;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Choose New Profile Picture</label>
+                                <input type="file" name="profile_pic" class="form-control" required>
+                            </div>
+
+                            <div id="profileMsg" class="mb-2"></div>
+
+                            <button type="submit" class="btn btn-primary w-100">Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Sidebar -->
         <div class="sidebar">
@@ -148,7 +180,11 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
     <!-- Toggle light or dark mode -->
     <script src="/js/darkmodeToggle.js"></script>
 
+    <!-- Bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Toggle light or dark mode -->
+    <script src="/js/uploadProfile.js"></script>
 
 </body>
 
