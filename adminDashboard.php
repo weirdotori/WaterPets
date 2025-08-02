@@ -39,7 +39,6 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
             <!-- Left: Logo -->
             <div class="d-flex align-items-center">
                 <img src="/images/oystergif.gif" alt="WaterPets Logo" style="height:40px;">
-                <span class="h-8 border-l-2 border-blue-500 mx-3"></span>
                 <a href="#" class="logo-font">WaterPets</a>
             </div>
 
@@ -59,61 +58,36 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                 <!-- Profile Dropdown -->
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="<?= htmlspecialchars($_SESSION['profile_pic'] ?? '/images/admin-profile.jpg') ?>"
+                        <?php
+                        $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE userID = ?");
+                        $stmt->execute([$_SESSION['userid']]);
+                        $latestProfilePic = $stmt->fetchColumn();
+                        ?>
+                        <img src="<?= htmlspecialchars($latestProfilePic ?? '/images/admin-profile.jpg') ?>"
                             alt="Profile"
                             class="rounded-circle"
                             style="width:35px; height:35px; object-fit:cover;">
+
                         <span class="ms-2"><?= htmlspecialchars($_SESSION['username']) ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="#" id="openProfileModal">My Profile</a></li>
-
-                        <li><a class="dropdown-item" href="#" id="">Settings</a></li>
+                        <li><a class="dropdown-item" href="adminProfile.php">My Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
                     </ul>
+
                 </div>
 
             </div>
         </nav>
 
-        <!-- Profile Modal -->
-        <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="profileModalLabel">Update Profile Picture</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="profileForm" enctype="multipart/form-data">
-                            <div class="text-center mb-3">
-                                <img src="<?= htmlspecialchars($_SESSION['profile_pic'] ?? '/images/admin-profile.jpg') ?>"
-                                    id="currentProfilePreview"
-                                    class="rounded-circle"
-                                    style="width:100px; height:100px; object-fit:cover;">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Choose New Profile Picture</label>
-                                <input type="file" name="profile_pic" class="form-control" required>
-                            </div>
-
-                            <div id="profileMsg" class="mb-2"></div>
-
-                            <button type="submit" class="btn btn-primary w-100">Upload</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Sidebar -->
         <div class="sidebar">
             <ul>
-                <li><a href="admin_dashboard.php" class="active">Dashboard</a></li>
+                <li><a href="adminDashboard.php" class="active">Home</a></li>
                 <li><a href="admin_account.php">Account</a></li>
                 <li><a href="admin_reports.php">Reports</a></li>
                 <li><a href="manage_orders.php">Orders</a></li>
@@ -184,7 +158,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Toggle light or dark mode -->
-    <script src="/js/uploadProfile.js"></script>
+    <script src="/js/admin_uploadProfile.js"></script>
 
 </body>
 

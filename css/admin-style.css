@@ -50,6 +50,7 @@ body, .top-navbar, .sidebar, .card {
     font-size: 1.5rem;
     color: var(--text-color);
     text-decoration: none;
+    padding-left: 10px;
 }
 
 /* Push page content down so it's not hidden under navbar */
@@ -130,4 +131,74 @@ body, .top-navbar, .sidebar, .card {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+
+/* Admin Profile */
+.profile-container {
+    display: flex;
+    min-height: 100vh;
+    padding-top: 60px; /* space for navbar */
+}
+
+.profile-sidebar {
+    width: 250px;
+    background: var(--sidebar-bg);
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.profile-sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.profile-sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 8px 10px;
+    border-radius: 5px;
+}
+
+.profile-sidebar ul li a.active,
+.profile-sidebar ul li a:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.profile-content {
+    flex: 1;
+    padding: 30px;
+}
+
+/* personal information side bar */
+.edit-icon {
+    position: absolute;
+    right: 10px;
+    top: 38px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+.edit-icon:hover {
+    color: #0056b3;
+}
+/* Make readonly fields look non-editable */
+.editable-field[readonly] {
+    background-color: #f8f9fa !important;
+    border: 1px solid #ced4da !important;
+    cursor: default !important;
+    pointer-events: none; /* Prevent clicking inside */
+}
+
+/* When editable */
+.editable-field:not([readonly]) {
+    background-color: #ffffff !important;
+    cursor: text !important;
+    pointer-events: auto;
+}
 
