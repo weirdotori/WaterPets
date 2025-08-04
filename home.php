@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
-  <link rel="stylesheet" href="css/home-style.css">
+  <link rel="stylesheet" href="css/home_style.css">
 
   <!-- AOS Animate On Scroll -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">

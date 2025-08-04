@@ -26,7 +26,7 @@ $admin = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Admin Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/admin-style.css">
+    <link rel="stylesheet" href="/css/admin_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 </head>
 
