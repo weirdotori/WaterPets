@@ -5,7 +5,11 @@
   <meta charset="UTF-8">
   <title>WaterPets: Aquatic Store</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind css -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine js -->
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
   <link rel="stylesheet" href="css/home_style.css">
@@ -21,6 +25,7 @@
 <body>
 
   <section class="section-bg">
+    <?php include 'home_header.php'; ?>
     <!-- BUBBLES CONTAINER -->
     <div class="bubbles-container">
       <div class="bubble" style="left: 10%; width: 30; height: 25px; animation-delay: 0s;"></div>
@@ -31,7 +36,7 @@
       <div class="bubble" style="left: 90%; width: 25px; height: 25px; animation-delay: 5s;"></div>
     </div>
 
-    <?php include 'header.php'; ?>
+    
 
 
     <!-- Content SECTION -->
@@ -306,11 +311,8 @@
     });
   </script>
 
-  <!-- back to top button -->
-  <button id="backToTop" title="Back to top" style="display:none;">
-    ➤
-  </button>
-  <script src="/js/backtoTop.js"></script>
+  
+  <?php include 'backToTop.php'; ?>
 
 </body>
 

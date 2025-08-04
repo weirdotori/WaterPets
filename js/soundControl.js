@@ -12,21 +12,25 @@ const soundIcon = document.getElementById('sound-icon');
 const soundToggleMobile = document.getElementById('sound-toggle-mobile');
 const soundIconMobile = document.getElementById('sound-icon-mobile');
 
-// Background music setup
-const bgAudio = new Audio('/sounds/underwater.mp3');
-bgAudio.loop = true;
-bgAudio.volume = 0.6;
+// Background music setup (only for home.php)
+const isHomePage = window.location.pathname.includes('home.php');
+let bgAudio = null;
+if (isHomePage) {
+  bgAudio = new Audio('/sounds/underwater.mp3');
+  bgAudio.loop = true;
+  bgAudio.volume = 0.6;
 
-// Allow background audio to start after any user interaction
-const tryPlayBgAudio = () => {
-  if (soundEnabled) {
-    bgAudio.play().catch(err => {
-      console.log('Autoplay blocked until user interacts.');
-    });
-  }
-  document.removeEventListener('click', tryPlayBgAudio);
-};
-document.addEventListener('click', tryPlayBgAudio);
+  // Allow background audio to start after any user interaction
+  const tryPlayBgAudio = () => {
+    if (soundEnabled && bgAudio) {
+      bgAudio.play().catch(err => {
+        console.log('Autoplay blocked until user interacts.');
+      });
+    }
+    document.removeEventListener('click', tryPlayBgAudio);
+  };
+  document.addEventListener('click', tryPlayBgAudio);
+}
 
 // Function to update both icons
 function updateSoundIcons() {
@@ -44,9 +48,9 @@ function toggleSound(e) {
   if (soundEnabled) {
     clickSound.currentTime = 0;
     clickSound.play();
-    bgAudio.play();
+    if (isHomePage && bgAudio) bgAudio.play();
   } else {
-    bgAudio.pause();
+    if (isHomePage && bgAudio) bgAudio.pause();
   }
 }
 
@@ -63,9 +67,17 @@ document.querySelectorAll('[data-sound]').forEach(el => {
   el.addEventListener('click', e => {
     const soundPath = el.getAttribute('data-sound');
     if (soundEnabled && soundPath) {
+      e.preventDefault(); // stop immediate navigation
       const customSound = new Audio(soundPath);
       customSound.volume = 0.5;
       customSound.play();
+
+      const target = el.getAttribute('href');
+      if (target && target !== '#') {
+        setTimeout(() => {
+          window.location.href = target;
+        }, 200); // small delay so sound plays
+      }
     }
   });
 });

@@ -85,18 +85,28 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
         </nav>
 
         <!-- Sidebar -->
+        <?php
+        $page = $_GET['page'] ?? 'dashboard_home';
+
+        function isActive($linkPage, $currentPage)
+        {
+            return $linkPage === $currentPage ? 'active' : '';
+        }
+        ?>
+
         <div class="sidebar">
             <ul>
-                <li><a href="?page=dashboard_home" class="active">Dashboard</a></li>
-                <li><a href="?page=analytics">Analytics</a></li>
-                <li><a href="?page=manage_users">Manage Users</a></li>
-                <li><a href="?page=manage_orders">Manage Orders</a></li>
-                <li><a href="?page=manage_products">Manage Products</a></li>
-                <li><a href="?page=manage_reviews">Reviews and Inquires</a></li>
-                <li><a href="?page=settings">Settiings</a></li>
+                <li><a href="?page=dashboard_home" class="<?= isActive('dashboard_home', $page) ?>">Dashboard</a></li>
+                <li><a href="?page=analytics" class="<?= isActive('analytics', $page) ?>">Analytics</a></li>
+                <li><a href="?page=manage_users" class="<?= isActive('manage_users', $page) ?>">Manage Users</a></li>
+                <li><a href="?page=manage_orders" class="<?= isActive('manage_orders', $page) ?>">Manage Orders</a></li>
+                <li><a href="?page=manage_products" class="<?= isActive('manage_products', $page) ?>">Manage Products</a></li>
+                <li><a href="?page=manage_reviews" class="<?= isActive('manage_reviews', $page) ?>">Reviews and Inquiries</a></li>
+                <li><a href="?page=settings" class="<?= isActive('settings', $page) ?>">Settings</a></li>
                 <li><a href="logout.php" class="logout">Logout</a></li>
             </ul>
         </div>
+
 
         <!-- Main Content -->
         <div class="main-content" id="mainContent">
