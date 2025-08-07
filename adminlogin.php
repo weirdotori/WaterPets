@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
 
     try {
         // Query with username + email + role
-        $sql = "SELECT userid, username, email, password, role 
+        $sql = "SELECT userID, username, email, password, role 
         FROM users 
         WHERE username = :username 
         AND email = :email 
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
 
         if ($user && password_verify($password, $user['password'])) {
             // Save all necessary session data
-            $_SESSION['userid'] = $user['userid'];
+            $_SESSION['userID'] = $user['userID'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];

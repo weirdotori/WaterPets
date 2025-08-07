@@ -74,84 +74,175 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="page-container">
 
             <!-- Sidebar Filters -->
-            <aside class="filter-sidebar">
-                <form method="GET" action="fish.php">
-                    <h5>Filter Options</h5>
+            <?php if (empty($_GET['id'])): ?>
+                <aside class="filter-sidebar">
+                    <form method="GET" action="fish.php">
+                        <h5>Filter Options</h5>
 
-                    <!-- By Water Type -->
-                    <div class="filter-group">
-                        <h6>By Water Type</h6>
-                        <label><input type="checkbox" name="waterType[]" value="Freshwater" <?= in_array('Freshwater', $_GET['waterType'] ?? []) ? 'checked' : '' ?>> Freshwater</label>
-                        <label><input type="checkbox" name="waterType[]" value="Saltwater" <?= in_array('Saltwater', $_GET['waterType'] ?? []) ? 'checked' : '' ?>> Saltwater</label>
-                    </div>
+                        <!-- By Water Type -->
+                        <div class="filter-group">
+                            <h6>By Water Type</h6>
+                            <label><input type="checkbox" name="waterType[]" value="Freshwater" <?= in_array('Freshwater', $_GET['waterType'] ?? []) ? 'checked' : '' ?>> Freshwater</label> <br>
+                            <label><input type="checkbox" name="waterType[]" value="Saltwater" <?= in_array('Saltwater', $_GET['waterType'] ?? []) ? 'checked' : '' ?>> Saltwater</label>
+                        </div>
 
-                    <!-- By Difficulty -->
-                    <div class="filter-group">
-                        <h6>By Difficulty</h6>
-                        <label><input type="checkbox" name="difficulty[]" value="Beginner" <?= in_array('Beginner', $_GET['difficulty'] ?? []) ? 'checked' : '' ?>> Beginner</label>
-                        <label><input type="checkbox" name="difficulty[]" value="Intermediate" <?= in_array('Intermediate', $_GET['difficulty'] ?? []) ? 'checked' : '' ?>> Intermediate</label>
-                        <label><input type="checkbox" name="difficulty[]" value="Expert" <?= in_array('Expert', $_GET['difficulty'] ?? []) ? 'checked' : '' ?>> Expert</label>
-                    </div>
+                        <!-- By Difficulty -->
+                        <div class="filter-group">
+                            <h6>By Difficulty</h6>
+                            <label><input type="checkbox" name="difficulty[]" value="Beginner" <?= in_array('Beginner', $_GET['difficulty'] ?? []) ? 'checked' : '' ?>> Beginner</label> <br>
+                            <label><input type="checkbox" name="difficulty[]" value="Intermediate" <?= in_array('Intermediate', $_GET['difficulty'] ?? []) ? 'checked' : '' ?>> Intermediate</label> <br>
+                            <label><input type="checkbox" name="difficulty[]" value="Expert" <?= in_array('Expert', $_GET['difficulty'] ?? []) ? 'checked' : '' ?>> Expert</label>
+                        </div>
 
-                    <!-- By Aggression Level -->
-                    <div class="filter-group">
-                        <h6>By Aggression Level</h6>
-                        <label><input type="checkbox" name="aggressionLevel[]" value="Peaceful" <?= in_array('Peaceful', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Peaceful</label>
-                        <label><input type="checkbox" name="aggressionLevel[]" value="Semi-Aggressive" <?= in_array('Semi-Aggressive', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Semi-Aggressive</label>
-                        <label><input type="checkbox" name="aggressionLevel[]" value="Aggressive" <?= in_array('Aggressive', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Aggressive</label>
-                    </div>
+                        <!-- By Aggression Level -->
+                        <div class="filter-group">
+                            <h6>By Aggression Level</h6>
+                            <label><input type="checkbox" name="aggressionLevel[]" value="Peaceful" <?= in_array('Peaceful', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Peaceful</label> <br>
+                            <label><input type="checkbox" name="aggressionLevel[]" value="Semi-Aggressive" <?= in_array('Semi-Aggressive', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Semi-Aggressive</label> <br>
+                            <label><input type="checkbox" name="aggressionLevel[]" value="Aggressive" <?= in_array('Aggressive', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Aggressive</label>
+                        </div>
 
-                    <button type="submit">Apply Filters</button>
-                </form>
-            </aside>
+                        <button type="submit" class="filter-btn">Apply Filters</button>
+                    </form>
+                </aside>
+            <?php endif; ?>
 
 
             <!-- Main Shop Area -->
-            <main class="shop-main">
+            <section class="shop-main <?= !empty($_GET['id']) ? 'w-full' : '' ?>">
 
-                <div class="search-sort">
-                    <form class="search-box">
-                        <input type="text" placeholder="Search fish...">
-                        <button>Search</button>
-                    </form>
-                    <select class="sort-dropdown">
-                        <option>Default Sorting</option>
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
-                        <option>Newest First</option>
-                    </select>
-                </div>
+                <?php if (empty($_GET['id'])): ?>
+                    <div class="search-sort">
+                        <form class="search-box">
+                            <input type="text" placeholder="Search fish...">
+                            <button>Search</button>
+                        </form>
+                        <select class="sort-dropdown">
+                            <option>Default Sorting</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Newest First</option>
+                        </select>
+                    </div>
+                <?php endif; ?>
 
                 <?php $selectedSpecies = $_GET['species'] ?? ''; ?>
 
-                <div class="species-buttons">
-                    <a href="fish.php?species=Betta" class="<?= $selectedSpecies === 'Betta' ? 'active' : '' ?>">Betta</a>
-                    <a href="fish.php?species=Goldfish" class="<?= $selectedSpecies === 'Goldfish' ? 'active' : '' ?>">Goldfish</a>
-                    <a href="fish.php?species=Guppy" class="<?= $selectedSpecies === 'Guppy' ? 'active' : '' ?>">Guppy</a>
-                    <a href="fish.php?species=Tetra" class="<?= $selectedSpecies === 'Tetra' ? 'active' : '' ?>">Tetra</a>
-                    <a href="fish.php?species=Angelfish" class="<?= $selectedSpecies === 'Angelfish' ? 'active' : '' ?>">Angelfish</a>
-                </div>
+                <?php if (empty($_GET['id'])): ?>
+                    <div class="species-buttons">
+                        <a href="fish.php?species=Betta" class="<?= $selectedSpecies === 'Betta' ? 'active' : '' ?>">Betta</a>
+                        <a href="fish.php?species=Goldfish" class="<?= $selectedSpecies === 'Goldfish' ? 'active' : '' ?>">Goldfish</a>
+                        <a href="fish.php?species=Guppy" class="<?= $selectedSpecies === 'Guppy' ? 'active' : '' ?>">Guppy</a>
+                        <a href="fish.php?species=Tetra" class="<?= $selectedSpecies === 'Tetra' ? 'active' : '' ?>">Tetra</a>
+                        <a href="fish.php?species=Angelfish" class="<?= $selectedSpecies === 'Angelfish' ? 'active' : '' ?>">Angelfish</a>
+                    </div>
+                <?php endif; ?>
+
+                <!-- applied filter tags -->
+                <?php
+                // Build an array of applied filters
+                $appliedFilters = [];
+
+                // Water type
+                if (!empty($_GET['waterType'])) {
+                    foreach ($_GET['waterType'] as $wt) {
+                        $appliedFilters[] = [
+                            'label' => $wt,
+                            'param' => 'waterType',
+                            'value' => $wt
+                        ];
+                    }
+                }
+
+                // Difficulty
+                if (!empty($_GET['difficulty'])) {
+                    foreach ($_GET['difficulty'] as $diff) {
+                        $appliedFilters[] = [
+                            'label' => $diff,
+                            'param' => 'difficulty',
+                            'value' => $diff
+                        ];
+                    }
+                }
+
+                // Aggression
+                if (!empty($_GET['aggressionLevel'])) {
+                    foreach ($_GET['aggressionLevel'] as $agg) {
+                        $appliedFilters[] = [
+                            'label' => $agg,
+                            'param' => 'aggressionLevel',
+                            'value' => $agg
+                        ];
+                    }
+                }
+                ?>
+
+                <?php if (!empty($appliedFilters)): ?>
+                    <div class="applied-filters">
+                        <strong>Applied Filters:</strong>
+                        <?php foreach ($appliedFilters as $filter): ?>
+                            <?php
+                            // Copy all query parameters
+                            $newParams = $_GET;
+
+                            // If param exists and is an array, remove the specific value
+                            if (isset($newParams[$filter['param']]) && is_array($newParams[$filter['param']])) {
+                                $newParams[$filter['param']] = array_values(
+                                    array_diff($newParams[$filter['param']], [$filter['value']])
+                                );
+
+                                // If array becomes empty, remove it entirely
+                                if (empty($newParams[$filter['param']])) {
+                                    unset($newParams[$filter['param']]);
+                                }
+                            }
+
+                            // Build URL without this filter
+                            $removeUrl = "fish.php?" . http_build_query($newParams);
+                            ?>
+                            <a href="<?= htmlspecialchars($removeUrl) ?>" class="filter-tag">
+                                <?= htmlspecialchars($filter['label']) ?> ✕
+                            </a>
+                        <?php endforeach; ?>
+
+                        <!-- Clear All -->
+                        <a href="fish.php" class="filter-tag clear-all">Clear All</a>
+                    </div>
+                <?php endif; ?>
 
 
-
-                <div class="product-grid">
-                    <?php foreach ($products as $product): ?>
-                        <div class="product-card">
-                            <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['pName']) ?>">
-                            <div class="card-body">
-                                <h6><?= htmlspecialchars($product['pName']) ?></h6>
-                                <p><?= htmlspecialchars($product['description']) ?></p>
-                                <div class="price">$<?= number_format($product['price'], 2) ?></div>
-                                <form method="post" action="add_to_cart.php">
-                                    <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
-                                    <button type="submit">Add to Cart</button>
-                                </form>
+                <!-- Product Display -->
+                <?php
+                if (!empty($_GET['id'])) {
+                    // Show single product detail page
+                    include 'product_detail.php';
+                } else {
+                    // Show normal product grid
+                ?>
+                    <div class="product-grid">
+                        <?php foreach ($products as $product): ?>
+                            <div class="product-card">
+                                <a href="fish.php?id=<?= $product['productID'] ?>">
+                                    <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['pName']) ?>">
+                                </a>
+                                <div class="card-body">
+                                    <h6><?= htmlspecialchars($product['pName']) ?></h6>
+                                    <p><?= htmlspecialchars($product['description']) ?></p>
+                                    <div class="price">$<?= number_format($product['price'], 2) ?></div>
+                                    <form method="post" action="add_to_cart.php">
+                                        <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
+                                        <button type="submit">Add to Cart</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php
+                }
+                ?>
 
-            </main>
+
+            </section>
 
         </div>
     </section>

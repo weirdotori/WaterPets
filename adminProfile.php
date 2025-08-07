@@ -6,7 +6,7 @@ require_once "db.php";
 if (
     empty($_SESSION['adminLogin']) ||
     $_SESSION['adminLogin'] !== true ||
-    empty($_SESSION['userid']) ||
+    empty($_SESSION['userID']) ||
     $_SESSION['role'] !== 'admin'
 ) {
     header("Location: adminLogin.php");
@@ -15,7 +15,7 @@ if (
 
 // Fetch admin details
 $stmt = $conn->prepare("SELECT username, email, phone, role, profile_pic, password FROM users WHERE userID = ?");
-$stmt->execute([$_SESSION['userid']]);
+$stmt->execute([$_SESSION['userID']]);
 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 

@@ -2,11 +2,15 @@
 require_once "db.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pName = $_POST['pName'];
+    $pName       = $_POST['pName'];
     $description = $_POST['description'];
-    $price = $_POST['price'];
-    $stock = $_POST['stock'];
-    $categoryID = $_POST['categoryID'];
+    $price       = $_POST['price'];
+    $stock       = $_POST['stock'];
+    $categoryID  = $_POST['categoryID'];
+    $waterType   = $_POST['waterType'];
+    $difficulty  = $_POST['difficulty'];
+    $species     = $_POST['species'];
+    $aggressionLevel = $_POST['aggressionLevel'];
 
     // Handle file upload
     $imagePath = null;
@@ -25,12 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Insert into DB
+    // Insert into DB with new columns
     $stmt = $conn->prepare("
-        INSERT INTO products (pName, description, price, stock, categoryID, image, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, NOW())
+        INSERT INTO products 
+        (pName, description, price, stock, categoryID, waterType, difficulty, species, aggressionLevel, image, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     ");
-    $stmt->execute([$pName, $description, $price, $stock, $categoryID, $imagePath]);
+    $stmt->execute([
+        $pName, $description, $price, $stock, $categoryID,
+        $waterType, $difficulty, $species, $aggressionLevel, $imagePath
+    ]);
 
     header("Location: ?page=manage_products&success=1");
     exit;
@@ -68,6 +76,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "<option value='{$cat['categoryID']}'>{$cat['cName']}</option>";
             }
             ?>
+        </select>
+    </div>
+
+    <!-- New Fields -->
+    <div class="mb-3">
+        <label>Water Type</label>
+        <select name="waterType" class="form-select" required>
+            <option value="">Select Water Type</option>
+            <option value="Freshwater">Freshwater</option>
+            <option value="Saltwater">Saltwater</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Difficulty</label>
+        <select name="difficulty" class="form-select" required>
+            <option value="">Select Difficulty</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Expert">Expert</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Species</label>
+        <input type="text" name="species" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Aggression Level</label>
+        <select name="aggressionLevel" class="form-select" required>
+            <option value="">Select Aggression Level</option>
+            <option value="Peaceful">Peaceful</option>
+            <option value="Semi-Aggressive">Semi-Aggressive</option>
+            <option value="Aggressive">Aggressive</option>
         </select>
     </div>
 

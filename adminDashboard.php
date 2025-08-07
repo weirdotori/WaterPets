@@ -6,7 +6,7 @@ require_once "db.php";
 if (
     empty($_SESSION['adminLogin']) ||
     $_SESSION['adminLogin'] !== true ||
-    empty($_SESSION['userid']) ||
+    empty($_SESSION['userID']) ||
     $_SESSION['role'] !== 'admin'
 ) {
     header("Location: adminLogin.php");
@@ -60,7 +60,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php
                         $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE userID = ?");
-                        $stmt->execute([$_SESSION['userid']]);
+                        $stmt->execute([$_SESSION['userID']]);
                         $latestProfilePic = $stmt->fetchColumn();
                         ?>
                         <img src="<?= htmlspecialchars($latestProfilePic ?? '/images/admin-profile.jpg') ?>"

@@ -9,6 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price       = $_POST['price'] ?? 0;
     $stock       = $_POST['stock'] ?? 0;
     $categoryID  = $_POST['categoryID'] ?? null;
+    $waterType   = $_POST['waterType'] ?? '';
+    $difficulty  = $_POST['difficulty'] ?? '';
+    $species     = $_POST['species'] ?? '';
+    $aggressionLevel = $_POST['aggressionLevel'] ?? '';
 
     if (!$productID) {
         echo "<div class='alert alert-danger'>Invalid product ID.</div>";
@@ -35,17 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($imagePath) {
         $stmt = $conn->prepare("
             UPDATE products
-            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, image = ?
+            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, waterType = ?, difficulty = ?, species = ?, aggressionLevel = ?, image = ?
             WHERE productID = ?
         ");
-        $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $imagePath, $productID]);
+        $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $waterType, $difficulty, $species, $aggressionLevel, $imagePath, $productID]);
     } else {
         $stmt = $conn->prepare("
             UPDATE products
-            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?
+            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, waterType = ?, difficulty = ?, species = ?, aggressionLevel = ?
             WHERE productID = ?
         ");
-        $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $productID]);
+        $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $waterType, $difficulty, $species, $aggressionLevel, $productID]);
     }
 
     if ($success) {
@@ -64,7 +68,7 @@ if (!$productID) {
 }
 
 $stmt = $conn->prepare("
-    SELECT productID, pName, description, price, stock, image, categoryID
+    SELECT productID, pName, description, price, stock, image, categoryID, waterType, difficulty, species, aggressionLevel
     FROM products
     WHERE productID = ?
 ");
@@ -113,6 +117,41 @@ if (!$product) {
                 echo "<option value='{$cat['categoryID']}' $selected>{$cat['cName']}</option>";
             }
             ?>
+        </select>
+    </div>
+
+    <!-- New Fields -->
+    <div class="mb-3">
+        <label class="form-label">Water Type</label>
+        <select name="waterType" class="form-select" required>
+            <option value="">Select Water Type</option>
+            <option value="Freshwater" <?= ($product['waterType'] == 'Freshwater') ? 'selected' : '' ?>>Freshwater</option>
+            <option value="Saltwater" <?= ($product['waterType'] == 'Saltwater') ? 'selected' : '' ?>>Saltwater</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Difficulty</label>
+        <select name="difficulty" class="form-select" required>
+            <option value="">Select Difficulty</option>
+            <option value="Beginner" <?= ($product['difficulty'] == 'Beginner') ? 'selected' : '' ?>>Beginner</option>
+            <option value="Intermediate" <?= ($product['difficulty'] == 'Intermediate') ? 'selected' : '' ?>>Intermediate</option>
+            <option value="Expert" <?= ($product['difficulty'] == 'Expert') ? 'selected' : '' ?>>Expert</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Species</label>
+        <input type="text" name="species" value="<?= htmlspecialchars($product['species']) ?>" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Aggression Level</label>
+        <select name="aggressionLevel" class="form-select" required>
+            <option value="">Select Aggression Level</option>
+            <option value="Peaceful" <?= ($product['aggressionLevel'] == 'Peaceful') ? 'selected' : '' ?>>Peaceful</option>
+            <option value="Semi-Aggressive" <?= ($product['aggressionLevel'] == 'Semi-Aggressive') ? 'selected' : '' ?>>Semi-Aggressive</option>
+            <option value="Aggressive" <?= ($product['aggressionLevel'] == 'Aggressive') ? 'selected' : '' ?>>Aggressive</option>
         </select>
     </div>
 

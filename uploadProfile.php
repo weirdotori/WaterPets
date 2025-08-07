@@ -6,7 +6,7 @@ header("Content-Type: application/json");
 
 // Check log in verification for admin and user
 if (
-    empty($_SESSION['userid']) ||
+    empty($_SESSION['userID']) ||
     empty($_SESSION['role']) ||
     !in_array($_SESSION['role'], ['admin', 'user'])
 ) {
@@ -35,7 +35,7 @@ if (!is_dir($uploadDir)) {
 }
 
 // Create unique filename
-$fileName = "user_" . $_SESSION['userid'] . "_" . time() . "." . $ext;
+$fileName = "user_" . $_SESSION['userID'] . "_" . time() . "." . $ext;
 $filePath = $uploadDir . $fileName;
 
 // Move file
@@ -54,7 +54,7 @@ $dbPath = "/uploads/profile_pics/" . $fileName;
 try {
     // Get old profile picture path from DB
     $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE userID = ?");
-    $stmt->execute([$_SESSION['userid']]);
+    $stmt->execute([$_SESSION['userID']]);
     $oldPic = $stmt->fetchColumn();
 
     if ($oldPic && $oldPic !== $dbPath && $oldPic !== '/images/default-profile.jpg') {
@@ -69,7 +69,7 @@ try {
 
 // Update DB
 $stmt = $conn->prepare("UPDATE users SET profile_pic = ? WHERE userID = ?");
-$stmt->execute([$dbPath, $_SESSION['userid']]);
+$stmt->execute([$dbPath, $_SESSION['userID']]);
 
 // Update session
 $_SESSION['profile_pic'] = $dbPath;

@@ -1,3 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+
 <style>
     /* header */
 
@@ -84,7 +91,7 @@
         border-radius: 0.75rem;
         /* rounded-xl */
         z-index: 50;
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 1);
         /* bg-white/20 */
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         /* shadow-2xl */
@@ -108,8 +115,45 @@
     }
 
     .dropdown-item:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(179, 179, 179, 1);
         /* hover:bg-white/10 */
+    }
+
+    /* Icon dropdown container */
+    .icon-dropdown {
+        position: absolute;
+        top: 3rem;
+        right: 0;
+        background: rgba(255, 255, 255, 1);
+        backdrop-filter: blur(8px);
+        border-radius: 12px;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 100;
+    }
+
+    /* Each icon link */
+    .icon-dropdown a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: black;
+        font-family: "Quicksand", sans-serif;
+        font-size: 0.85rem;
+        transition: transform 0.2s ease;
+    }
+
+    .icon-dropdown a:hover {
+        transform: scale(1.05);
+    }
+
+    .icon-dropdown img {
+        width: 32px;
+        height: 32px;
     }
 </style>
 
@@ -170,19 +214,58 @@
                 <a href="contact.php" class="nav-link">Contact</a>
             </div>
 
-            <!-- Desktop right side -->
-            <div class="hidden md:flex">
-                <a href="cart.php" class="nav-link cart-icon">
-                    <img src="/images/cart.png" alt="Cart" class="h-8 w-8" />
-                </a>
-                <a href="#" class="nav-link" data-sound="/sounds/notification_pop.mp3">Login</a>
-                <a href="#" class="nav-link" data-sound="/sounds/notification_pop.mp3">Register</a>
+            <!-- Desktop Right side -->
+            <div class="hidden md:flex items-center space-x-3 relative" x-data="{ menuOpen: false }">
 
-                <!-- Desktop Sound Toggle -->
-                <button id="sound-toggle" class="nav-link" title="Toggle Sound">
+                <!-- Sound Toggle -->
+                <button id="sound-toggle" class="focus:outline-none" title="Toggle Sound">
                     <img id="sound-icon" src="/images/volume.png" alt="Sound Icon" class="h-8 w-8" />
                 </button>
+
+                <!-- Menu Icon -->
+                <button @click="menuOpen = !menuOpen" class="focus:outline-none">
+                    <img src="/images/menu.png" alt="Menu" class="h-8 w-8" />
+                </button>
+
+                <!-- Dropdown -->
+                <div x-show="menuOpen" @click.outside="menuOpen = false" x-transition class="icon-dropdown">
+                    <a href="cart.php">
+                        <img src="/images/cart.png" alt="Cart">
+                        <span>Cart</span>
+                    </a>
+                    <a href="wishlist.php">
+                        <img src="/images/wishlist.png" alt="Wishlist">
+                        <span>Wishlist</span>
+                    </a>
+
+                    <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
+                        <!-- Profile Page -->
+                        <a href="profile.php">
+                            <img src="<?= $_SESSION['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" style="border-radius: 50%;">
+                            <span>Profile</span>
+                        </a>
+
+                        <!-- Logout -->
+                        <a href="logout.php">
+                            <img src="/images/logout.png" alt="Logout">
+                            <span>Logout</span>
+                        </a>
+                    <?php else: ?>
+                        <!-- Guest Login/Register -->
+                        <a href="login.php">
+                            <img src="/images/user.png" alt="Login">
+                            <span>Login</span>
+                        </a>
+                        <a href="register.php">
+                            <img src="/images/user.png" alt="Register">
+                            <span>SignUp</span>
+                        </a>
+                    <?php endif; ?>
+                </div>
+
             </div>
+
+
         </div>
     </nav>
 
@@ -199,7 +282,15 @@
         <a href="about.php" class="block py-2">About</a>
         <a href="contact.php" class="block py-2">Contact</a>
         <a href="cart.php" class="block py-2">Cart</a>
-        <a href="#" class="block py-2">Login</a>
-        <a href="#" class="block py-2">Register</a>
+        <a href="wishlist.php" class="block py-2">Wishlist</a>
+
+        <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
+            <a href="profile.php" class="block py-2">Profile</a>
+            <a href="logout.php" class="block py-2">Logout</a>
+        <?php else: ?>
+            <a href="login.php" class="block py-2">Login</a>
+            <a href="register.php" class="block py-2">Register</a>
+        <?php endif; ?>
     </div>
+
 </div>

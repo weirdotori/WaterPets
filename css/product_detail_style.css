@@ -1,0 +1,209 @@
+/* Container */
+.product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Grid Layout */
+.product-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Image */
+.product-image img {
+    width: 400px;
+    height: 500px;
+    border-radius: 8px;
+    object-fit: contain;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Details */
+.product-details {
+    color: #fff;
+}
+
+.product-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.product-description {
+    color: #ccc;
+    margin-bottom: 1rem;
+}
+
+/* Price */
+.product-price {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #4db8ff;
+    margin: 1.5rem 0;
+}
+
+/* Button */
+.add-to-cart-btn {
+    background-color: #1e90ff;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #0066cc;
+}
+
+/* Back Link */
+.back-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #4db8ff;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Quantity and wishlist */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    gap: 5px;
+}
+
+.quantity-selector button {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+}
+
+.quantity-selector input {
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
+    color: #000000;
+}
+
+.total-price {
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.wishlist-icon img {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.wishlist-icon img:hover {
+    transform: scale(1.1);
+}
+
+
+/* Review section */
+.review-actions {
+    color: #ffffff;
+}
+.review-section {
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.view-reviews-link {
+    color: #3498db;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.review {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.review-comment {
+    font-style: italic;
+}
+
+.review-meta {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* Review Stars */
+.star-rating {
+    direction: rtl;
+    display: inline-flex;
+    font-size: 2rem;
+    gap: 0.5rem;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    color: lightgray;
+    transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: gold;
+}
+
+
+/* Past Review */
+#reviews-container {
+    margin-top: 30px;
+}
+
+.review {
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.review p {
+    margin: 5px 0;
+}
+
+.review strong {
+    font-weight: bold;
+}
+
+
+

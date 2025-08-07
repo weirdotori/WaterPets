@@ -2,8 +2,8 @@
 session_start();
 require_once "db.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['userid'])) {
-    $userID = $_SESSION['userid'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['userID'])) {
+    $userID = $_SESSION['userID'];
 
     // Fetch stored hashed password
     $stmt = $conn->prepare("SELECT password FROM users WHERE userID = ?");
