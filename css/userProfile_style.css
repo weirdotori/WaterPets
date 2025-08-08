@@ -1,0 +1,130 @@
+/* userProfile_style.css */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f8fa;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Back Button */
+.back-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.back-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Profile Layout */
+.profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Sidebar */
+.profile-sidebar {
+    width: 250px;
+    background-color: #f0f0f0;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+}
+
+.profile-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-sidebar li {
+    margin-bottom: 15px;
+}
+
+.profile-sidebar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.profile-sidebar a:hover,
+.profile-sidebar a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Profile Content */
+.profile-content {
+    flex: 1;
+    padding: 30px;
+}
+
+.profile-content h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+/* Form Styles */
+form input,
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #218838;
+}
+
+/* Edit Icon */
+.edit-icon {
+    position: absolute;
+    top: 35px;
+    right: 10px;
+    cursor: pointer;
+    color: #888;
+}
+
+.edit-icon:hover {
+    color: #000;
+}
+
+/* Profile Image */
+#currentProfilePreview {
+    border: 3px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Message feedback */
+#profileMsg span {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}

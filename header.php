@@ -155,6 +155,34 @@ if (session_status() === PHP_SESSION_NONE) {
         width: 32px;
         height: 32px;
     }
+
+    /* Media Queires for desktop */
+    .desktop-menu,
+    .desktop-right-menu {
+        display: none;
+    }
+
+    /* Show desktop menus on medium (>= 768px) screens */
+    @media (min-width: 768px) {
+
+        .desktop-menu,
+        .desktop-right-menu {
+            display: flex;
+        }
+    }
+
+/* Media query for mobile sidebar hidden */
+    .mobile-sidebar {
+        display: block;
+        /* visible by default */
+    }
+
+    @media (min-width: 768px) {
+        .mobile-sidebar {
+            display: none;
+            /* hide on md+ */
+        }
+    }
 </style>
 
 <!-- Google font -->
@@ -193,7 +221,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <!-- Desktop menu -->
-            <div class="hidden md:flex items-center space-x-6">
+            <div class="desktop-menu items-center space-x-6">
                 <a href="home.php" class="nav-link" data-sound="/sounds/notification_pop.mp3">Home</a>
 
                 <!-- Shop dropdown -->
@@ -203,7 +231,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </button>
                     <div x-show="shopOpen" @click.outside="shopOpen = false" x-transition class="dropdown-menu">
                         <a href="fish.php" class="dropdown-item">Fish</a>
-                        <a href="plants.php" class="dropdown-item">Coral Reefs</a>
+                        <a href="coralreefs.php" class="dropdown-item">Coral Reefs</a>
                         <a href="supplies.php" class="dropdown-item">Supplies</a>
                         <a href="equipment.php" class="dropdown-item">Equipment</a>
                     </div>
@@ -215,16 +243,17 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <!-- Desktop Right side -->
-            <div class="hidden md:flex items-center space-x-3 relative" x-data="{ menuOpen: false }">
+            <div class="desktop-right-menu items-center space-x-3 relative" x-data="{ menuOpen: false }">
 
                 <!-- Sound Toggle -->
                 <button id="sound-toggle" class="focus:outline-none" title="Toggle Sound">
                     <img id="sound-icon" src="/images/volume.png" alt="Sound Icon" class="h-8 w-8" />
                 </button>
 
-                <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer'): ?>
+
                     <a href="userProfile.php" title="Profile">
-                        <img src="<?= $_SESSION['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" class="h-8 w-8 rounded-full border border-white hover:scale-105 transition" />
+                        <img src="<?= $_SESSION['user']['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" class="h-8 w-8 rounded-full border border-white hover:scale-105 transition" />
                     </a>
                 <?php endif; ?>
 
@@ -245,10 +274,11 @@ if (session_status() === PHP_SESSION_NONE) {
                         <span>Wishlist</span>
                     </a>
 
-                    <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
+                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer'): ?>
+
 
                         <!-- Logout -->
-                        <a href="logout.php">
+                        <a href="userLogout.php">
                             <img src="/images/logout.png" alt="Logout">
                             <span>Logout</span>
                         </a>
@@ -273,12 +303,12 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <!-- SIDEBAR (mobile only) -->
     <div x-show="open" x-transition
-        class="fixed top-0 right-0 h-full w-64 bg-blue-950/80 text-white backdrop-blur-md shadow-2xl border-l border-blue-500/40 p-6 rounded-l-2xl z-50 md:hidden">
+        class="fixed top-0 right-0 h-full w-64 bg-blue-950/80 text-white backdrop-blur-md shadow-2xl border-l border-blue-500/40 p-6 rounded-l-2xl z-50 mobile_sidebar">
         <button @click="open = false" class="absolute top-4 right-4 text-xl">&times;</button>
 
         <a href="home.php" class="block py-2">Home</a>
         <a href="fish.php" class="block py-2">Fish</a>
-        <a href="plants.php" class="block py-2">Coral Reefs</a>
+        <a href="coralreefs.php" class="block py-2">Coral Reefs</a>
         <a href="supplies.php" class="block py-2">Supplies</a>
         <a href="equipment.php" class="block py-2">Equipment</a>
         <a href="about.php" class="block py-2">About</a>
@@ -286,9 +316,10 @@ if (session_status() === PHP_SESSION_NONE) {
         <a href="cart.php" class="block py-2">Cart</a>
         <a href="wishlist.php" class="block py-2">Wishlist</a>
 
-        <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
+        <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer'): ?>
+
             <a href="userProfile.php" class="block py-2">Profile</a>
-            <a href="logout.php" class="block py-2">Logout</a>
+            <a href="userLogout.php" class="block py-2">Logout</a>
         <?php else: ?>
             <a href="login.php" class="block py-2">Login</a>
             <a href="register.php" class="block py-2">Register</a>

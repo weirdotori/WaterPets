@@ -1,6 +1,7 @@
 <?php
 session_start();
-$isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
+$isLoggedIn = isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer';
+
 ?>
 
 
@@ -202,7 +203,7 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
 
                 <a href="home.php" class="block py-2">Home</a>
                 <a href="fish.php" class="block py-2">Fish</a>
-                <a href="plants.php" class="block py-2">Coral Reefs</a>
+                <a href="coralreefs.php" class="block py-2">Coral Reefs</a>
                 <a href="supplies.php" class="block py-2">Supplies</a>
                 <a href="equipment.php" class="block py-2">Equipment</a>
                 <a href="about.php" class="block py-2">About</a>
@@ -210,7 +211,7 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
                 <a href="cart.php" class="block py-2">Cart</a>
                 <?php if ($isLoggedIn): ?>
                     <a href="userProfile.php" class="block py-2">Profile</a>
-                    <a href="logout.php" class="block py-2">Logout</a>
+                    <a href="userLogout.php" class="block py-2">Logout</a>
                 <?php else: ?>
                     <a href="userLogin.php" class="block py-2">Login</a>
                     <a href="register.php" class="block py-2">Register</a>
@@ -237,7 +238,7 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
                     x-transition
                     class="dropdown-menu">
                     <a href="fish.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Fish</a>
-                    <a href="plants.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Coral Reefs</a>
+                    <a href="coralreefs.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Coral Reefs</a>
                     <a href="supplies.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Supplies</a>
                     <a href="equipment.php" class="dropdown-item" data-sound="/sounds/notification_pop.mp3">Equipment</a>
                 </div>
@@ -258,9 +259,11 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
                 <img id="sound-icon" src="/images/volume.png" alt="Sound Icon" class="h-8 w-8" />
             </button>
 
-            <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
+            <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer'): ?>
+
                 <a href="userProfile.php" title="Profile">
-                    <img src="<?= $_SESSION['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" class="h-8 w-8 rounded-full border border-white hover:scale-105 transition" />
+                    <img src="<?= $_SESSION['user']['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" class="h-8 w-8 rounded-full border border-white hover:scale-105 transition" />
+
                 </a>
             <?php endif; ?>
 
@@ -281,7 +284,7 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
                     <span>Wishlist</span>
                 </a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="logout.php">
+                    <a href="userLogout.php">
                         <img src="/images/logout.png" alt="Logout">
                         <span>Logout</span>
                     </a>

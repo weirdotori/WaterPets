@@ -4,18 +4,17 @@ require_once "db.php";
 
 // Security: Only allow logged-in admins
 if (
-    empty($_SESSION['adminLogin']) ||
-    $_SESSION['adminLogin'] !== true ||
-    empty($_SESSION['userID']) ||
-    $_SESSION['role'] !== 'admin'
+    empty($_SESSION['admin']) ||
+    $_SESSION['admin']['role'] !== 'admin'
 ) {
     header("Location: adminLogin.php");
     exit();
 }
 
+
 // Fetch admin details
 $stmt = $conn->prepare("SELECT username, email, phone, role, profile_pic, password FROM users WHERE userID = ?");
-$stmt->execute([$_SESSION['userID']]);
+$stmt->execute([$_SESSION['admin']['userID']]);
 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
@@ -68,7 +67,7 @@ $admin = $stmt->fetch(PDO::FETCH_ASSOC);
                         id="currentProfilePreview"
                         class="rounded-circle mx-auto d-block"
                         style="width:120px; height:120px; object-fit:cover;">
-                    <form id="profileForm" enctype="multipart/form-data" class="mt-3">
+                    <form id="adminProfileForm" enctype="multipart/form-data" class="mt-3">
                         <input type="file" name="profile_pic" class="form-control mb-2" required>
                         <div id="profileMsg" class="mb-2"></div>
                         <button type="submit" class="btn btn-primary w-100">Upload New</button>
@@ -79,7 +78,7 @@ $admin = $stmt->fetch(PDO::FETCH_ASSOC);
             <!-- Personal Information -->
             <div id="section-personal-info" style="display:none;">
                 <h3>Personal Information</h3>
-                <form id="personalInfoForm" action="updateAdminInfo.php" method="POST" style="max-width:500px;">
+                <form id="personalInfoForm" action="adminUpdateInfo.php" method="POST" style="max-width:500px;">
 
                     <!-- Username -->
                     <div class="mb-3 position-relative">
@@ -140,7 +139,7 @@ $admin = $stmt->fetch(PDO::FETCH_ASSOC);
                 </div>
 
                 <!-- Hidden Change Password Form -->
-                <form id="changePasswordForm" action="updateAdminPassword.php" method="POST" style="max-width:500px; display:none;">
+                <form id="changePasswordForm" action="adminUpdatePassword.php" method="POST" style="max-width:500px; display:none;">
                     <div class="mb-3">
                         <label class="form-label">Current Password</label>
                         <input type="password" name="current_password" class="form-control" required>
@@ -183,11 +182,11 @@ $admin = $stmt->fetch(PDO::FETCH_ASSOC);
         });
 
         // Profile picture upload
-        document.getElementById("profileForm").addEventListener("submit", function(e) {
+        document.getElementById("adminProfileForm").addEventListener("submit", function(e) {
             e.preventDefault();
             let formData = new FormData(this);
 
-            fetch("uploadProfile.php", {
+            fetch("adminUploadProfile.php", {
                     method: "POST",
                     body: formData
                 })

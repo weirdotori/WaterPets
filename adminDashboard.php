@@ -4,10 +4,8 @@ require_once "db.php";
 
 // Security: Only allow logged-in admins
 if (
-    empty($_SESSION['adminLogin']) ||
-    $_SESSION['adminLogin'] !== true ||
-    empty($_SESSION['userID']) ||
-    $_SESSION['role'] !== 'admin'
+    empty($_SESSION['admin']) ||
+    $_SESSION['admin']['role'] !== 'admin'
 ) {
     header("Location: adminLogin.php");
     exit();
@@ -60,15 +58,15 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php
                         $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE userID = ?");
-                        $stmt->execute([$_SESSION['userID']]);
+                        $stmt->execute([$_SESSION['admin']['userID']]);
                         $latestProfilePic = $stmt->fetchColumn();
                         ?>
-                        <img src="<?= htmlspecialchars($latestProfilePic ?? '/images/admin-profile.jpg') ?>"
+                        <img src="<?= htmlspecialchars($latestProfilePic ?: '/images/user.png') ?>"
                             alt="Profile"
                             class="rounded-circle"
                             style="width:35px; height:35px; object-fit:cover;">
 
-                        <span class="ms-2"><?= htmlspecialchars($_SESSION['username']) ?></span>
+                        <span class="ms-2"><?= htmlspecialchars($_SESSION['admin']['username']) ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="profileDropdown">
                         <li><a class="dropdown-item" href="adminProfile.php">My Profile</a></li>
@@ -76,7 +74,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                        <li><a class="dropdown-item" href="adminLogout.php">Sign out</a></li>
                     </ul>
 
                 </div>
@@ -103,7 +101,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                 <li><a href="?page=manage_products" class="<?= isActive('manage_products', $page) ?>">Manage Products</a></li>
                 <li><a href="?page=manage_reviews" class="<?= isActive('manage_reviews', $page) ?>">Reviews and Inquiries</a></li>
                 <li><a href="?page=settings" class="<?= isActive('settings', $page) ?>">Settings</a></li>
-                <li><a href="logout.php" class="logout">Logout</a></li>
+                <li><a href="adminLogout.php" class="logout">Logout</a></li>
             </ul>
         </div>
 

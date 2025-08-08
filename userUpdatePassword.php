@@ -2,8 +2,8 @@
 session_start();
 require_once "db.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['userID'])) {
-    $userID = $_SESSION['userID'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user']['userID'])) {
+    $userID = $_SESSION['user']['userID'];
 
     // Fetch stored hashed password
     $stmt = $conn->prepare("SELECT password FROM users WHERE userID = ?");
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['userID'])) {
     $stmt = $conn->prepare("UPDATE users SET password = ? WHERE userID = ?");
     $stmt->execute([$hashedPassword, $userID]);
 
-    header("Location: adminProfile.php?password_updated=1");
+    header("Location: userProfile.php?password_updated=1");
     exit();
 }
 ?>

@@ -136,7 +136,7 @@
   border: 1px solid #aaa;
 }
 
-/* Quick Filter Buttons */
+/* Quick Filter Species from fish */
 .species-buttons {
   display: flex;
   gap: 8px;
@@ -163,6 +163,32 @@
   background-color: #007bff;
 }
 
+/* Quick Filter Colors from coral reefs */
+.color-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.color-buttons a {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid #888;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+  color: #ffffff;
+}
+
+.color-buttons a:hover {
+  background: #ddd;
+}
+
+.color-buttons a.active {
+  background-color: #007bff;
+}
 /* ====== Product Grid ====== */
 .product-grid {
   display: grid;

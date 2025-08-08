@@ -5,13 +5,13 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once "db.php";
 
-// Find category ID for "Fish"
-$categoryStmt = $conn->prepare("SELECT categoryID FROM categories WHERE cName = 'Fish'");
+// Find category ID for "Coral Reefs"
+$categoryStmt = $conn->prepare("SELECT categoryID FROM categories WHERE cName = 'Coral Reefs'");
 $categoryStmt->execute();
 $categoryID = $categoryStmt->fetchColumn();
 
 if (!$categoryID) {
-    echo "<div class='container py-4'><p>No fish category found.</p></div>";
+    echo "<div class='container py-4'><p>No coral category found.</p></div>";
     exit;
 }
 
@@ -19,11 +19,11 @@ if (!$categoryID) {
 $query = "SELECT * FROM products WHERE categoryID = ?";
 $params = [$categoryID];
 
-// Water Type
-if (!empty($_GET['waterType'])) {
-    $placeholders = implode(',', array_fill(0, count($_GET['waterType']), '?'));
-    $query .= " AND waterType IN ($placeholders)";
-    $params = array_merge($params, $_GET['waterType']);
+// Coral Type
+if (!empty($_GET['coralType'])) {
+    $placeholders = implode(',', array_fill(0, count($_GET['coralType']), '?'));
+    $query .= " AND coralType IN ($placeholders)";
+    $params = array_merge($params, $_GET['coralType']);
 }
 
 // Difficulty
@@ -33,17 +33,24 @@ if (!empty($_GET['difficulty'])) {
     $params = array_merge($params, $_GET['difficulty']);
 }
 
-// Aggression
-if (!empty($_GET['aggressionLevel'])) {
-    $placeholders = implode(',', array_fill(0, count($_GET['aggressionLevel']), '?'));
-    $query .= " AND aggressionLevel IN ($placeholders)";
-    $params = array_merge($params, $_GET['aggressionLevel']);
+// Lighting Level
+if (!empty($_GET['lighting'])) {
+    $placeholders = implode(',', array_fill(0, count($_GET['lighting']), '?'));
+    $query .= " AND lighting IN ($placeholders)";
+    $params = array_merge($params, $_GET['lighting']);
 }
 
-// Species filter (single value)
-if (!empty($_GET['species'])) {
-    $query .= " AND species = ?";
-    $params[] = $_GET['species'];
+// Water Flow
+if (!empty($_GET['waterFlow'])) {
+    $placeholders = implode(',', array_fill(0, count($_GET['waterFlow']), '?'));
+    $query .= " AND waterFlow IN ($placeholders)";
+    $params = array_merge($params, $_GET['waterFlow']);
+}
+
+// Color filter (single value)
+if (!empty($_GET['color'])) {
+    $query .= " AND color = ?";
+    $params[] = $_GET['color'];
 }
 
 
@@ -59,13 +66,14 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
     <meta charset="UTF-8">
-    <title>Shop Fish - WaterPets</title>
+    <title>Coral Reefs - WaterPets</title>
 
     <!-- Css Style -->
     <link rel="stylesheet" href="/css/fish_style.css">
 
     <!-- Tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body>
@@ -79,14 +87,16 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Sidebar Filters -->
             <?php if (empty($_GET['id'])): ?>
                 <aside class="filter-sidebar">
-                    <form method="GET" action="fish.php">
+                    <form method="GET" action="coralreefs.php">
                         <h5>Filter Options</h5>
 
-                        <!-- By Water Type -->
+                        <!-- By Coral Type -->
                         <div class="filter-group">
-                            <h6>By Water Type</h6>
-                            <label><input type="checkbox" name="waterType[]" value="Freshwater" <?= in_array('Freshwater', $_GET['waterType'] ?? []) ? 'checked' : '' ?>> Freshwater</label> <br>
-                            <label><input type="checkbox" name="waterType[]" value="Saltwater" <?= in_array('Saltwater', $_GET['waterType'] ?? []) ? 'checked' : '' ?>> Saltwater</label>
+                            <h6>By Coral Type</h6>
+                            <label><input type="checkbox" name="coralType[]" value="Soft Coral" <?= in_array('Soft Coral', $_GET['coralType'] ?? []) ? 'checked' : '' ?>> Soft Coral</label> <br>
+                            <label><input type="checkbox" name="coralType[]" value="LPS" <?= in_array('LPS', $_GET['coralType'] ?? []) ? 'checked' : '' ?>> LPS</label> <br>
+                            <label><input type="checkbox" name="coralType[]" value="SPS" <?= in_array('SPS', $_GET['coralType'] ?? []) ? 'checked' : '' ?>> SPS</label> <br>
+                            <label><input type="checkbox" name="coralType[]" value="Stone" <?= in_array('Stone', $_GET['coralType'] ?? []) ? 'checked' : '' ?>> Stone</label>
                         </div>
 
                         <!-- By Difficulty -->
@@ -97,12 +107,20 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <label><input type="checkbox" name="difficulty[]" value="Expert" <?= in_array('Expert', $_GET['difficulty'] ?? []) ? 'checked' : '' ?>> Expert</label>
                         </div>
 
-                        <!-- By Aggression Level -->
+                        <!-- By Lighting Level -->
                         <div class="filter-group">
-                            <h6>By Aggression Level</h6>
-                            <label><input type="checkbox" name="aggressionLevel[]" value="Peaceful" <?= in_array('Peaceful', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Peaceful</label> <br>
-                            <label><input type="checkbox" name="aggressionLevel[]" value="Semi-Aggressive" <?= in_array('Semi-Aggressive', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Semi-Aggressive</label> <br>
-                            <label><input type="checkbox" name="aggressionLevel[]" value="Aggressive" <?= in_array('Aggressive', $_GET['aggressionLevel'] ?? []) ? 'checked' : '' ?>> Aggressive</label>
+                            <h6>By Lighting Level</h6>
+                            <label><input type="checkbox" name="lighting[]" value="Low" <?= in_array('Low', $_GET['lighting'] ?? []) ? 'checked' : '' ?>> Low</label> <br>
+                            <label><input type="checkbox" name="lighting[]" value="Moderate" <?= in_array('Moderate', $_GET['lighting'] ?? []) ? 'checked' : '' ?>> Moderate</label> <br>
+                            <label><input type="checkbox" name="lighting[]" value="High" <?= in_array('High', $_GET['lighting'] ?? []) ? 'checked' : '' ?>> High</label>
+                        </div>
+
+                        <!-- By Water Flow -->
+                        <div class="filter-group">
+                            <h6>By Water FLow</h6>
+                            <label><input type="checkbox" name="waterFlow[]" value="Low" <?= in_array('Low', $_GET['waterFlow'] ?? []) ? 'checked' : '' ?>> Low</label> <br>
+                            <label><input type="checkbox" name="waterFlow[]" value="Moderate" <?= in_array('Moderate', $_GET['waterFlow'] ?? []) ? 'checked' : '' ?>> Moderate</label> <br>
+                            <label><input type="checkbox" name="waterFlow[]" value="High" <?= in_array('High', $_GET['waterFlow'] ?? []) ? 'checked' : '' ?>> High</label>
                         </div>
 
                         <button type="submit" class="filter-btn">Apply Filters</button>
@@ -129,15 +147,15 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 <?php endif; ?>
 
-                <?php $selectedSpecies = $_GET['species'] ?? ''; ?>
+                <?php $selectedcolor = $_GET['color'] ?? ''; ?>
 
                 <?php if (empty($_GET['id'])): ?>
-                    <div class="species-buttons">
-                        <a href="fish.php?species=Betta" class="<?= $selectedSpecies === 'Betta' ? 'active' : '' ?>">Betta</a>
-                        <a href="fish.php?species=Goldfish" class="<?= $selectedSpecies === 'Goldfish' ? 'active' : '' ?>">Goldfish</a>
-                        <a href="fish.php?species=Guppy" class="<?= $selectedSpecies === 'Guppy' ? 'active' : '' ?>">Guppy</a>
-                        <a href="fish.php?species=Tetra" class="<?= $selectedSpecies === 'Tetra' ? 'active' : '' ?>">Tetra</a>
-                        <a href="fish.php?species=Angelfish" class="<?= $selectedSpecies === 'Angelfish' ? 'active' : '' ?>">Angelfish</a>
+                    <div class="color-buttons">
+                        <a href="coralreefs.php?color=Blue" class="<?= $selectedcolor === 'Blue' ? 'active' : '' ?>">Blue</a>
+                        <a href="coralreefs.php?color=Red" class="<?= $selectedcolor === 'Red' ? 'active' : '' ?>">Red</a>
+                        <a href="coralreefs.php?color=Yellow" class="<?= $selectedcolor === 'Yellow' ? 'active' : '' ?>">Yellow</a>
+                        <a href="coralreefs.php?color=Green" class="<?= $selectedcolor === 'Green' ? 'active' : '' ?>">Green</a>
+                        <a href="coralreefs.php?color=Brown" class="<?= $selectedcolor === 'Brown' ? 'active' : '' ?>">Brown</a>
                     </div>
                 <?php endif; ?>
 
@@ -147,11 +165,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $appliedFilters = [];
 
                 // Water type
-                if (!empty($_GET['waterType'])) {
-                    foreach ($_GET['waterType'] as $wt) {
+                if (!empty($_GET['coralType'])) {
+                    foreach ($_GET['coralType'] as $wt) {
                         $appliedFilters[] = [
                             'label' => $wt,
-                            'param' => 'waterType',
+                            'param' => 'coralType',
                             'value' => $wt
                         ];
                     }
@@ -168,13 +186,24 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     }
                 }
 
-                // Aggression
-                if (!empty($_GET['aggressionLevel'])) {
-                    foreach ($_GET['aggressionLevel'] as $agg) {
+                // Lighting Level
+                if (!empty($_GET['lighting'])) {
+                    foreach ($_GET['lighting'] as $light) {
                         $appliedFilters[] = [
-                            'label' => $agg,
-                            'param' => 'aggressionLevel',
-                            'value' => $agg
+                            'label' => $light,
+                            'param' => 'lighting',
+                            'value' => $light
+                        ];
+                    }
+                }
+
+                // Water Flow
+                if (!empty($_GET['waterFlow'])) {
+                    foreach ($_GET['waterFlow'] as $wf) {
+                        $appliedFilters[] = [
+                            'label' => $wf,
+                            'param' => 'waterFlow',
+                            'value' => $wf
                         ];
                     }
                 }
@@ -201,7 +230,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             }
 
                             // Build URL without this filter
-                            $removeUrl = "fish.php?" . http_build_query($newParams);
+                            $removeUrl = "coralreefs.php?" . http_build_query($newParams);
                             ?>
                             <a href="<?= htmlspecialchars($removeUrl) ?>" class="filter-tag">
                                 <?= htmlspecialchars($filter['label']) ?> ✕
@@ -209,7 +238,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endforeach; ?>
 
                         <!-- Clear All -->
-                        <a href="fish.php" class="filter-tag clear-all">Clear All</a>
+                        <a href="coralreefs.php" class="filter-tag clear-all">Clear All</a>
                     </div>
                 <?php endif; ?>
 
@@ -225,7 +254,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="product-grid">
                         <?php foreach ($products as $product): ?>
                             <div class="product-card">
-                                <a href="fish.php?id=<?= $product['productID'] ?>">
+                                <a href="coralreefs.php?id=<?= $product['productID'] ?>">
                                     <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['pName']) ?>">
                                 </a>
                                 <div class="card-body">
