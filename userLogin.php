@@ -30,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['userLogin'])) {
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['profile_pic'] = $user['profile_pic'];
+            $_SESSION['userLogin'] = true;
+            
 
             // Redirect to homepage or user dashboard
             header("Location: home.php");

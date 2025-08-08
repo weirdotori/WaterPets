@@ -1,13 +1,16 @@
 <?php
 session_start();
 
+// Determine user role before destroying session
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+
 // Remove all session variables
 session_unset();
 
 // Destroy the session
 session_destroy();
 
-// Remove the session cookie (important for browsers keeping old sessions)
+// Remove the session cookie
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
@@ -16,6 +19,10 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// Redirect to admin login page
-header("Location: adminLogin.php");
+// Redirect based on previous role
+if ($isAdmin) {
+    header("Location: adminLogin.php");
+} else {
+    header("Location: home.php");
+}
 exit();

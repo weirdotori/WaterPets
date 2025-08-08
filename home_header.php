@@ -209,7 +209,7 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
                 <a href="contact.php" class="block py-2">Contact</a>
                 <a href="cart.php" class="block py-2">Cart</a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="profile.php" class="block py-2">Profile</a>
+                    <a href="userProfile.php" class="block py-2">Profile</a>
                     <a href="logout.php" class="block py-2">Logout</a>
                 <?php else: ?>
                     <a href="userLogin.php" class="block py-2">Login</a>
@@ -258,6 +258,13 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
                 <img id="sound-icon" src="/images/volume.png" alt="Sound Icon" class="h-8 w-8" />
             </button>
 
+            <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
+                <a href="userProfile.php" title="Profile">
+                    <img src="<?= $_SESSION['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" class="h-8 w-8 rounded-full border border-white hover:scale-105 transition" />
+                </a>
+            <?php endif; ?>
+
+
             <!-- Menu Icon -->
             <button @click="menuOpen = !menuOpen" class="focus:outline-none">
                 <img src="/images/menu.png" alt="Menu" class="h-8 w-8" />
@@ -274,11 +281,6 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
                     <span>Wishlist</span>
                 </a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="profile.php">
-                        <img src="<?php echo $_SESSION['profile_img'] ?? '/images/user.png'; ?>" alt="Profile">
-
-                        <span>Profile</span>
-                    </a>
                     <a href="logout.php">
                         <img src="/images/logout.png" alt="Logout">
                         <span>Logout</span>
@@ -289,8 +291,8 @@ $isLoggedIn = isset($_SESSION['userID']) && $_SESSION['role'] === 'customer';
                         <span>Login</span>
                     </a>
                     <a href="register.php">
-                        <img src="/images/user.png" alt="Register">
-                        <span>SignUp</span>
+                        <img src="/images/register.png" alt="Register">
+                        <span>Register</span>
                     </a>
                 <?php endif; ?>
             </div>

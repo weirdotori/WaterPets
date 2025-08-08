@@ -222,6 +222,13 @@ if (session_status() === PHP_SESSION_NONE) {
                     <img id="sound-icon" src="/images/volume.png" alt="Sound Icon" class="h-8 w-8" />
                 </button>
 
+                <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
+                    <a href="userProfile.php" title="Profile">
+                        <img src="<?= $_SESSION['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" class="h-8 w-8 rounded-full border border-white hover:scale-105 transition" />
+                    </a>
+                <?php endif; ?>
+
+
                 <!-- Menu Icon -->
                 <button @click="menuOpen = !menuOpen" class="focus:outline-none">
                     <img src="/images/menu.png" alt="Menu" class="h-8 w-8" />
@@ -239,11 +246,6 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
 
                     <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
-                        <!-- Profile Page -->
-                        <a href="profile.php">
-                            <img src="<?= $_SESSION['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" style="border-radius: 50%;">
-                            <span>Profile</span>
-                        </a>
 
                         <!-- Logout -->
                         <a href="logout.php">
@@ -252,13 +254,13 @@ if (session_status() === PHP_SESSION_NONE) {
                         </a>
                     <?php else: ?>
                         <!-- Guest Login/Register -->
-                        <a href="login.php">
+                        <a href="userLogin.php">
                             <img src="/images/user.png" alt="Login">
                             <span>Login</span>
                         </a>
                         <a href="register.php">
-                            <img src="/images/user.png" alt="Register">
-                            <span>SignUp</span>
+                            <img src="/images/register.png" alt="Register">
+                            <span>Register</span>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -285,7 +287,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <a href="wishlist.php" class="block py-2">Wishlist</a>
 
         <?php if (isset($_SESSION['userID']) && $_SESSION['role'] === 'customer'): ?>
-            <a href="profile.php" class="block py-2">Profile</a>
+            <a href="userProfile.php" class="block py-2">Profile</a>
             <a href="logout.php" class="block py-2">Logout</a>
         <?php else: ?>
             <a href="login.php" class="block py-2">Login</a>

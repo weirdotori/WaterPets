@@ -4,11 +4,11 @@ require_once "db.php";
 
 header("Content-Type: application/json");
 
-// Check log in verification for admin and user
+// Check log in verification for admin and customer
 if (
     empty($_SESSION['userID']) ||
     empty($_SESSION['role']) ||
-    !in_array($_SESSION['role'], ['admin', 'user'])
+    !in_array($_SESSION['role'], ['admin', 'customer'])
 ) {
     echo json_encode(["success" => false, "message" => "Unauthorized"]);
     exit;
