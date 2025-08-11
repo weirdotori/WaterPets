@@ -1,3 +1,18 @@
+.cart-section {
+    background-color: #060417;
+    padding: 60px 20px;
+}
+
+.header-divider {
+    border: none;
+    height: 2px; 
+    background-color: #ffffff;
+    margin-left: 30px; 
+    margin-right: 30px; 
+    margin-top: 20px;
+}
+
+
 .cart-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -5,10 +20,18 @@
     color: #fff;
 }
 
+.cart-main {
+    display: flex;
+    gap: 30px;          /* space between table and summary */
+    align-items: flex-start; /* align top edges */
+}
+
 .cart-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    flex: 3;
+    min-width: 0;
 }
 
 .cart-table th, .cart-table td {
@@ -25,9 +48,11 @@
 }
 
 .order-summary {
-    background: rgba(255,255,255,0.05);
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
     padding: 20px;
     border-radius: 8px;
+    max-width: 300px;
 }
 
 .checkout-btn {
@@ -42,3 +67,75 @@
 .checkout-btn:hover {
     background: #0056b3;
 }
+
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* space between elements */
+}
+
+/* Style for the remove button */
+.remove-form {
+    margin: 0;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    /* Optional: add some hover effect */
+    transition: color 0.2s ease-in-out;
+}
+
+.remove-btn:hover {
+    color: darkred;
+}
+
+/* Keep your existing cart-img styling or tweak if needed */
+.cart-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+
+.quantity-control {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+}
+
+.quantity-control button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    transition: background-color 0.2s ease;
+}
+
+.quantity-control button:hover {
+    background-color: #555;
+}
+
+.qty-input {
+    width: 45px;
+    text-align: center;
+    border: none;
+    background-color: #222;
+    color: #fff;
+    font-size: 14px;
+    padding: 6px;
+    outline: none;
+}
+
