@@ -67,9 +67,13 @@ if (isset($_SESSION['review_error'])) {
                 <p><strong>Difficulty:</strong> <?= htmlspecialchars($product['difficulty']) ?></p>
                 <p><strong>Species:</strong> <?= htmlspecialchars($product['species']) ?></p>
                 <p><strong>Aggression Level:</strong> <?= htmlspecialchars($product['aggressionLevel']) ?></p>
+
             <?php elseif ($product['categoryName'] === 'Coral Reefs'): ?>
+                <p><strong>Coral Type:</strong> <?= htmlspecialchars($product['coralType'] ?? 'N/A') ?></p>
                 <p><strong>Lighting Requirement:</strong> <?= htmlspecialchars($product['lighting'] ?? 'N/A') ?></p>
-                <p><strong>Flow Level:</strong> <?= htmlspecialchars($product['flow'] ?? 'N/A') ?></p>
+                <p><strong>Water Flow Level:</strong> <?= htmlspecialchars($product['waterFlow'] ?? 'N/A') ?></p>
+                <p><strong>Color:</strong> <?= htmlspecialchars($product['color'] ?? 'N/A') ?></p>
+
             <?php elseif ($product['categoryName'] === 'Supplies' || $product['categoryName'] === 'Equipment'): ?>
                 <p><strong>Type:</strong> <?= htmlspecialchars($product['equipmentType'] ?? 'N/A') ?></p>
                 <p><strong>Brand:</strong> <?= htmlspecialchars($product['brand'] ?? 'N/A') ?></p>
@@ -105,7 +109,10 @@ if (isset($_SESSION['review_error'])) {
             </form>
 
 
-            <a href="<?= $product['categoryName'] ?>.php" class="back-link">← Back to <?= ucfirst($product['categoryName']) ?></a>
+            <a href="<?= strtolower(str_replace(' ', '', $product['categoryName'])) ?>.php" class="back-link">
+                ← Back to <?= ucfirst($product['categoryName']) ?>
+            </a>
+
         </div>
 
     </div>

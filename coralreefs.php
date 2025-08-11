@@ -69,7 +69,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Coral Reefs - WaterPets</title>
 
     <!-- Css Style -->
-    <link rel="stylesheet" href="/css/fish_style.css">
+    <link rel="stylesheet" href="/css/shop_style.css">
 
     <!-- Tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -255,16 +255,27 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php foreach ($products as $product): ?>
                             <div class="product-card">
                                 <a href="coralreefs.php?id=<?= $product['productID'] ?>">
-                                    <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['pName']) ?>">
+                                    <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['pName']) ?>" class="product-image">
                                 </a>
                                 <div class="card-body">
                                     <h6><?= htmlspecialchars($product['pName']) ?></h6>
                                     <p><?= htmlspecialchars($product['description']) ?></p>
                                     <div class="price">$<?= number_format($product['price'], 2) ?></div>
-                                    <form method="post" action="add_to_cart.php">
-                                        <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
-                                        <button type="submit">Add to Cart</button>
-                                    </form>
+
+                                    <div class="card-actions" style="display: flex; gap: 8px; align-items: center;">
+                                        <!-- Add to Cart -->
+                                        <form method="post" action="add_to_cart.php" style="margin: 0;">
+                                            <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
+                                            <button type="submit">Add to Cart</button>
+                                        </form>
+
+                                        <!-- Wishlist -->
+                                        <a href="add_to_wishlist.php?productID=<?= $product['productID'] ?>"
+                                            title="Add to Wishlist"
+                                            style="display: inline-block;">
+                                            <img src="/images/wishlist.png" alt="Wishlist" style="width: 32px; height: 32px;">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>

@@ -37,7 +37,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
             <!-- Left: Logo -->
             <div class="d-flex align-items-center">
                 <img src="/images/oystergif.gif" alt="WaterPets Logo" style="height:40px;">
-                <a href="#" class="logo-font">WaterPets</a>
+                <a href="home.php" class="logo-font">WaterPets</a>
             </div>
 
             <!-- Center: Search -->
