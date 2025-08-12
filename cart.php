@@ -85,7 +85,7 @@ foreach ($items as $item) {
                         <form method="post" action="add_to_cart.php" style="margin-top: 10px;">
                             <input type="hidden" name="remove_all" value="1">
                             <button type="submit" style="background:#ff4d4d; color:#fff; border:none; padding:8px 16px; border-radius:5px; cursor:pointer;">
-                                Remove All Items
+                                Clear Cart
                             </button>
                         </form>
 
@@ -102,7 +102,10 @@ foreach ($items as $item) {
 
 </html>
 
+
+
 <script>
+    // Quantitiy js
     document.querySelectorAll('.quantity-control').forEach(control => {
         const minusBtn = control.querySelector('.qty-minus');
         const plusBtn = control.querySelector('.qty-plus');
@@ -152,4 +155,39 @@ foreach ($items as $item) {
             updateQuantity(newQty);
         });
     });
+
+    // proceed to checkout button login check
+    document.querySelector('.checkout-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+
+        <?php if (!isset($_SESSION['user'])): ?>
+            // Show modal to login/register
+            showLoginModal();
+        <?php else: ?>
+            // Redirect to checkout page if logged in
+            window.location.href = 'checkout.php';
+        <?php endif; ?>
+    });
+
+    function showLoginModal() {
+        const modal = document.createElement('div');
+        modal.innerHTML = `
+      <div class="modal-overlay">
+        <div class="modal-content">
+          <h2>Please log in first</h2>
+          <p>You need to be logged in to proceed to checkout.</p>
+          <div class="modal-buttons">
+            <a href="userLogin.php" class="btn btn-primary">Log In</a>
+            <a href="register.php" class="btn btn-secondary">Register</a>
+            <button id="closeModalBtn" class="btn btn-close">Close</button>
+          </div>
+        </div>
+      </div>
+    `;
+        document.body.appendChild(modal);
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            modal.remove();
+        });
+    }
 </script>

@@ -1,0 +1,83 @@
+/* Basic layout styles */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: #f9fafb;
+    padding: 2rem;
+}
+
+.checkout-container {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    gap: 2rem;
+}
+
+.billing-form {
+    flex: 2;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+}
+
+.order-summary {
+    flex: 1;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+    height: fit-content;
+}
+
+.order-summary h3 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.summary-total {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+button.proceed-btn {
+    background-color: #166534;
+    color: white;
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    cursor: pointer;
+    border: none;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button.proceed-btn:hover {
+    background-color: #14532d;
+}

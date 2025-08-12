@@ -5,10 +5,10 @@
 
 .header-divider {
     border: none;
-    height: 2px; 
+    height: 2px;
     background-color: #ffffff;
-    margin-left: 30px; 
-    margin-right: 30px; 
+    margin-left: 30px;
+    margin-right: 30px;
     margin-top: 20px;
 }
 
@@ -22,8 +22,10 @@
 
 .cart-main {
     display: flex;
-    gap: 30px;          /* space between table and summary */
-    align-items: flex-start; /* align top edges */
+    gap: 30px;
+    /* space between table and summary */
+    align-items: flex-start;
+    /* align top edges */
 }
 
 .cart-table {
@@ -34,7 +36,8 @@
     min-width: 0;
 }
 
-.cart-table th, .cart-table td {
+.cart-table th,
+.cart-table td {
     padding: 12px;
     border-bottom: 1px solid #ccc;
     text-align: left;
@@ -71,7 +74,8 @@
 .product-cell {
     display: flex;
     align-items: center;
-    gap: 10px; /* space between elements */
+    gap: 10px;
+    /* space between elements */
 }
 
 /* Style for the remove button */
@@ -139,3 +143,57 @@
     outline: none;
 }
 
+
+/* Proceed to checkout modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-buttons {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.modal-buttons .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6b7280;
+    color: white;
+}
+
+.btn-close {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+}
