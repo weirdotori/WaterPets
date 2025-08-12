@@ -53,6 +53,12 @@ if (!empty($_GET['color'])) {
     $params[] = $_GET['color'];
 }
 
+// Search by product name if ?search= is present
+if (!empty($_GET['search'])) {
+    $query .= " AND pName LIKE ?";
+    $params[] = "%" . $_GET['search'] . "%";
+}
+
 
 $stmt = $conn->prepare($query);
 $stmt->execute($params);

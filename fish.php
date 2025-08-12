@@ -46,12 +46,18 @@ if (!empty($_GET['species'])) {
     $params[] = $_GET['species'];
 }
 
+// Search by product name if ?search= is present
+if (!empty($_GET['search'])) {
+    $query .= " AND pName LIKE ?";
+    $params[] = "%" . $_GET['search'] . "%";
+}
+
+
+
 
 $stmt = $conn->prepare($query);
 $stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -116,10 +122,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <?php if (empty($_GET['id'])): ?>
                     <div class="search-sort">
-                        <form class="search-box">
-                            <input type="text" placeholder="Search fish...">
-                            <button>Search</button>
-                        </form>
                         <select class="sort-dropdown">
                             <option>Default Sorting</option>
                             <option>Price: Low to High</option>

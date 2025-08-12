@@ -156,6 +156,75 @@ $isLoggedIn = isset($_SESSION['user']) && $_SESSION['user']['role'] === 'custome
         width: 32px;
         height: 32px;
     }
+
+    /* Search container aligns icon + form */
+    .search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Search icon button style */
+    .search-icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-icon-btn img {
+        width: 24px;
+        height: 24px;
+        filter: invert(1);
+        /* white icon - remove if your icon is already white */
+        transition: filter 0.3s ease;
+    }
+
+    .search-icon-btn:hover img {
+        filter: invert(0.7);
+    }
+
+    /* Search form hidden by default */
+    .search-form {
+        max-width: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-width 0.3s ease, opacity 0.3s ease;
+        white-space: nowrap;
+    }
+
+    /* Show the form when active */
+    .search-container.active .search-form {
+        max-width: 200px;
+        /* adjust as needed */
+        opacity: 1;
+        margin-left: 8px;
+    }
+
+    /* Style input */
+    .search-form input {
+        width: 100%;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        color: black;
+    }
+
+    .search-noti {
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #ff4444;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        z-index: 9999;
+    }
 </style>
 
 <!-- Google font -->
@@ -252,7 +321,27 @@ $isLoggedIn = isset($_SESSION['user']) && $_SESSION['user']['role'] === 'custome
 
 
         <!-- Desktop Right side -->
+
         <div class="hidden md:flex items-center space-x-3 relative" x-data="{ menuOpen: false }">
+
+            <!-- Search container -->
+            <div id="search-container" class="search-container">
+
+                <!-- Search Icon Button -->
+                <button id="search-toggle" type="button" class="search-icon-btn" aria-label="Toggle Search">
+                    <img src="/images/searchbar.png" alt="Search" />
+                </button>
+
+                <!-- Search Form (hidden by default) -->
+                <form id="product-search-form" class="search-form" onsubmit="return false;">
+                    <input type="text" id="search-query" placeholder="Search products..." autocomplete="off" />
+                </form>
+            </div>
+
+            <!-- Notification -->
+            <div id="search-notification" class="search-noti">
+            </div>
+
 
             <!-- Sound Toggle -->
             <button id="sound-toggle" class="focus:outline-none" title="Toggle Sound">
@@ -303,3 +392,66 @@ $isLoggedIn = isset($_SESSION['user']) && $_SESSION['user']['role'] === 'custome
         </div>
     </div>
 </nav>
+
+
+<!-- search bar js -->
+<script>
+    document.getElementById("product-search-form").addEventListener("submit", function(e) {
+        e.preventDefault(); // stop normal form submission
+
+        const query = document.getElementById("search-query").value.trim();
+        if (!query) return;
+
+        fetch(`searchProducts.php?q=${encodeURIComponent(query)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.length === 0) {
+                    showNotification("No matching products found.");
+                } else {
+                    // Group results by page
+                    const pages = {};
+                    data.forEach(item => {
+                        if (!pages[item.page]) pages[item.page] = [];
+                        pages[item.page].push(item.id);
+                    });
+
+                    const pageKeys = Object.keys(pages);
+                    console.log("Redirecting to:", `${pageKeys[0]}?search=${encodeURIComponent(query)}`);
+
+                    // Redirect to category page with search term
+                    window.location.href = `${pageKeys[0]}?search=${encodeURIComponent(query)}`;
+                }
+            });
+    });
+
+
+    function showNotification(message) {
+        const noti = document.getElementById("search-notification");
+        noti.innerText = message;
+        noti.style.display = "block";
+        setTimeout(() => {
+            noti.style.opacity = "1";
+            setTimeout(() => {
+                noti.style.opacity = "0";
+                setTimeout(() => {
+                    noti.style.display = "none";
+                    noti.style.opacity = "1";
+                }, 500);
+            }, 2000);
+        }, 10);
+    }
+
+    // Toggle search input visibility on icon click
+    const searchContainer = document.getElementById('search-container');
+    const searchToggle = document.getElementById('search-toggle');
+    const searchInput = document.getElementById('search-query');
+
+    searchToggle.addEventListener('click', () => {
+        searchContainer.classList.toggle('active');
+        if (searchContainer.classList.contains('active')) {
+            searchInput.focus();
+        } else {
+            searchInput.value = '';
+        }
+    });
+</script>

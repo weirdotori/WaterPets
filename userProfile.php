@@ -25,7 +25,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>User Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="/css/userProfile_style.css"> -->
+    <link rel="stylesheet" href="/css/userProfile_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 </head>
 
@@ -43,6 +43,12 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 <li><a href="#" class="active" data-section="overview">Profile Overview</a></li>
                 <li><a href="#" data-section="personal-info">Personal Information</a></li>
                 <li><a href="#" data-section="security">Security Settings</a></li>
+                <li>
+                    <form id="deleteAccountForm" method="POST" action="userDeleteAccount.php" onsubmit="return confirmDelete()">
+                        <button type="submit" class="delete-account-btn">Delete Account</button>
+                    </form>
+                </li>
+
             </ul>
         </div>
 
@@ -203,6 +209,10 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             document.getElementById("changePasswordForm").style.display = "block";
             this.parentElement.style.display = "none"; // hide masked password row
         });
+
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete your account? This action cannot be undone.");
+        }
     </script>
 </body>
 
