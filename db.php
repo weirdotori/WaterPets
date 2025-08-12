@@ -3,7 +3,7 @@ $server = "localhost";
 $user = "root";
 $password = "";
 $database = "waterpets"; 
-$dsn = "mysql:host=$server; dbname=$database";
+$dsn = "mysql:host=$server;dbname=$database";
 try{
     $conn = new PDO($dsn, $user, $password);
     //to show exception messages

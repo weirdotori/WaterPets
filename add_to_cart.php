@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['cart'][$productID]['quantity'] += $quantityToAdd;
             } else {
                 $_SESSION['cart'][$productID] = [
-                    'id' => $product['productID'],
+                    'productID' => $product['productID'],
                     'name' => $product['pName'],
                     'price' => $product['price'],
                     'image' => $product['image'],
