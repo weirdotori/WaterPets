@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php'; // PDO connection
+require 'db.php'; // conn connection
 
 if (empty($_SESSION['user'])) {
     header("Location: cart.php?login_required=1");
@@ -50,8 +50,78 @@ if ($deliveryType === 'shipping') {
 
 $totalPrice = $subtotal + $shippingFee;
 
+// Check if pending order exists
+$stmt = $conn->prepare("SELECT orderID FROM orders WHERE userID = ? AND orderStatus = 'pending' ORDER BY created_at DESC LIMIT 1");
+$stmt->execute([$_SESSION['user']['userID']]);
+$existingOrder = $stmt->fetchColumn();
+
+if ($existingOrder) {
+    // Update existing pending order
+    $stmt = $conn->prepare("
+        UPDATE orders SET 
+            firstName = :firstName,
+            lastName = :lastName,
+            country = :country,
+            streetAddress = :streetAddress,
+            city = :city,
+            state = :state,
+            phone = :phone,
+            email = :email,
+            deliveryType = :deliveryType,
+            couponCode = :couponCode,
+            totalPrice = :totalPrice,
+            created_at = NOW()
+        WHERE orderID = :orderID
+    ");
+
+    $stmt->execute([
+        ':firstName' => $firstName,
+        ':lastName' => $lastName,
+        ':country' => $country,
+        ':streetAddress' => $streetAddress,
+        ':city' => $city,
+        ':state' => $state,
+        ':phone' => $phone,
+        ':email' => $email,
+        ':deliveryType' => $deliveryType,
+        ':couponCode' => $couponCode,
+        ':totalPrice' => $totalPrice,
+        ':orderID' => $existingOrder
+    ]);
+
+    $pendingOrderID = $existingOrder;
+} else {
+    // Insert new pending order
+    $stmt = $conn->prepare("
+        INSERT INTO orders 
+        (userID, firstName, lastName, country, streetAddress, city, state, phone, email, deliveryType, couponCode, totalPrice, orderStatus, created_at)
+        VALUES 
+        (:userID, :firstName, :lastName, :country, :streetAddress, :city, :state, :phone, :email, :deliveryType, :couponCode, :totalPrice, 'pending', NOW())
+    ");
+
+    $stmt->execute([
+        ':userID' => $_SESSION['user']['userID'],
+        ':firstName' => $firstName,
+        ':lastName' => $lastName,
+        ':country' => $country,
+        ':streetAddress' => $streetAddress,
+        ':city' => $city,
+        ':state' => $state,
+        ':phone' => $phone,
+        ':email' => $email,
+        ':deliveryType' => $deliveryType,
+        ':couponCode' => $couponCode,
+        ':totalPrice' => $totalPrice
+    ]);
+
+    $pendingOrderID = $conn->lastInsertId();
+}
+
+
+
 // Save order info in session instead of database
 $_SESSION['pending_order'] = [
+    'orderID' => $pendingOrderID,
     'userID' => $_SESSION['user']['userID'],
     'firstName' => $firstName,
     'lastName' => $lastName,
@@ -62,7 +132,7 @@ $_SESSION['pending_order'] = [
     'phone' => $phone,
     'email' => $email,
     'deliveryType' => $deliveryType,
-    'shippingSpeed' => $shippingSpeed,
+    'shippingSpeed' => $shippingSpeed, // keep it here for later use after payment
     'couponCode' => $couponCode,
     'cart' => $cart,
     'subtotal' => $subtotal,
@@ -70,7 +140,7 @@ $_SESSION['pending_order'] = [
     'totalPrice' => $totalPrice,
 ];
 
+
 // Redirect to payment page
 header("Location: payment.php");
 exit();
-?>

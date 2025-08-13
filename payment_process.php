@@ -23,35 +23,42 @@ $paymentMethod = $_POST['payment_method'] ?? '';
 try {
     $conn->beginTransaction();
 
-    // Insert order
-    $stmtOrder = $conn->prepare("INSERT INTO orders 
-      (deliveryType, userID, totalPrice, orderStatus, created_at, firstName, lastName, country, streetAddress, city, state, phone, email, couponCode)
-      VALUES (?, ?, ?, 'Completed', NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $orderID = $orderData['orderID'] ?? null;
+    if (!$orderID) {
+        throw new Exception("No pending order ID found.");
+    }
 
+    // Update orderStatus to Completed for existing order
+    $stmtOrder = $conn->prepare("
+        UPDATE orders SET 
+            orderStatus = 'Completed',
+            totalPrice = :totalPrice,
+            updated_at = NOW()
+        WHERE orderID = :orderID
+    ");
     $stmtOrder->execute([
-        $orderData['deliveryType'],
-        $orderData['userID'],
-        $orderData['totalPrice'],
-        $orderData['firstName'],
-        $orderData['lastName'],
-        $orderData['country'],
-        $orderData['streetAddress'],
-        $orderData['city'],
-        $orderData['state'],
-        $orderData['phone'],
-        $orderData['email'],
-        $orderData['couponCode'],
+        ':totalPrice' => $orderData['totalPrice'],
+        ':orderID' => $orderID
     ]);
 
-    $orderID = $conn->lastInsertId();
-
-    // Insert order_details
+    // Insert order details
     $stmtDetails = $conn->prepare("INSERT INTO order_details (orderID, productID, orderQty, unitPrice) VALUES (?, ?, ?, ?)");
-
     foreach ($orderData['cart'] as $productID => $item) {
         $pid = $item['productID'] ?? $productID;
         $stmtDetails->execute([$orderID, $pid, $item['quantity'], $item['price']]);
     }
+
+    // Reduce stock of products based on order quantities
+    $stmtUpdateStock = $conn->prepare("UPDATE products SET stock = stock - :qty WHERE productID = :pid");
+    foreach ($orderData['cart'] as $productID => $item) {
+        $pid = $item['productID'] ?? $productID;
+        $quantity = $item['quantity'];
+        $stmtUpdateStock->execute([
+            ':qty' => $quantity,
+            ':pid' => $pid,
+        ]);
+    }
+
 
     // Insert payment
     $paymentStatus = 'Paid';
@@ -73,10 +80,8 @@ try {
     unset($_SESSION['cart']);
     unset($_SESSION['pending_order']);
 
-    // Redirect to success page
     header("Location: order_success.php?orderID=" . $orderID);
     exit();
-
 } catch (Exception $e) {
     $conn->rollBack();
     die("Error processing payment: " . $e->getMessage());

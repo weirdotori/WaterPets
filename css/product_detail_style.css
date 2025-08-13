@@ -205,5 +205,8 @@
     font-weight: bold;
 }
 
-
-
+/* Out of stock btn */
+.btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

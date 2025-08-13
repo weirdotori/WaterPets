@@ -1,12 +1,32 @@
 <?php
 session_start();
+require 'db.php'; // add your PDO connection
+
 if (empty($_SESSION['user'])) {
-    // Not logged in, redirect to cart with flag
     header("Location: cart.php?login_required=1");
     exit();
 }
 
-// Calculate totals from session cart
+$userID = $_SESSION['user']['userID'];
+
+// Fetch existing pending order for this user (latest)
+$stmt = $conn->prepare("SELECT * FROM orders WHERE userID = ? AND orderStatus = 'pending' ORDER BY created_at DESC LIMIT 1");
+$stmt->execute([$userID]);
+$pendingOrder = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// If found, populate variables, else empty string
+$firstName = $pendingOrder['firstName'] ?? '';
+$lastName = $pendingOrder['lastName'] ?? '';
+$country = $pendingOrder['country'] ?? '';
+$streetAddress = $pendingOrder['streetAddress'] ?? '';
+$city = $pendingOrder['city'] ?? '';
+$state = $pendingOrder['state'] ?? '';
+$phone = $pendingOrder['phone'] ?? '';
+$email = $pendingOrder['email'] ?? '';
+$deliveryType = $pendingOrder['deliveryType'] ?? '';
+$couponCode = $pendingOrder['couponCode'] ?? '';
+
+// Your cart calculation as before
 $items = $_SESSION['cart'] ?? [];
 $subtotal = 0;
 $totalItems = 0;
@@ -15,6 +35,7 @@ foreach ($items as $item) {
     $totalItems += $item['quantity'];
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,54 +57,53 @@ foreach ($items as $item) {
             <form class="billing-form" action="checkout_process.php" method="POST" id="checkoutForm">
                 <h2 class="mb-6 font-bold text-2xl">Billing Details</h2>
                 <label for="first_name">First Name *</label>
-                <input type="text" id="first_name" name="first_name" placeholder="Ex. John" required />
+                <input type="text" id="first_name" name="first_name" placeholder="Ex. John" value="<?= htmlspecialchars($firstName) ?>" required />
 
                 <label for="last_name">Last Name *</label>
-                <input type="text" id="last_name" name="last_name" placeholder="Ex. Doe" required />
+                <input type="text" id="last_name" name="last_name" placeholder="Ex. Doe" value="<?= htmlspecialchars($lastName) ?>" required />
 
                 <label for="country">Country *</label>
                 <select id="country" name="country" required>
                     <option value="">Select Country</option>
-                    <option value="Myanmar">Myanmar</option>
-                    <option value="Thailand">Thailand</option>
-                    <!-- Add more countries here -->
+                    <option value="Myanmar" <?= $country === 'Myanmar' ? 'selected' : '' ?>>Myanmar</option>
+                    <option value="Thailand" <?= $country === 'Thailand' ? 'selected' : '' ?>>Thailand</option>
+                    <!-- more countries -->
                 </select>
 
                 <label for="street">Street Address *</label>
-                <input type="text" id="street" name="street" placeholder="Enter Street Address" required />
+                <input type="text" id="street" name="street" placeholder="Enter Street Address" value="<?= htmlspecialchars($streetAddress) ?>" required />
 
                 <label for="city">City *</label>
                 <select id="city" name="city" required>
                     <option value="">Select City</option>
-                    <option value="Yangon">Yangon</option>
-                    <option value="Mandalay">Mandalay</option>
-                    <!-- Add more cities -->
+                    <option value="Yangon" <?= $city === 'Yangon' ? 'selected' : '' ?>>Yangon</option>
+                    <option value="Mandalay" <?= $city === 'Mandalay' ? 'selected' : '' ?>>Mandalay</option>
                 </select>
 
                 <label for="state">Region/State *</label>
                 <select id="state" name="state" required>
                     <option value="">Select State</option>
-                    <option value="YG">Yangon</option>
-                    <option value="SH">Shan</option>
-                    <option value="KA">Kachin</option>
-                    <!-- Add more states -->
+                    <option value="YG" <?= $state === 'YG' ? 'selected' : '' ?>>Yangon</option>
+                    <option value="SH" <?= $state === 'SH' ? 'selected' : '' ?>>Shan</option>
+                    <option value="KA" <?= $state === 'KA' ? 'selected' : '' ?>>Kachin</option>
                 </select>
 
                 <label for="phone">Phone *</label>
-                <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required />
+                <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" value="<?= htmlspecialchars($phone) ?>" required />
 
                 <label for="email">Email *</label>
-                <input type="email" id="email" name="email" placeholder="Enter Email" required />
+                <input type="email" id="email" name="email" placeholder="Enter Email" value="<?= htmlspecialchars($email) ?>" required />
 
                 <!-- Delivery Type radio btn -->
                 <label class="block font-semibold mt-4">Delivery Type *</label>
                 <div class="flex items-center gap-4 mt-2">
                     <label>
-                        <input type="radio" name="delivery_type" value="shipping" required> Shipping
+                        <input type="radio" name="delivery_type" value="shipping" required <?= $deliveryType === 'shipping' ? 'checked' : '' ?>> Shipping
                     </label>
                     <label>
-                        <input type="radio" name="delivery_type" value="pickup" required> Pickup
+                        <input type="radio" name="delivery_type" value="pickup" required <?= $deliveryType === 'pickup' ? 'checked' : '' ?>> Pickup
                     </label>
+
                 </div>
 
                 <!-- Shipping speed only show when delivery is shipping -->

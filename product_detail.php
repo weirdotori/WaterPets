@@ -100,13 +100,18 @@ if (isset($_SESSION['review_error'])) {
                 <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
                 <input type="hidden" name="quantity" id="hidden-quantity" value="1">
 
-                <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                <?php if ($product['stock'] > 0): ?>
+                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                <?php else: ?>
+                    <button type="submit" class="add-to-cart-btn btn-disabled" disabled title="Out of Stock">Out of Stock</button>
+                <?php endif; ?>
 
                 <!-- Wishlist Icon (PNG as clickable button or link) -->
                 <a href="add_to_wishlist.php?productID=<?= $product['productID'] ?>" class="wishlist-icon" title="Add to Wishlist">
                     <img src="/images/wishlist.png" alt="Wishlist" class="w-10 h-10">
                 </a>
             </form>
+
 
 
             <a href="<?= strtolower(str_replace(' ', '', $product['categoryName'])) ?>.php" class="back-link">

@@ -272,7 +272,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <!-- Add to Cart -->
                                         <form method="post" action="add_to_cart.php" style="margin: 0;">
                                             <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
-                                            <button type="submit">Add to Cart</button>
+                                            <?php if ($product['stock'] > 0): ?>
+                                                <button type="submit">Add to Cart</button>
+                                            <?php else: ?>
+                                                <button type="submit" disabled class="btn-disabled" title="Out of stock">Out of Stock</button>
+                                            <?php endif; ?>
                                         </form>
 
                                         <!-- Wishlist -->
