@@ -60,11 +60,12 @@ foreach ($items as $item) {
                     <!-- Add more cities -->
                 </select>
 
-                <label for="state">State *</label>
+                <label for="state">Region/State *</label>
                 <select id="state" name="state" required>
                     <option value="">Select State</option>
-                    <option value="NY">Shan</option>
-                    <option value="CA">Kachin</option>
+                    <option value="YG">Yangon</option>
+                    <option value="SH">Shan</option>
+                    <option value="KA">Kachin</option>
                     <!-- Add more states -->
                 </select>
 
