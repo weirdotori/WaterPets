@@ -1,6 +1,36 @@
 <?php
 session_start();
 
+require 'db.php'; // Make sure you have DB connection
+
+$userID = $_SESSION['user']['userID'] ?? null;
+
+if ($userID) {
+    // Load cart from DB
+    $stmt = $conn->prepare("
+        SELECT p.productID, p.pName, p.price, p.image, c.quantity
+        FROM cart_items c
+        JOIN products p ON c.productID = p.productID
+        WHERE c.userID = ?
+    ");
+    $stmt->execute([$userID]);
+    $items = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $items[$row['productID']] = [
+            'productID' => $row['productID'],
+            'name' => $row['pName'],
+            'price' => $row['price'],
+            'image' => $row['image'],
+            'quantity' => $row['quantity']
+        ];
+    }
+    $_SESSION['cart'] = $items; // Sync DB cart with session
+} else {
+    // Guest user → show only session cart
+    $items = $_SESSION['cart'] ?? [];
+}
+
+
 // Calculate totals
 $items = $_SESSION['cart'] ?? [];
 $subtotal = 0;

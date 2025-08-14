@@ -16,6 +16,13 @@ if (
 $stmt = $conn->prepare("SELECT username, email, phone, role, profile_pic, password FROM users WHERE userID = ?");
 $stmt->execute([$_SESSION['user']['userID']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch coupons for the logged-in user
+$stmt = $conn->prepare("SELECT * FROM coupons WHERE userID = ? ORDER BY created_at DESC");
+$stmt->execute([$_SESSION['user']['userID']]);
+$coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -42,13 +49,14 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             <ul>
                 <li><a href="#" class="active" data-section="overview">Profile Overview</a></li>
                 <li><a href="#" data-section="personal-info">Personal Information</a></li>
+                <li><a href="#" data-section="orders">My Orders</a></li>
                 <li><a href="#" data-section="security">Security Settings</a></li>
+                <li><a href="#" data-section="loyalty">Loyalty Program</a></li>
                 <li>
                     <form id="deleteAccountForm" method="POST" action="userDeleteAccount.php" onsubmit="return confirmDelete()">
                         <button type="submit" class="delete-account-btn">Delete Account</button>
                     </form>
                 </li>
-
             </ul>
         </div>
 
@@ -121,6 +129,16 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 </form>
             </div>
 
+            <!-- Orders Section -->
+            <div id="section-orders" style="display:none;">
+                <h3>My Orders</h3>
+                <div class="orders-list-container"></div> <!-- for orders list -->
+                <div class="order-summary-container" style="display:none;"></div> <!-- for summary -->
+            </div>
+
+
+
+
 
             <!-- Security Settings -->
             <div id="section-security" style="display:none;">
@@ -151,12 +169,33 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 </form>
             </div>
 
+            <!-- Loyalty Program -->
+            <div id="section-loyalty" style="display:none;">
+                <h3>Loyalty Program & Coupons</h3>
+
+                <?php if (count($coupons) === 0): ?>
+                    <p>You don’t have any coupons yet. Place 3 orders to unlock your first coupon!</p>
+                <?php else: ?>
+                    <div class="coupons-list">
+                        <?php foreach ($coupons as $coupon): ?>
+                            <div class="coupon-card <?= $coupon['status'] === 'used' ? 'used-coupon' : '' ?>">
+                                <span class="coupon-code"><?= htmlspecialchars($coupon['code']) ?></span>
+                                <span class="coupon-desc"><?= $coupon['discount'] ?>% OFF</span>
+                                <span class="coupon-status"><?= ucfirst($coupon['status']) ?></span>
+                                <?php if ($coupon['status'] === 'unused'): ?>
+                                    <button class="copy-btn" data-code="<?= htmlspecialchars($coupon['code']) ?>">Copy</button>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                <?php endif; ?>
+            </div>
+
 
         </div>
     </div>
 
-    <!-- bootstrap js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- sidebar page -->
     <script>
@@ -213,6 +252,72 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         function confirmDelete() {
             return confirm("Are you sure you want to delete your account? This action cannot be undone.");
         }
+
+
+        // Copy coupon code to clipboard
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const code = btn.dataset.code;
+                navigator.clipboard.writeText(code).then(() => {
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => btn.textContent = 'Copy', 1500);
+                });
+            });
+        });
+
+        // Load orders list and attach handlers
+        function loadOrdersList() {
+            const listContainer = document.querySelector('.orders-list-container');
+            const summaryContainer = document.querySelector('.order-summary-container');
+
+            // Hide summary when showing list
+            summaryContainer.style.display = 'none';
+            listContainer.style.display = 'block';
+
+            fetch('userFetchOrdersList.php')
+                .then(res => res.text())
+                .then(html => {
+                    listContainer.innerHTML = html;
+
+                    // Attach click handlers for "View Summary" buttons
+                    document.querySelectorAll('.view-order-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const orderID = btn.dataset.orderId;
+
+                            fetch('userFetchOrderSummary.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    },
+                                    body: 'orderID=' + encodeURIComponent(orderID)
+                                })
+                                .then(res => res.text())
+                                .then(html => {
+                                    summaryContainer.innerHTML = html;
+                                    summaryContainer.style.display = 'block';
+                                    listContainer.style.display = 'none';
+                                });
+                        });
+                    });
+                });
+        }
+
+        // Back button in order summary
+        function goBackToOrders() {
+            loadOrdersList(); // reload list and reattach handlers
+        }
+
+        // When "My Orders" sidebar clicked
+        document.querySelector('a[data-section="orders"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll(".profile-sidebar a").forEach(a => a.classList.remove("active"));
+            this.classList.add("active");
+
+            document.querySelectorAll(".profile-content > div").forEach(div => div.style.display = "none");
+            document.getElementById("section-orders").style.display = "block";
+
+            loadOrdersList();
+        });
     </script>
 </body>
 

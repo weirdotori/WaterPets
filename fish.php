@@ -52,6 +52,62 @@ if (!empty($_GET['search'])) {
     $params[] = "%" . $_GET['search'] . "%";
 }
 
+// Sorting
+if (!empty($_GET['sort'])) {
+    switch ($_GET['sort']) {
+        case 'price_asc':
+            $query .= " ORDER BY price ASC";
+            break;
+        case 'price_desc':
+            $query .= " ORDER BY price DESC";
+            break;
+        case 'date_new':
+            $query .= " ORDER BY created_at DESC"; // assumes you have a created_at column
+            break;
+        case 'date_old':
+            $query .= " ORDER BY created_at ASC";
+            break;
+        case 'popular':
+            // Join with order_details to count orders
+            $query = "
+        SELECT p.*, COALESCE(SUM(od.orderQty), 0) AS total_sold
+        FROM products p
+        LEFT JOIN order_details od ON p.productID = od.productID
+        WHERE p.categoryID = ?
+    ";
+
+            $params = [$categoryID]; // reset params
+
+
+            // Apply other filters manually if needed
+            if (!empty($_GET['waterType'])) {
+                $placeholders = implode(',', array_fill(0, count($_GET['waterType']), '?'));
+                $query .= " AND p.waterType IN ($placeholders)";
+                $params = array_merge($params, $_GET['waterType']);
+            }
+            if (!empty($_GET['difficulty'])) {
+                $placeholders = implode(',', array_fill(0, count($_GET['difficulty']), '?'));
+                $query .= " AND p.difficulty IN ($placeholders)";
+                $params = array_merge($params, $_GET['difficulty']);
+            }
+            if (!empty($_GET['aggressionLevel'])) {
+                $placeholders = implode(',', array_fill(0, count($_GET['aggressionLevel']), '?'));
+                $query .= " AND p.aggressionLevel IN ($placeholders)";
+                $params = array_merge($params, $_GET['aggressionLevel']);
+            }
+            if (!empty($_GET['species'])) {
+                $query .= " AND p.species = ?";
+                $params[] = $_GET['species'];
+            }
+            if (!empty($_GET['search'])) {
+                $query .= " AND p.pName LIKE ?";
+                $params[] = "%" . $_GET['search'] . "%";
+            }
+
+            $query .= " GROUP BY p.productID ORDER BY total_sold DESC";
+            break;
+    }
+}
 
 
 
@@ -121,14 +177,30 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <section class="shop-main <?= !empty($_GET['id']) ? 'w-full' : '' ?>">
 
                 <?php if (empty($_GET['id'])): ?>
-                    <div class="search-sort">
-                        <select class="sort-dropdown">
-                            <option>Default Sorting</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                            <option>Newest First</option>
+                    <form method="GET" action="fish.php" class="search-sort">
+                        <!-- Keep all existing filter params in hidden fields -->
+                        <?php foreach ($_GET as $key => $value): ?>
+                            <?php if ($key !== 'sort'): ?>
+                                <?php if (is_array($value)): ?>
+                                    <?php foreach ($value as $v): ?>
+                                        <input type="hidden" name="<?= htmlspecialchars($key) ?>[]" value="<?= htmlspecialchars($v) ?>">
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <input type="hidden" name="<?= htmlspecialchars($key) ?>" value="<?= htmlspecialchars($value) ?>">
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+
+                        <select name="sort" onchange="this.form.submit()" class="sort-dropdown">
+                            <option value="">Default Sorting</option>
+                            <option value="price_asc" <?= ($_GET['sort'] ?? '') === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
+                            <option value="price_desc" <?= ($_GET['sort'] ?? '') === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
+                            <option value="date_new" <?= ($_GET['sort'] ?? '') === 'date_new' ? 'selected' : '' ?>>Newest First</option>
+                            <option value="date_old" <?= ($_GET['sort'] ?? '') === 'date_old' ? 'selected' : '' ?>>Oldest First</option>
+                            <option value="popular" <?= ($_GET['sort'] ?? '') === 'popular' ? 'selected' : '' ?>>Most Popular</option>
                         </select>
-                    </div>
+                    </form>
+
                 <?php endif; ?>
 
                 <?php $selectedSpecies = $_GET['species'] ?? ''; ?>

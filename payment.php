@@ -7,6 +7,10 @@ if (empty($_SESSION['user']) || empty($_SESSION['pending_order'])) {
 
 
 require 'db.php';
+$orderID = $_SESSION['pending_order']['orderID'] ?? null;
+if (!$orderID) {
+    die("No order ID found.");
+}
 
 // Fetch order info (optional, to show summary)
 // $orderID = $_SESSION['orderID'];
@@ -45,6 +49,7 @@ require 'db.php';
                     <option value="paypal">PayPal</option>
                     <option value="visa">Visa</option>
                     <option value="credit_card">Credit Card</option>
+                    <option value="cod">Cash on Delivery</option>
                 </select>
             </label>
 

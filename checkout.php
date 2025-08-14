@@ -98,16 +98,13 @@ foreach ($items as $item) {
                 <label class="block font-semibold mt-4">Delivery Type *</label>
                 <div class="flex items-center gap-4 mt-2">
                     <label>
-                        <input type="radio" name="delivery_type" value="shipping" required <?= $deliveryType === 'shipping' ? 'checked' : '' ?>> Shipping
-                    </label>
-                    <label>
-                        <input type="radio" name="delivery_type" value="pickup" required <?= $deliveryType === 'pickup' ? 'checked' : '' ?>> Pickup
+                        <input type="radio" name="delivery_type" value="shipping" checked required> Shipping
                     </label>
 
                 </div>
 
                 <!-- Shipping speed only show when delivery is shipping -->
-                <div id="shipping_speed_wrapper" class="mt-4 hidden">
+                <div id="shipping_speed_wrapper" class="mt-4">
                     <label for="shipping_speed">Shipping Speed *</label>
                     <select id="shipping_speed" name="shipping_speed">
                         <option value="">Select Speed</option>
@@ -115,6 +112,15 @@ foreach ($items as $item) {
                         <option value="priority">Priority</option>
                     </select>
                 </div>
+
+                <!-- Coupon Code -->
+                <label for="coupon_code">Coupon Code</label>
+                <div class="flex gap-2 mb-4">
+                    <input type="text" id="coupon_code" name="coupon_code" placeholder="Enter coupon code" value="<?= htmlspecialchars($couponCode ?? '') ?>">
+                    <button type="button" id="applyCouponBtn" class="apply-btn">Apply</button>
+                </div>
+                <p id="couponMsg" style="color:red;"></p>
+
 
 
                 <button type="submit" class="proceed-btn">Proceed to Payment</button>
@@ -163,7 +169,7 @@ foreach ($items as $item) {
 
     <script>
         /* DOM refs */
-        const deliveryRadios = document.querySelectorAll('input[name="delivery_type"]');
+        // const deliveryRadios = document.querySelectorAll('input[name="delivery_type"]');
         const citySelect = document.getElementById('city');
         const speedSelect = document.getElementById('shipping_speed');
         const shippingWrapper = document.getElementById('shipping_speed_wrapper');
@@ -174,6 +180,10 @@ foreach ($items as $item) {
 
         /* pass PHP subtotal safely to JS (no formatting) */
         const baseSubtotal = Number(<?= json_encode((float)$subtotal) ?>) || 0;
+        let appliedCoupon = {
+            code: '', // coupon code
+            percent: 0 // discount percentage
+        };
 
         /* shipping rules */
         function calculateShippingFee() {
@@ -190,28 +200,30 @@ foreach ($items as $item) {
 
         function updateSummary() {
             const fee = calculateShippingFee();
-            // show cart subtotal (unchanged)
             subtotalEl.textContent = `$${baseSubtotal.toFixed(2)}`;
-            // show shipping
             shippingEl.textContent = `$${fee.toFixed(2)}`;
-            // total = subtotal + shipping
-            totalEl.textContent = `$${(baseSubtotal + fee).toFixed(2)}`;
+
+            const discountAmount = (baseSubtotal + fee) * (appliedCoupon.percent / 100);
+            document.getElementById('summary-coupon').textContent = `- $${discountAmount.toFixed(2)}`;
+
+            totalEl.textContent = `$${(baseSubtotal + fee - discountAmount).toFixed(2)}`;
         }
 
+
         /* show/hide speed when delivery type changes */
-        deliveryRadios.forEach(radio => {
-            radio.addEventListener('change', () => {
-                if (radio.value === 'shipping' && radio.checked) {
-                    shippingWrapper.classList.remove('hidden');
-                    speedSelect.required = true; // <--- add required
-                } else if (radio.checked) {
-                    shippingWrapper.classList.add('hidden');
-                    speedSelect.value = '';
-                    speedSelect.required = false; // <--- remove required
-                }
-                updateSummary();
-            });
-        });
+        // deliveryRadios.forEach(radio => {
+        //     radio.addEventListener('change', () => {
+        //         if (radio.value === 'shipping' && radio.checked) {
+        //             shippingWrapper.classList.remove('hidden');
+        //             speedSelect.required = true; // <--- add required
+        //         } else if (radio.checked) {
+        //             shippingWrapper.classList.add('hidden');
+        //             speedSelect.value = '';
+        //             speedSelect.required = false; // <--- remove required
+        //         }
+        //         updateSummary();
+        //     });
+        // });
 
 
         /* update when city or speed changes */
@@ -221,6 +233,45 @@ foreach ($items as $item) {
         /* initial render (ensures values show on load) */
         updateSummary();
     </script>
+
+    <!-- Coupon code AJAX Verification -->
+    <script>
+        document.getElementById('applyCouponBtn').addEventListener('click', function() {
+            const code = document.getElementById('coupon_code').value.trim();
+            if (!code) return alert('Please enter a coupon code');
+
+            fetch('verify_coupon.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'coupon_code=' + encodeURIComponent(code)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    const msg = document.getElementById('couponMsg');
+                    if (data.valid) {
+                        msg.style.color = 'green';
+                        msg.textContent = `Coupon applied: ${data.discount}% OFF`;
+
+                        // store coupon in JS variable
+                        appliedCoupon.code = code;
+                        appliedCoupon.percent = Number(data.discount);
+
+                        // update totals immediately
+                        updateSummary();
+                    } else {
+                        msg.style.color = 'red';
+                        msg.textContent = 'Invalid or used coupon code';
+
+                        appliedCoupon.code = '';
+                        appliedCoupon.percent = 0;
+                        updateSummary();
+                    }
+                });
+        });
+    </script>
+
 </body>
 
 </html>

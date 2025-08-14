@@ -23,7 +23,12 @@ $phone = $_POST['phone'] ?? '';
 $email = $_POST['email'] ?? '';
 $deliveryType = $_POST['delivery_type'] ?? '';
 $shippingSpeed = $_POST['shipping_speed'] ?? null;
-$couponCode = null; // handle if you use coupons
+
+$couponCode = $_POST['coupon_code'] ?? null;
+
+
+
+
 
 // Basic validation
 if (!$firstName || !$lastName || !$country || !$streetAddress || !$city || !$state || !$phone || !$email || !$deliveryType) {
@@ -41,6 +46,7 @@ foreach ($cart as $item) {
     $subtotal += $item['price'] * $item['quantity'];
 }
 
+// SHipping Fee
 $shippingFee = 0;
 if ($deliveryType === 'shipping') {
     if ($city === 'Yangon') $shippingFee = 5.00;
@@ -48,7 +54,21 @@ if ($deliveryType === 'shipping') {
     if ($shippingSpeed === 'priority') $shippingFee += 3.00;
 }
 
+// Total before discount
+$discount = 0;
 $totalPrice = $subtotal + $shippingFee;
+
+// Apply coupon if valid
+if (!empty($_SESSION['applied_coupon']) && $_SESSION['applied_coupon']['code'] === $couponCode) {
+    $discount = $_SESSION['applied_coupon']['discount']; // 10%
+    $totalPrice = $totalPrice * (1 - $discount / 100);
+
+    // Mark coupon as used in DB
+    $stmt = $conn->prepare("UPDATE coupons SET status='used' WHERE couponID=?");
+    $stmt->execute([$_SESSION['applied_coupon']['couponID']]);
+
+    unset($_SESSION['applied_coupon']);
+}
 
 // Check if pending order exists
 $stmt = $conn->prepare("SELECT orderID FROM orders WHERE userID = ? AND orderStatus = 'pending' ORDER BY created_at DESC LIMIT 1");
