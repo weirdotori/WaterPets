@@ -230,6 +230,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <?php if (empty($_GET['id'])): ?>
                     <div class="color-buttons">
+                        <a href="coralreefs.php" class="<?= $selectedcolor === '' ? 'active' : '' ?>">All</a>
                         <a href="coralreefs.php?color=Blue" class="<?= $selectedcolor === 'Blue' ? 'active' : '' ?>">Blue</a>
                         <a href="coralreefs.php?color=Red" class="<?= $selectedcolor === 'Red' ? 'active' : '' ?>">Red</a>
                         <a href="coralreefs.php?color=Yellow" class="<?= $selectedcolor === 'Yellow' ? 'active' : '' ?>">Yellow</a>

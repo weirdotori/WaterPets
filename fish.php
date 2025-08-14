@@ -207,6 +207,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <?php if (empty($_GET['id'])): ?>
                     <div class="species-buttons">
+                        <a href="fish.php" class="<?= $selectedSpecies === '' ? 'active' : '' ?>">All</a>
                         <a href="fish.php?species=Betta" class="<?= $selectedSpecies === 'Betta' ? 'active' : '' ?>">Betta</a>
                         <a href="fish.php?species=Goldfish" class="<?= $selectedSpecies === 'Goldfish' ? 'active' : '' ?>">Goldfish</a>
                         <a href="fish.php?species=Guppy" class="<?= $selectedSpecies === 'Guppy' ? 'active' : '' ?>">Guppy</a>

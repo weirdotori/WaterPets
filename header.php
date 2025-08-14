@@ -309,7 +309,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <a href="about.php" class="nav-link">Guide</a>
                 <a href="about.php" class="nav-link">About</a>
-                <a href="contact.php" class="nav-link">Contact</a>
+                <a href="contactus.php" class="nav-link">Contact</a>
             </div>
 
             <!-- Desktop Right side -->
@@ -402,7 +402,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <a href="supplies.php" class="block py-2">Supplies</a>
         <a href="equipment.php" class="block py-2">Equipment</a>
         <a href="about.php" class="block py-2">About</a>
-        <a href="contact.php" class="block py-2">Contact</a>
+        <a href="contactus.php" class="block py-2">Contact</a>
         <a href="cart.php" class="block py-2">Cart</a>
         <a href="wishlist.php" class="block py-2">Wishlist</a>
 

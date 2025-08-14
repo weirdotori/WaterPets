@@ -276,7 +276,7 @@ $isLoggedIn = isset($_SESSION['user']) && $_SESSION['user']['role'] === 'custome
                 <a href="supplies.php" class="block py-2">Supplies</a>
                 <a href="equipment.php" class="block py-2">Equipment</a>
                 <a href="about.php" class="block py-2">About</a>
-                <a href="contact.php" class="block py-2">Contact</a>
+                <a href="contactus.php" class="block py-2">Contact</a>
                 <a href="cart.php" class="block py-2">Cart</a>
                 <?php if ($isLoggedIn): ?>
                     <a href="userProfile.php" class="block py-2">Profile</a>
@@ -316,7 +316,7 @@ $isLoggedIn = isset($_SESSION['user']) && $_SESSION['user']['role'] === 'custome
 
             <a href="about.php" class="nav-link" data-sound="/sounds/notification_pop.mp3">Guide</a>
             <a href="about.php" class="nav-link" data-sound="/sounds/notification_pop.mp3">About</a>
-            <a href="contact.php" class="nav-link" data-sound="/sounds/notification_pop.mp3">Contact</a>
+            <a href="contactus.php" class="nav-link" data-sound="/sounds/notification_pop.mp3">Contact</a>
         </div>
 
 
