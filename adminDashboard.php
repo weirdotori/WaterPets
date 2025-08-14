@@ -3,14 +3,10 @@ session_start();
 require_once "db.php";
 
 // Security: Only allow logged-in admins
-if (
-    empty($_SESSION['admin']) ||
-    $_SESSION['admin']['role'] !== 'admin'
-) {
+if (empty($_SESSION['admin']) || $_SESSION['admin']['role'] !== 'admin') {
     header("Location: adminLogin.php");
     exit();
 }
-
 
 // Query statistics
 $totalUsers = $conn->query("SELECT COUNT(*) FROM users")->fetchColumn();
@@ -25,67 +21,55 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/admin_style.css">
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
 </head>
 
 <body>
-
     <div class="admin-container">
         <!-- Top Navbar -->
-        <nav class="top-navbar d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
-            <!-- Left: Logo -->
-            <div class="d-flex align-items-center">
-                <img src="/images/oystergif.gif" alt="WaterPets Logo" style="height:40px;">
+        <nav class="top-navbar">
+            <div class="navbar-left">
+                <img src="/images/oystergif.gif" alt="WaterPets Logo" class="logo-img">
                 <a href="home.php" class="logo-font">WaterPets</a>
             </div>
 
-            <!-- Center: Search -->
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit">Search</button>
-            </form>
+            <div class="navbar-center">
+                <form class="search-form" role="search">
+                    <input type="search" placeholder="Search..." class="search-input">
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+            </div>
 
-            <!-- Right: Theme + Profile -->
-            <div class="d-flex align-items-center gap-3">
-                <!-- Theme Toggle -->
-                <button id="themeToggle" class="btn btn-sm p-1">
-                    <img id="themeIcon" src="/images/darkmode.png" alt="Toggle Theme" style="width:20px; height:20px;">
+            <div class="navbar-right">
+                <button id="themeToggle" class="icon-btn">
+                    <img id="themeIcon" src="/images/darkmode.png" alt="Toggle Theme" class="icon-img">
                 </button>
 
-                <!-- Profile Dropdown -->
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="dropdown-btn profile-btn">
                         <?php
                         $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE userID = ?");
                         $stmt->execute([$_SESSION['admin']['userID']]);
                         $latestProfilePic = $stmt->fetchColumn();
                         ?>
-                        <img src="<?= htmlspecialchars($latestProfilePic ?: '/images/user.png') ?>"
-                            alt="Profile"
-                            class="rounded-circle"
-                            style="width:35px; height:35px; object-fit:cover;">
-
-                        <span class="ms-2"><?= htmlspecialchars($_SESSION['admin']['username']) ?></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="adminProfile.php">My Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="adminLogout.php">Sign out</a></li>
-                    </ul>
-
+                        <img src="<?= htmlspecialchars($latestProfilePic ?: '/images/user.png') ?>" alt="Profile" class="profile-img">
+                        <span class="username"><?= htmlspecialchars($_SESSION['admin']['username']) ?></span>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="adminProfile.php">My Profile</a>
+                        <a href="#">Settings</a>
+                        <hr>
+                        <a href="adminLogout.php" class="logout-link">Sign out</a>
+                    </div>
                 </div>
-
             </div>
         </nav>
 
         <!-- Sidebar -->
         <?php
         $page = $_GET['page'] ?? 'dashboard_home';
-
         function isActive($linkPage, $currentPage)
         {
             return $linkPage === $currentPage ? 'active' : '';
@@ -99,19 +83,17 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                 <li><a href="?page=manage_users" class="<?= isActive('manage_users', $page) ?>">Manage Users</a></li>
                 <li><a href="?page=manage_orders" class="<?= isActive('manage_orders', $page) ?>">Manage Orders</a></li>
                 <li><a href="?page=manage_products" class="<?= isActive('manage_products', $page) ?>">Manage Products</a></li>
-                <li><a href="?page=manage_reviews" class="<?= isActive('manage_reviews', $page) ?>">Reviews and Inquiries</a></li>
+                <li><a href="?page=manage_inquiries" class="<?= isActive('manage_inquiries', $page) ?>">Manage Inquiries</a></li>
+                <li><a href="?page=manage_faqs" class="<?= isActive('manage_faqs', $page) ?>">Manage FAQs</a></li>
                 <li><a href="?page=settings" class="<?= isActive('settings', $page) ?>">Settings</a></li>
                 <li><a href="adminLogout.php" class="logout">Logout</a></li>
             </ul>
         </div>
 
-
         <!-- Main Content -->
         <div class="main-content" id="mainContent">
             <?php
-            $page = $_GET['page'] ?? 'dashboard_home';
-            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'manage_orders', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_reviews', 'settings'];
-
+            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'settings'];
             if (in_array($page, $allowed_pages)) {
                 include __DIR__ . "/admin-dashboard-contents/$page.php";
             } else {
@@ -119,16 +101,30 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
             }
             ?>
         </div>
+    </div>
 
+    <script src="/js/darkmodeToggle.js"></script>
+    <script src="/js/admin_uploadProfile.js"></script>
 
-        <!-- Toggle light or dark mode -->
-        <script src="/js/darkmodeToggle.js"></script>
+    <script>
+        // Profile dropdown toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileBtn = document.querySelector('.profile-btn');
+            const dropdown = document.querySelector('.dropdown-content');
 
-        <!-- Bootstrap js -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+            profileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('show');
+            });
 
-        <!-- Toggle light or dark mode -->
-        <script src="/js/admin_uploadProfile.js"></script>
+            document.addEventListener('click', function() {
+                dropdown.classList.remove('show');
+            });
+        });
+    </script>
+
+    <!-- Bootstrap js -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> -->
 
 </body>
 

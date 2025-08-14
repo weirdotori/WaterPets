@@ -139,12 +139,12 @@
 
       <div class="footer-center">
         <p class="footer-title">Where to?</p> <br>
-        <a href="#" class="footer-link" data-sound="/sounds/notification_pop.mp3">Live Fish</a> <br>
-        <a href="#" class="footer-link" data-sound="/sounds/notification_pop.mp3">Corals and Decorations</a> <br>
+        <a href="fish.php" class="footer-link" data-sound="/sounds/notification_pop.mp3">Live Fish</a> <br>
+        <a href="coralreefs.php" class="footer-link" data-sound="/sounds/notification_pop.mp3">Corals and Decorations</a> <br>
         <a href="#" class="footer-link" data-sound="/sounds/notification_pop.mp3">Care Guide</a> <br>
-        <a href="#" class="footer-link" data-sound="/sounds/notification_pop.mp3">Contact Us</a> <br>
+        <a href="contactus.php" class="footer-link" data-sound="/sounds/notification_pop.mp3">Contact Us</a> <br>
         <a href="#" class="footer-link" data-sound="/sounds/notification_pop.mp3">About Us</a> <br>
-        <a href="#" class="footer-link" data-sound="/sounds/notification_pop.mp3">FAQ</a> <br>
+        <a href="faq.php" class="footer-link" data-sound="/sounds/notification_pop.mp3">FAQ</a> <br>
       </div>
 
       <div class="footer-right">

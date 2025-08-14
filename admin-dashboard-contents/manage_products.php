@@ -27,7 +27,6 @@ if (!empty($_GET['stock'])) {
     }
 }
 
-
 // Build SQL
 $sql = "
     SELECT p.productID, p.pName, p.description, p.price, p.stock, p.created_at, p.image, c.cName
@@ -43,18 +42,16 @@ $stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
-
-<h2 class="mb-4">Product Catalog</h2>
+<h2 class="section-title">Product Catalog</h2>
 
 <!-- Search + Filters -->
-<form method="GET" class="d-flex flex-wrap gap-2 mb-3">
-    <input type="hidden" name="page" value="manage_products"> <!-- so dashboard stays on same page -->
+<form method="GET" class="filter-form">
+    <input type="hidden" name="page" value="manage_products">
 
     <input type="text" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
-        class="form-control" style="max-width:250px;" placeholder="Search products...">
+        class="input-text" placeholder="Search products...">
 
-    <select name="category" class="form-select" style="max-width:200px;">
+    <select name="category" class="input-select">
         <option value="">All Categories</option>
         <?php
         $cats = $conn->query("SELECT categoryID, cName FROM categories")->fetchAll(PDO::FETCH_ASSOC);
@@ -65,36 +62,31 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         ?>
     </select>
 
-    <select name="stock" class="form-select" style="max-width:200px;">
+    <select name="stock" class="input-select">
         <option value="">All Stock</option>
         <option value="high" <?= ($_GET['stock'] ?? '') === 'high' ? 'selected' : '' ?>>High Stock</option>
         <option value="low" <?= ($_GET['stock'] ?? '') === 'low' ? 'selected' : '' ?>>Low Stock</option>
         <option value="out" <?= ($_GET['stock'] ?? '') === 'out' ? 'selected' : '' ?>>Out of Stock</option>
     </select>
 
-
-
     <button type="submit" class="btn btn-primary">Filter</button>
 
-    <!-- Add product button -->
     <a href="?page=add_product" class="btn btn-success">
-        <i class="bi bi-plus-lg"></i> Add New Product
+        ➕ Add New Product
     </a>
-
 </form>
 
-
-<div class="table-responsive">
-    <table class="table align-middle table-hover">
-        <thead class="table-light">
+<!-- Table -->
+    <table class="custom-table">
+        <thead>
             <tr>
-                <th scope="col"><input type="checkbox"></th>
-                <th scope="col">Product</th>
-                <th scope="col">Category</th>
-                <th scope="col">Price</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Created</th>
-                <th scope="col" class="text-end">Actions</th>
+                <th><input type="checkbox"></th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Created</th>
+                <th class="text-right">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -102,76 +94,42 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach ($products as $product): ?>
                     <tr>
                         <td><input type="checkbox"></td>
-                        <!-- Product + SKU -->
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="<?= htmlspecialchars($product['image']) ?>"
-                                    alt="<?= htmlspecialchars($product['pName']) ?>"
-                                    class="rounded me-2"
-                                    style="width:40px; height:40px; object-fit:cover;">
-                                <div>
-                                    <div class="fw-semibold"><?= htmlspecialchars($product['pName']) ?></div>
-                                </div>
-                            </div>
+                        <td class="product-info">
+                            <img src="<?= htmlspecialchars($product['image']) ?>" 
+                                alt="<?= htmlspecialchars($product['pName']) ?>" 
+                                class="product-img">
+                            <span><?= htmlspecialchars($product['pName']) ?></span>
                         </td>
-
-                        <!-- Category -->
-                        <td>
-                            <span class="badge bg-light text-dark"><?= htmlspecialchars($product['cName']) ?></span>
-                        </td>
-
-                        <!-- Price -->
+                        <td><span class="badge"><?= htmlspecialchars($product['cName']) ?></span></td>
                         <td>$<?= number_format($product['price'], 2) ?></td>
-
-                        <!-- Stock -->
                         <td>
                             <?php if ($product['stock'] > 5): ?>
-                                <span class="badge bg-warning text-dark"><?= $product['stock'] ?> Units</span> <!-- Yellow -->
+                                <span class="badge stock-high"><?= $product['stock'] ?> Units</span>
                             <?php elseif ($product['stock'] > 0 && $product['stock'] <= 5): ?>
-                                <span class="badge bg-danger"><?= $product['stock'] ?> Units</span> <!-- Red -->
+                                <span class="badge stock-low"><?= $product['stock'] ?> Units</span>
                             <?php elseif ($product['stock'] == 0): ?>
-                                <span class="badge bg-secondary">Out of Stock</span> <!-- Gray -->
+                                <span class="badge stock-out">Out of Stock</span>
                             <?php endif; ?>
                         </td>
-
-
-
-
-                        <!-- Created Date -->
                         <td><?= date('Y-m-d', strtotime($product['created_at'])) ?></td>
-
-                        <!-- Actions Dropdown -->
-                        <td class="text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="bi bi-three-dots"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="?page=view_product&id=<?= $product['productID'] ?>">View Details</a></li>
-                                    <li><a class="dropdown-item" href="?page=edit_product&id=<?= $product['productID'] ?>">Edit</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-danger"
-                                            href="delete_product.php?id=<?= $product['productID'] ?>"
-                                            onclick="return confirm('Are you sure you want to delete this product?');">
-                                            Delete
-                                        </a>
-                                    </li>
-                                </ul>
+                        <td class="text-right">
+                            <div class="action-menu">
+                                <a href="?page=view_product&id=<?= $product['productID'] ?>" class="action-link">View</a>
+                                <a href="?page=edit_product&id=<?= $product['productID'] ?>" class="action-link">Edit</a>
+                                <a href="delete_product.php?id=<?= $product['productID'] ?>"
+                                    class="action-link delete"
+                                    onclick="return confirm('Are you sure you want to delete this product?');">
+                                    Delete
+                                </a>
                             </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8" class="text-center text-muted">No products found.</td>
+                    <td colspan="7" class="no-data">No products found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
     </table>
-</div>
 
-<!-- Bootstrap Icons for actions -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

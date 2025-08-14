@@ -1,17 +1,13 @@
 <?php
 require_once "db.php"; 
 
-
-//  STATS CARDS DATA
-
+// STATS CARDS DATA
 $totalUsers = $conn->query("SELECT COUNT(*) FROM users")->fetchColumn();
 $totalProducts = $conn->query("SELECT COUNT(*) FROM products")->fetchColumn();
 $totalOrders = $conn->query("SELECT COUNT(*) FROM orders")->fetchColumn();
 $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
 
-
-//  ORDERS PER DAY (LAST 7 DAYS)
-
+// ORDERS PER DAY (LAST 7 DAYS)
 $ordersPerDayStmt = $conn->prepare("
     SELECT DATE(created_at) as day, COUNT(*) as count
     FROM orders
@@ -29,9 +25,7 @@ foreach ($ordersData as $row) {
     $ordersCounts[] = (int)$row['count'];
 }
 
-
-//  PRODUCTS PER CATEGORY
-
+// PRODUCTS PER CATEGORY
 $productsCategoryStmt = $conn->prepare("
     SELECT cName, COUNT(p.productID) as count
     FROM categories c
@@ -49,68 +43,52 @@ foreach ($categoriesData as $row) {
 }
 ?>
 
-<div class="container py-4">
-    <h2 class="mb-4">Dashboard Overview</h2>
+<div class="dashboard-container">
+    <h2 class="section-title">Dashboard Overview</h2>
 
     <!-- Stats Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="card text-white bg-primary shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Total Users</h5>
-                    <p class="card-text fs-2"><?= $totalUsers ?></p>
-                </div>
+    <div class="stats-cards">
+        <div class="card bg-primary">
+            <div class="card-content">
+                <h5>Total Users</h5>
+                <p class="stat-number"><?= $totalUsers ?></p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-success shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Total Products</h5>
-                    <p class="card-text fs-2"><?= $totalProducts ?></p>
-                </div>
+        <div class="card bg-success">
+            <div class="card-content">
+                <h5>Total Products</h5>
+                <p class="stat-number"><?= $totalProducts ?></p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-warning shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Total Orders</h5>
-                    <p class="card-text fs-2"><?= $totalOrders ?></p>
-                </div>
+        <div class="card bg-warning">
+            <div class="card-content">
+                <h5>Total Orders</h5>
+                <p class="stat-number"><?= $totalOrders ?></p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-danger shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Total Reviews</h5>
-                    <p class="card-text fs-2"><?= $totalReviews ?></p>
-                </div>
+        <div class="card bg-danger">
+            <div class="card-content">
+                <h5>Total Reviews</h5>
+                <p class="stat-number"><?= $totalReviews ?></p>
             </div>
         </div>
     </div>
 
     <!-- Charts -->
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header">Orders in Last 7 Days</div>
-                <div class="card-body">
-                    <canvas id="ordersChart"></canvas>
-                </div>
-            </div>
+    <div class="charts-container">
+        <div class="chart-card">
+            <h4>Orders in Last 7 Days</h4>
+            <canvas id="ordersChart"></canvas>
         </div>
 
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header">Products by Category</div>
-                <div class="card-body">
-                    <canvas id="categoryChart"></canvas>
-                </div>
-            </div>
+        <div class="chart-card">
+            <h4>Products by Category</h4>
+            <canvas id="categoryChart"></canvas>
         </div>
     </div>
 </div>
 
-<!-- Chart.js CDN -->
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Orders Chart
@@ -132,9 +110,7 @@ foreach ($categoriesData as $row) {
             }]
         },
         options: {
-            scales: {
-                y: { beginAtZero: true, precision: 0 }
-            }
+            scales: { y: { beginAtZero: true, precision: 0 } }
         }
     });
 
@@ -153,11 +129,6 @@ foreach ($categoriesData as $row) {
                 ]
             }]
         },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'right' }
-            }
-        }
+        options: { responsive: true, plugins: { legend: { position: 'right' } } }
     });
 </script>

@@ -1,0 +1,95 @@
+/* faqs_style.css */
+
+/* Container */
+.header-divider {
+    border: none;
+    height: 2px; 
+    background-color: #ffffff;
+    margin-left: 30px; 
+    margin-right: 30px; 
+    margin-top: 20px;
+}
+
+.faq-section {
+    background-color: #060417;
+    padding: 60px 20px;
+}
+
+.faq-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f5faff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Page Heading */
+.faq-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #0a3d62;
+}
+
+/* Individual FAQ Item */
+.faq-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #d1d8e0;
+    padding-bottom: 15px;
+}
+
+/* Question */
+.faq-question {
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #1e3799;
+    position: relative;
+    padding-right: 25px;
+    transition: color 0.3s;
+}
+
+.faq-question:hover {
+    color: #3c40c6;
+}
+
+/* Add a toggle icon */
+.faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 1.2rem;
+    color: #1e3799;
+    transition: transform 0.3s;
+}
+
+/* Answer */
+.faq-answer {
+    display: none;
+    padding-left: 15px;
+    margin-top: 8px;
+    color: #4b6584;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+/* Toggle active question icon */
+.faq-question.active::after {
+    content: '-';
+    transform: rotate(180deg);
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+    .faq-container {
+        padding: 15px;
+    }
+    .faq-question {
+        font-size: 1rem;
+    }
+    .faq-answer {
+        font-size: 0.95rem;
+    }
+}

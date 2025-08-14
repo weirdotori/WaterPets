@@ -15,21 +15,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle file upload
     $imagePath = null;
     if (!empty($_FILES['image']['name'])) {
-        $targetDir = "uploads/products/"; // folder to save uploads
+        $targetDir = "uploads/products/"; 
         if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true); // create folder if it doesn't exist
+            mkdir($targetDir, 0777, true); 
         }
 
         $fileName = time() . "_" . basename($_FILES['image']['name']);
         $targetFile = $targetDir . $fileName;
 
-        // Move uploaded file
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-            $imagePath = $targetFile; // Save relative path to DB
+            $imagePath = $targetFile; 
         }
     }
 
-    // Insert into DB with new columns
+    // Insert into DB
     $stmt = $conn->prepare("
         INSERT INTO products 
         (pName, description, price, stock, categoryID, waterType, difficulty, species, aggressionLevel, image, created_at)
@@ -45,79 +44,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>Add New Product</h2>
-<form method="POST" enctype="multipart/form-data" class="mb-3">
-    <div class="mb-3">
-        <label>Product Name</label>
-        <input type="text" name="pName" class="form-control" required>
-    </div>
+<h2 class="section-title">Add New Product</h2>
 
-    <div class="mb-3">
-        <label>Description</label>
-        <textarea name="description" class="form-control" required></textarea>
-    </div>
+<form method="POST" enctype="multipart/form-data" class="edit-product-form">
+    <label>Product Name</label>
+    <input type="text" name="pName" required>
 
-    <div class="mb-3">
-        <label>Price</label>
-        <input type="number" name="price" step="0.01" class="form-control" required>
-    </div>
+    <label>Description</label>
+    <textarea name="description" required></textarea>
 
-    <div class="mb-3">
-        <label>Stock</label>
-        <input type="number" name="stock" class="form-control" required>
-    </div>
+    <label>Price</label>
+    <input type="number" name="price" step="0.01" required>
 
-    <div class="mb-3">
-        <label>Category</label>
-        <select name="categoryID" class="form-select" required>
-            <?php
-            $cats = $conn->query("SELECT categoryID, cName FROM categories")->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($cats as $cat) {
-                echo "<option value='{$cat['categoryID']}'>{$cat['cName']}</option>";
-            }
-            ?>
-        </select>
-    </div>
+    <label>Stock</label>
+    <input type="number" name="stock" required>
 
-    <!-- New Fields -->
-    <div class="mb-3">
-        <label>Water Type</label>
-        <select name="waterType" class="form-select" required>
-            <option value="">Select Water Type</option>
-            <option value="Freshwater">Freshwater</option>
-            <option value="Saltwater">Saltwater</option>
-        </select>
-    </div>
+    <label>Category</label>
+    <select name="categoryID" required>
+        <?php
+        $cats = $conn->query("SELECT categoryID, cName FROM categories")->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($cats as $cat) {
+            echo "<option value='{$cat['categoryID']}'>{$cat['cName']}</option>";
+        }
+        ?>
+    </select>
 
-    <div class="mb-3">
-        <label>Difficulty</label>
-        <select name="difficulty" class="form-select" required>
-            <option value="">Select Difficulty</option>
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Expert">Expert</option>
-        </select>
-    </div>
+    <label>Water Type</label>
+    <select name="waterType" required>
+        <option value="">Select Water Type</option>
+        <option value="Freshwater">Freshwater</option>
+        <option value="Saltwater">Saltwater</option>
+    </select>
 
-    <div class="mb-3">
-        <label>Species</label>
-        <input type="text" name="species" class="form-control" required>
-    </div>
+    <label>Difficulty</label>
+    <select name="difficulty" required>
+        <option value="">Select Difficulty</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Expert">Expert</option>
+    </select>
 
-    <div class="mb-3">
-        <label>Aggression Level</label>
-        <select name="aggressionLevel" class="form-select" required>
-            <option value="">Select Aggression Level</option>
-            <option value="Peaceful">Peaceful</option>
-            <option value="Semi-Aggressive">Semi-Aggressive</option>
-            <option value="Aggressive">Aggressive</option>
-        </select>
-    </div>
+    <label>Species</label>
+    <input type="text" name="species" required>
 
-    <div class="mb-3">
-        <label>Product Image</label>
-        <input type="file" name="image" class="form-control" accept="image/*">
-    </div>
+    <label>Aggression Level</label>
+    <select name="aggressionLevel" required>
+        <option value="">Select Aggression Level</option>
+        <option value="Peaceful">Peaceful</option>
+        <option value="Semi-Aggressive">Semi-Aggressive</option>
+        <option value="Aggressive">Aggressive</option>
+    </select>
+
+    <label>Product Image</label>
+    <input type="file" name="image" accept="image/*">
 
     <button type="submit" class="btn btn-primary">Add Product</button>
     <a href="?page=manage_products" class="btn btn-secondary">Cancel</a>

@@ -4,7 +4,7 @@ require_once "db.php";
 // Get ID from URL
 $productID = $_GET['id'] ?? null;
 if (!$productID) {
-    echo "<div class='alert alert-danger'>No product selected.</div>";
+    echo "<div class='alert-danger'>No product selected.</div>";
     exit;
 }
 
@@ -19,40 +19,39 @@ $stmt->execute([$productID]);
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$product) {
-    echo "<div class='alert alert-danger'>Product not found.</div>";
+    echo "<div class='alert-danger'>Product not found.</div>";
     exit;
 }
 ?>
 
-<h2>Product Details</h2>
+<h2 class="section-title">Product Details</h2>
 <hr>
 
-<div class="row">
+<div class="product-details">
     <!-- Left: Big Image -->
-    <div class="col-md-5">
+    <div class="product-image">
         <img src="<?= htmlspecialchars($product['image']) ?>" 
              alt="<?= htmlspecialchars($product['pName']) ?>" 
-             class="img-fluid rounded shadow-sm" 
-             style="max-height: 400px; object-fit: cover;">
+             class="product-img-big">
     </div>
 
     <!-- Right: Product Info -->
-    <div class="col-md-7">
-        <h3 class="fw-bold"><?= htmlspecialchars($product['pName']) ?></h3>
-        <p class="text-muted"><?= htmlspecialchars($product['cName']) ?></p>
-        
-        <h4 class="text-primary">$<?= number_format($product['price'], 2) ?></h4>
-        
-        <p><?= nl2br(htmlspecialchars($product['description'])) ?></p>
+    <div class="product-info-right">
+        <h3 class="product-title"><?= htmlspecialchars($product['pName']) ?></h3>
+        <p class="product-category"><?= htmlspecialchars($product['cName']) ?></p>
 
-        <p>
-            <strong>Stock:</strong> 
+        <h4 class="product-price">$<?= number_format($product['price'], 2) ?></h4>
+
+        <p class="product-desc"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
+
+        <p class="product-stock">
+            <strong>Stock:</strong>
             <?php if ($product['stock'] > 20): ?>
-                <span class="badge bg-primary"><?= $product['stock'] ?> Units</span>
+                <span class="badge stock-high"><?= $product['stock'] ?> Units</span>
             <?php elseif ($product['stock'] > 0): ?>
-                <span class="badge bg-warning text-dark"><?= $product['stock'] ?> Units</span>
+                <span class="badge stock-low"><?= $product['stock'] ?> Units</span>
             <?php else: ?>
-                <span class="badge bg-danger">Out of Stock</span>
+                <span class="badge stock-out">Out of Stock</span>
             <?php endif; ?>
         </p>
 
