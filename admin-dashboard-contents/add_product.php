@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h2 class="section-title">Add New Product</h2>
 
-<form method="POST" enctype="multipart/form-data" class="edit-product-form">
+<form method="POST" enctype="multipart/form-data" class="add-product-form">
     <label>Product Name</label>
     <input type="text" name="pName" required>
 

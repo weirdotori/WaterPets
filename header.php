@@ -343,6 +343,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <img src="<?= $_SESSION['user']['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" class="h-8 w-8 rounded-full border border-white hover:scale-105 transition" />
                     </a>
                 <?php endif; ?>
+                
 
 
                 <!-- Menu Icon -->

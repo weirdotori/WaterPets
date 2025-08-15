@@ -7,15 +7,16 @@
 }
 
 .footer-container {
-  width: auto;
-  margin: 0 auto;
+  width: 100%; /* make it full width */
+  max-width: 1450px; /* keep your intended limit */
+  margin: auto;
   position: relative;
 }
+
 
 /* This stays the same — the glass box handles layout */
 .glass-box {
   width: 100%;
-  max-width: 1350px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -42,7 +43,7 @@
   flex: 1 1 250px;
   color: white;
   font-family: "Quicksand", sans-serif;
-  font-size: small;
+  font-size: 0.9rem;
   font-weight: 400;
 }
 

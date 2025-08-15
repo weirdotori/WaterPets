@@ -93,7 +93,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
         <!-- Main Content -->
         <div class="main-content" id="mainContent">
             <?php
-            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'settings'];
+            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'edit_user', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'settings'];
             if (in_array($page, $allowed_pages)) {
                 include __DIR__ . "/admin-dashboard-contents/$page.php";
             } else {

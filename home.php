@@ -201,7 +201,6 @@
 
 
   <!-- Testimonials section -->
-
   <section class="testimonials">
     <div class="flex items-center justify-between my-4 px-10 py-6">
       <hr class="flex-grow border-t-2 border-white" />

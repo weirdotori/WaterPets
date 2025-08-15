@@ -1010,6 +1010,7 @@ html {
 .testimonials {
   background-color: #060417;
   padding: 80px 20px;
+  width: 100%;
 }
 
 .testimonial-text h2 {
@@ -1035,9 +1036,11 @@ html {
 }
 
 .testimonial-box {
-  margin-top: 40px;
-  margin-left: 60px;
   display: flex;
+  justify-content: center; /* center the wrapper */
+  margin-top: 40px;
+  margin-left: 0; /* remove hard left offset */
+  width: 100%;
 }
 
 .testimonial-wrapper {
@@ -1045,7 +1048,8 @@ html {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1350px; /* match footer content width */
+  margin: 0 auto; /* center inside the box */
 }
 
 .quote-symbol {
