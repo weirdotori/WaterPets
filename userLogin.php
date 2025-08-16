@@ -24,13 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['userLogin'])) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            // Set session variables
-            // $_SESSION['userID'] = $user['userID'];
-            // $_SESSION['username'] = $user['username'];
-            // $_SESSION['email'] = $user['email'];
-            // $_SESSION['role'] = $user['role'];
-            // $_SESSION['profile_pic'] = $user['profile_pic'];
-            // $_SESSION['userLogin'] = true;
+            
             $_SESSION['user'] = [
                 'userID' => $user['userID'],
                 'username' => $user['username'],

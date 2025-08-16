@@ -1073,145 +1073,238 @@ body {
 
 
 
+/* =============================== */
+/* Mange Inquriries sidebar contents */
+/* =============================== */
+/* ========== Manage Inquiries ========== */
+.inquiries-container {
+    padding: 20px;
+}
+
+.inquiries-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.inquiries-alert {
+    background: #e0f7fa;
+    border: 1px solid #4dd0e1;
+    color: #006064;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.inquiries-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.inquiries-table th,
+.inquiries-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    vertical-align: top;
+}
+
+.inquiries-table th {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+.inquiries-message {
+    max-width: 250px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-badge.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.resolved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.inquiries-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 2px;
+    font-size: 13px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.inquiries-btn.resolve {
+    background: #28a745;
+}
+
+.inquiries-btn.pending {
+    background: #ffc107;
+    color: #000;
+}
+
+.inquiries-btn.delete {
+    background: #dc3545;
+}
+/* Dropdown inside inquiry table */
+.status-select {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* Update button */
+.inquiries-btn.update {
+    background: #007bff;
+    border: none;
+    cursor: pointer;
+}
+.inquiries-btn.update:hover {
+    background: #0056b3;
+}
+
+
+
+
+
+
+
+
+
 
 /* =============================== */
 /* Mange_FAQs sidebar contents */
 /* =============================== */
-.admin-page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.admin-page-header h2 {
-    margin: 0;
-}
-
-.btn-add {
-    background-color: #0d6efd;
-    color: white;
-    padding: 6px 12px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
-}
-
-.btn-add:hover {
-    background-color: #0b5ed7;
-}
 
 .faq-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.faq-table th, .faq-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+.faq-table th, 
+.faq-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eaeaea;
+    text-align: left;
+    font-size: 14px;
 }
 
 .faq-table th {
-    background-color: #f2f2f2;
-    text-align: left;
-}
-
-.faq-table tr:nth-child(even) {
-    background-color: #fafafa;
+    background: #3498db;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .faq-table tr:hover {
-    background-color: #f1f1f1;
+    background: #f9f9f9;
 }
 
-.action-buttons a {
-    margin-right: 8px;
+/* Inputs and textarea inside table */
+.faq-table input[type="text"], 
+.faq-table textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 13px;
+    transition: border 0.3s ease;
+}
+
+.faq-table input[type="text"]:focus, 
+.faq-table textarea:focus {
+    border: 1px solid #3498db;
+    outline: none;
+}
+
+/* Action buttons */
+.btn-update, .btn-delete {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     text-decoration: none;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.85rem;
+    transition: 0.3s ease;
+    display: inline-block;
+    margin: 2px 0;
 }
 
-.btn-edit {
-    background-color: #ffc107;
-    color: #212529;
+.btn-update {
+    background: #27ae60;
+    color: #fff;
 }
 
-.btn-edit:hover {
-    background-color: #e0a800;
+.btn-update:hover {
+    background: #219150;
 }
 
 .btn-delete {
-    background-color: #dc3545;
-    color: white;
+    background: #e74c3c;
+    color: #fff;
 }
 
 .btn-delete:hover {
-    background-color: #bb2d3b;
+    background: #c0392b;
 }
 
-/* Dropdown container */
-.dropdown {
-    position: relative;
+/* Add New FAQ Button */
+.btn-add {
     display: inline-block;
-}
-
-/* Dropdown button */
-.dropdown-btn {
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    padding: 4px 8px;
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.dropdown-btn:hover {
-    background-color: #e2e6ea;
-}
-
-/* Dropdown content */
-.dropdown-content {
-    display: none; /* hidden by default */
-    position: absolute;
-    right: 0;
-    background-color: #fff;
-    min-width: 120px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    z-index: 100;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    transform: translateY(-10px);
-    opacity: 0;
-}
-
-/* Show dropdown when active */
-.dropdown-content.show {
-    display: block;
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Dropdown links */
-.dropdown-content a {
-    display: block;
-    padding: 8px 12px;
+    background: #2980b9;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
     text-decoration: none;
-    color: #212529;
-    font-size: 0.9rem;
-    transition: background 0.2s;
-    border-radius: 4px;
+    transition: 0.3s ease;
 }
 
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
+.btn-add:hover {
+    background: #1f6390;
 }
 
-/* Optional: add spacing in action-buttons cell */
-.action-buttons .dropdown {
-    margin: 0;
+/* Page Header */
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
+
+.admin-page-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+}
+
+
 
 
