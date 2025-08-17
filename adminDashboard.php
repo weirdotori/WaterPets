@@ -1,4 +1,5 @@
 <?php
+session_name('admin_session'); // unique name for admin sessions
 session_start();
 require_once "db.php";
 
@@ -85,6 +86,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                 <li><a href="?page=manage_products" class="<?= isActive('manage_products', $page) ?>">Manage Products</a></li>
                 <li><a href="?page=manage_inquiries" class="<?= isActive('manage_inquiries', $page) ?>">Manage Inquiries</a></li>
                 <li><a href="?page=manage_faqs" class="<?= isActive('manage_faqs', $page) ?>">Manage FAQs</a></li>
+                <li><a href="?page=manage_chatbot" class="<?= isActive('manage_chatbot', $page) ?>">Manage Chatbot</a></li>
                 <li><a href="?page=settings" class="<?= isActive('settings', $page) ?>">Settings</a></li>
                 <li><a href="adminLogout.php" class="logout">Logout</a></li>
             </ul>
@@ -93,7 +95,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
         <!-- Main Content -->
         <div class="main-content" id="mainContent">
             <?php
-            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'edit_user', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'settings'];
+            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'edit_user', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'manage_chatbot', 'settings'];
             if (in_array($page, $allowed_pages)) {
                 include __DIR__ . "/admin-dashboard-contents/$page.php";
             } else {

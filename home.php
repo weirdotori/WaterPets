@@ -310,7 +310,8 @@
     });
   </script>
 
-  
+  <?php include 'chatbot.php'; ?>
+
   <?php include 'backToTop.php'; ?>
 
 </body>

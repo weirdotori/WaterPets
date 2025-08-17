@@ -1,4 +1,5 @@
 <?php
+session_name('admin_session'); // unique name for admin sessions
 session_start();
 
 // Unset only the admin session data

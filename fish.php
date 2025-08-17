@@ -342,7 +342,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </section>
 
     <?php include 'footer.php'; ?>
-
+    <?php include 'chatbot.php'; ?>
     <?php include 'backToTop.php'; ?>
 </body>
 

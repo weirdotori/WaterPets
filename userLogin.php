@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['userLogin'])) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            
+
             $_SESSION['user'] = [
                 'userID' => $user['userID'],
                 'username' => $user['username'],
@@ -34,6 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['userLogin'])) {
             ];
 
 
+            // Update last_login
+            $updateLogin = $conn->prepare("UPDATE users SET last_login = NOW() WHERE userID = :userID");
+            $updateLogin->bindParam(':userID', $user['userID'], PDO::PARAM_INT);
+            $updateLogin->execute();
 
             // Redirect to homepage or user dashboard
             header("Location: home.php");

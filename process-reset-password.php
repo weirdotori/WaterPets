@@ -9,7 +9,7 @@ $token = $_POST["token"];
 $token_hash = hash("sha256", $token);
 
 // Fetch user with this reset token
-$sql = "SELECT * FROM users WHERE reset_token_hash = ?";
+$sql = "SELECT * FROM users WHERE reset_hash_token = ?";
 $stmt = $conn->prepare($sql);
 $stmt->execute([$token_hash]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,7 +48,7 @@ $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 $sql = "UPDATE users
         SET password = ?,
-            reset_token_hash = NULL,
+            reset_hash_token = NULL,
             reset_token_expires_at = NULL
         WHERE userID = ?";
 $stmt = $conn->prepare($sql);
