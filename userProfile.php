@@ -65,7 +65,7 @@ $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="profile-content">
 
             <!-- Profile Overview -->
-            <div id="section-overview">
+            <div id="section-overview" class="section-overview">
                 <h3>Profile Overview</h3>
                 <div class="profile-card text-center">
                     <img src="<?= htmlspecialchars($user['profile_pic'] ?? '/images/user.png') ?>"
@@ -126,7 +126,7 @@ $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div id="section-orders" style="display:none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3>My Orders</h3>
-                    <button id="view-processing-orders-btn" style="padding:6px 12px; font-size:14px; cursor:pointer;">View Processing Orders</button>
+                    <button id="view-processing-orders-btn" class="view-processing-order-btn">View Processing Orders</button>
                 </div>
                 <div class="orders-list-container"></div>
                 <div class="order-summary-container" style="display:none;"></div>

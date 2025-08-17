@@ -2,15 +2,19 @@
 session_start();
 require_once "db.php";
 
-// Check if user is logged in
-if (!isset($_SESSION['user'])) {
-    echo "<p>Please <a href='login.php'>login</a> to submit an inquiry.</p>";
-    exit;
-}
-$userID = $_SESSION['user']['userID'];
+$name = '';
+$email = '';
+$subjectType = '';
+$message = '';
 
-$success = '';
-$error = '';
+if (isset($_SESSION['user'])) {
+    $name = $_SESSION['user']['username'];
+    $email = $_SESSION['user']['email'];
+}
+$userID = isset($_SESSION['user']) ? $_SESSION['user']['userID'] : null;
+
+
+
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -84,18 +88,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="contact-container">
                 <h2>Contact Us</h2>
 
-                <?php if ($success): ?>
-                    <p class="success-msg"><?= htmlspecialchars($success) ?></p>
-                <?php elseif ($error): ?>
-                    <p class="error-msg"><?= htmlspecialchars($error) ?></p>
-                <?php endif; ?>
+
 
                 <form method="POST" action="contactus.php" class="contact-form">
                     <label for="name">Name</label>
-                    <input type="text" name="name" id="name" required value="<?= htmlspecialchars($name ?? $_SESSION['user']['username']) ?>">
+                    <input type="text" name="name" id="name" required value="<?= htmlspecialchars($name) ?>">
 
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" required value="<?= htmlspecialchars($email ?? $_SESSION['user']['email']) ?>">
+                    <input type="email" name="email" id="email" required value="<?= htmlspecialchars($email) ?>">
 
                     <label for="subjectType">Subject Type</label>
                     <select name="subjectType" id="subjectType" required>
@@ -122,3 +122,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 
 </html>
+
+<script>
+    const form = document.querySelector('.contact-form');
+    const isLoggedIn = <?= isset($_SESSION['user']) ? 'true' : 'false' ?>;
+
+    form.addEventListener('submit', function(e) {
+        if (!isLoggedIn) {
+            e.preventDefault(); // prevent form submission
+
+            // Create popup
+            const popup = document.createElement('div');
+            popup.style.position = 'fixed';
+            popup.style.top = '0';
+            popup.style.left = '0';
+            popup.style.width = '100%';
+            popup.style.height = '100%';
+            popup.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            popup.style.display = 'flex';
+            popup.style.flexDirection = 'column';
+            popup.style.justifyContent = 'center';
+            popup.style.alignItems = 'center';
+            popup.style.zIndex = '10000';
+            popup.style.color = '#fff';
+            popup.style.textAlign = 'center';
+            popup.style.padding = '20px';
+            popup.innerHTML = `
+                <h2>Please Login or Register</h2>
+                <p>You need to be logged in to submit an inquiry.</p>
+                <div style="margin-top: 20px;">
+                    <a href="userLogin.php" style="padding: 10px 20px; margin: 5px; background: #fcd34d; color: #000; border-radius: 5px; text-decoration: none;">Login</a>
+                    <a href="register.php" style="padding: 10px 20px; margin: 5px; background: #34d1fc; color: #000; border-radius: 5px; text-decoration: none;">Register</a>
+                    <button id="close-popup" style="padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; background: #ff5c5c; color: #fff; cursor: pointer;">Close</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+
+            document.getElementById('close-popup').addEventListener('click', () => {
+                popup.remove();
+            });
+        }
+    });
+</script>

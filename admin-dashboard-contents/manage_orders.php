@@ -63,7 +63,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="hidden" name="orderID" value="<?= $order['orderID'] ?>">
                     <select name="orderStatus" onchange="this.form.submit()">
                         <?php
-                        $statuses = ['Pending','Processing','Completed'];
+                        $statuses = ['Processing','Completed','Cancelled'];
                         foreach ($statuses as $status) {
                             $selected = ($order['orderStatus'] === $status) ? 'selected' : '';
                             echo "<option value='$status' $selected>$status</option>";

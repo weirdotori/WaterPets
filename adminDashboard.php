@@ -36,12 +36,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                 <a href="home.php" class="logo-font">WaterPets</a>
             </div>
 
-            <div class="navbar-center">
-                <form class="search-form" role="search">
-                    <input type="search" placeholder="Search..." class="search-input">
-                    <button type="submit" class="search-btn">Search</button>
-                </form>
-            </div>
+            
 
             <div class="navbar-right">
                 <button id="themeToggle" class="icon-btn">
@@ -95,7 +90,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
         <!-- Main Content -->
         <div class="main-content" id="mainContent">
             <?php
-            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'edit_user', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'manage_chatbot', 'settings'];
+            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'edit_user', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'add_faqs', 'manage_chatbot', 'add_chatbot', 'settings'];
             if (in_array($page, $allowed_pages)) {
                 include __DIR__ . "/admin-dashboard-contents/$page.php";
             } else {

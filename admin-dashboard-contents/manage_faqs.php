@@ -34,7 +34,7 @@ $faqs = $faqsStmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="admin-page-header">
     <h2>Manage FAQs</h2>
-    <a href="?page=add_faq" class="btn-add">+ Add New FAQ</a>
+    <a href="?page=add_faqs" class="btn-add">+ Add New FAQ</a>
 </div>
 
 <?php if (count($faqs) === 0): ?>
