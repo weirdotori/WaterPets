@@ -16,10 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username) || empty($email) || empty($password) || empty($confirmPassword) || empty($phone)) {
         $errors[] = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format.";
+        $errors[] = "Invalid email format. Must include '@'.";
     } elseif ($password !== $confirmPassword) {
         $errors[] = "Passwords do not match.";
+    } elseif (strlen($password) < 6) {
+        $errors[] = "Password must be at least 6 characters long.";
+    } elseif (!preg_match('/[0-9]/', $password) || !preg_match('/[^a-zA-Z0-9]/', $password)) {
+        $errors[] = "Password must include at least one number and one special character.";
+    } elseif (!preg_match('/^\d{1,11}$/', $phone)) {
+        $errors[] = "Phone number must contain only digits and be at most 11 characters.";
     } else {
+        // Check if email already exists
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->rowCount() > 0) {
@@ -46,14 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'profile_pic' => $profile_pic
             ];
 
-
             if ($remember) {
                 setcookie('userID', $userID, time() + (86400 * 30), "/");
                 setcookie('username', $username, time() + (86400 * 30), "/");
                 setcookie('email', $email, time() + (86400 * 30), "/");
                 setcookie('role', $role, time() + (86400 * 30), "/");
             }
-
 
             header("Location: home.php");
             exit();
@@ -71,56 +76,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>User Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/userLogin_style.css"> <!-- reuse login styles -->
 </head>
 
 <body>
-    <div class="container my-5" style="max-width: 500px;">
-        <h2 class="mb-4">Create an Account</h2>
-
-        <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    <?php foreach ($errors as $e): ?>
-                        <li><?= htmlspecialchars($e) ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-
-        <form method="POST" action="">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" name="username" id="username" class="form-control" required value="<?= htmlspecialchars($username ?? '') ?>" />
+    <div class="login-container">
+        <div class="login-content">
+            <!-- Heading above the form -->
+            <div class="login-heading">
+                <h1>Welcome to WaterPets</h1>
+                <p>Please enter information to register an account.</p>
             </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" name="email" id="email" class="form-control" required value="<?= htmlspecialchars($email ?? '') ?>" />
-            </div>
+            <div class="login-right">
+                <h2>Create an Account</h2>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="form-control" required />
-            </div>
+                <?php if (!empty($errors)): ?>
+                    <div class="login-message" style="color: #ff6b6b; margin-bottom:15px; text-align:left;">
+                        <ul>
+                            <?php foreach ($errors as $e): ?>
+                                <li><?= htmlspecialchars($e) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
 
-            <div class="mb-3">
-                <label for="confirm_password" class="form-label">Confirm Password</label>
-                <input type="password" name="confirm_password" id="confirm_password" class="form-control" required />
-            </div>
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" required 
+                               value="<?= htmlspecialchars($username ?? '') ?>" />
+                    </div>
 
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone</label>
-                <input type="text" name="phone" id="phone" class="form-control" required value="<?= htmlspecialchars($phone ?? '') ?>" />
-            </div>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" name="email" id="email" required 
+                               value="<?= htmlspecialchars($email ?? '') ?>" />
+                    </div>
 
-            <div class="mb-3 form-check">
-                <input type="checkbox" name="remember" id="remember" class="form-check-input" <?= isset($remember) ? 'checked' : '' ?> />
-                <label class="form-check-label" for="remember">Remember Me</label>
-            </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" required />
+                    </div>
 
-            <button type="submit" class="btn btn-primary w-100">Register</button>
-        </form>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" name="confirm_password" id="confirm_password" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" name="phone" id="phone" maxlength="11" pattern="\d{1,11}" required 
+                               value="<?= htmlspecialchars($phone ?? '') ?>" />
+                    </div>
+
+                    <div class="form-group" style="flex-direction:row; align-items:center;">
+                        <input type="checkbox" name="remember" id="remember" style="width:auto; margin-right:8px;"
+                               <?= isset($remember) ? 'checked' : '' ?> />
+                        <label for="remember" style="margin:0; font-weight:normal;">Remember Me</label>
+                    </div>
+
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 

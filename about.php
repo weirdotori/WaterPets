@@ -16,6 +16,7 @@
 
     <section class="about-section">
         <?php include 'header.php'; ?>
+        <hr class="header-divider">
 
 
         <!-- About Page Content -->

@@ -307,7 +307,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </div>
                 </div>
 
-                <a href="about.php" class="nav-link">Guide</a>
+                <a href="guide.php" class="nav-link">Guide</a>
                 <a href="about.php" class="nav-link">About</a>
                 <a href="contactus.php" class="nav-link">Contact</a>
             </div>

@@ -21,14 +21,12 @@
 
 /* Hero / Banner Section */
 .about-hero {
-    background: #00000049;
     color: white;
     text-align: center;
-    padding: 80px 20px;
-    border: #ffffff1a 1px solid;
-    border-radius: 12px;
+    padding: 30px 20px;
+    
     margin-bottom: 40px;
-    box-shadow: 0 4px 15px rgba(182, 182, 182, 0.2);
+    
 }
 
 .about-hero h1 {
@@ -43,27 +41,30 @@
 /* Sections */
 .about-story, .about-mission, .about-values {
     margin-bottom: 30px;
-    padding: 20px;
-    background: #f4f7f9;
+    padding: 40px;
+    background: #060417;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgb(255, 255, 255);
 }
+
 
 .about-story h2, .about-mission h2, .about-values h2 {
     font-size: 28px;
     margin-bottom: 12px;
-    color: #3498db;
+    color: #fcd34d;
 }
 
 .about-story p, .about-mission p {
     font-size: 16px;
     line-height: 1.6;
+    color: #ffffff;
 }
 
 .about-values ul {
     list-style: disc inside;
     font-size: 16px;
     line-height: 1.6;
+    color: #ffffff;
 }
 
 /* Responsive */

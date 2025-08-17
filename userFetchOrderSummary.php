@@ -41,7 +41,7 @@ foreach ($items as $item) {
 }
 ?>
 
-<div class="card p-3">
+<div class="order-summary-card">
     <h3>Order Summary #<?= $order['orderID'] ?></h3>
     <p><strong>Date:</strong> <?= date('d M Y', strtotime($order['created_at'])) ?></p>
     <p><strong>Status:</strong> <?= ucfirst($order['orderStatus']) ?></p>
@@ -55,28 +55,30 @@ foreach ($items as $item) {
     </p>
 
     <h5>Products</h5>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Qty</th>
-                <th>Unit Price</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($items as $item): ?>
-            <tr>
-                <td><?= htmlspecialchars($item['pName']) ?></td>
-                <td><?= $item['orderQty'] ?></td>
-                <td>$<?= number_format($item['unitPrice'], 2) ?></td>
-                <td>$<?= number_format($item['unitPrice'] * $item['orderQty'], 2) ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <div class="order-table-container">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($items as $item): ?>
+                <tr>
+                    <td><?= htmlspecialchars($item['pName']) ?></td>
+                    <td><?= $item['orderQty'] ?></td>
+                    <td>$<?= number_format($item['unitPrice'], 2) ?></td>
+                    <td>$<?= number_format($item['unitPrice'] * $item['orderQty'], 2) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
-    <p>
+    <p class="order-summary-totals">
         <strong>Subtotal:</strong> $<?= number_format($subtotal,2) ?><br>
         <strong>Shipping:</strong> $<?= number_format($shipping['shippingFees'] ?? 0,2) ?><br>
         <?php if($order['couponCode']): ?>
@@ -91,8 +93,9 @@ foreach ($items as $item) {
         Status: <?= $payment['paymentStatus'] ?? 'N/A' ?>
     </p>
 
-    <div class="mt-3">
-        <button onclick="window.print()" class="btn btn-primary me-2">Print Invoice</button>
-        <button onclick="goBackToOrders()" class="btn btn-secondary">Back</button>
+    <div class="order-summary-actions">
+        <button onclick="window.print()" class="btn-primary">Print Invoice</button>
+        <button onclick="goBackToOrders()" class="btn-secondary">Back</button>
     </div>
 </div>
+

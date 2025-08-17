@@ -33,13 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['userLogin'])) {
                 'profile_pic' => $user['profile_pic']
             ];
 
-
-            // Update last_login
             $updateLogin = $conn->prepare("UPDATE users SET last_login = NOW() WHERE userID = :userID");
             $updateLogin->bindParam(':userID', $user['userID'], PDO::PARAM_INT);
             $updateLogin->execute();
 
-            // Redirect to homepage or user dashboard
             header("Location: home.php");
             exit();
         } else {
@@ -58,36 +55,56 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['userLogin'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>User Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/userLogin_style.css">
 </head>
 
 <body>
-    <div class="container my-5">
-        <h2>User Login</h2>
+    <div class="login-container">
+        <div class="login-content">
 
-        <?php if ($message): ?>
-            <div class="alert alert-danger"><?= htmlspecialchars($message) ?></div>
-        <?php endif; ?>
-
-        <form method="POST" action="">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" name="username" id="username" class="form-control" required />
+            <!-- Heading above the form -->
+            <div class="login-heading">
+                <h1>Welcome to WaterPets</h1>
+                <p>Please login to continue</p>
             </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" id="email" class="form-control" required />
+            <!-- Login Form -->
+            <div class="login-right">
+                <h2>User Login</h2>
+                <?php if ($message): ?>
+                    <div class="login-message"><?= htmlspecialchars($message) ?></div>
+                <?php endif; ?>
+
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" placeholder="Enter your username" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" placeholder="Enter your email" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Enter your password" required />
+                    </div>
+
+                    <button type="submit" name="userLogin">Login</button>
+
+                    <!-- Forgot password link -->
+                    <p style="margin-top: 10px; text-align: right;">
+                        <a href="forgot-password.php" style="color: #0011ffff; text-decoration: underline;">Forgot Password?</a>
+                    </p>
+                </form>
             </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="form-control" required />
-            </div>
-
-            <button type="submit" name="userLogin" class="btn btn-primary">Login</button>
-        </form>
+        </div>
     </div>
+
+
+
 </body>
 
 </html>
