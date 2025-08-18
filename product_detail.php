@@ -63,20 +63,20 @@ if (isset($_SESSION['review_error'])) {
             <p class="product-description"><?= htmlspecialchars($product['description']) ?></p>
 
             <?php if ($product['categoryName'] === 'Fish'): ?>
-                <p><strong>Water Type:</strong> <?= htmlspecialchars($product['waterType']) ?></p>
-                <p><strong>Difficulty:</strong> <?= htmlspecialchars($product['difficulty']) ?></p>
-                <p><strong>Species:</strong> <?= htmlspecialchars($product['species']) ?></p>
-                <p><strong>Aggression Level:</strong> <?= htmlspecialchars($product['aggressionLevel']) ?></p>
+                <p><strong class="detail-title">Water Type:</strong> <?= htmlspecialchars($product['waterType']) ?></p>
+                <p><strong class="detail-title">Difficulty:</strong> <?= htmlspecialchars($product['difficulty']) ?></p>
+                <p><strong class="detail-title">Species:</strong> <?= htmlspecialchars($product['species']) ?></p>
+                <p><strong class="detail-title">Aggression Level:</strong> <?= htmlspecialchars($product['aggressionLevel']) ?></p>
 
             <?php elseif ($product['categoryName'] === 'Coral Reefs'): ?>
-                <p><strong>Coral Type:</strong> <?= htmlspecialchars($product['coralType'] ?? 'N/A') ?></p>
-                <p><strong>Lighting Requirement:</strong> <?= htmlspecialchars($product['lighting'] ?? 'N/A') ?></p>
-                <p><strong>Water Flow Level:</strong> <?= htmlspecialchars($product['waterFlow'] ?? 'N/A') ?></p>
-                <p><strong>Color:</strong> <?= htmlspecialchars($product['color'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Coral Type:</strong> <?= htmlspecialchars($product['coralType'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Lighting Requirement:</strong> <?= htmlspecialchars($product['lighting'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Water Flow Level:</strong> <?= htmlspecialchars($product['waterFlow'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Color:</strong> <?= htmlspecialchars($product['color'] ?? 'N/A') ?></p>
 
             <?php elseif ($product['categoryName'] === 'Supplies' || $product['categoryName'] === 'Equipment'): ?>
-                <p><strong>Type:</strong> <?= htmlspecialchars($product['equipmentType'] ?? 'N/A') ?></p>
-                <p><strong>Brand:</strong> <?= htmlspecialchars($product['brand'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Type:</strong> <?= htmlspecialchars($product['equipmentType'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Brand:</strong> <?= htmlspecialchars($product['brand'] ?? 'N/A') ?></p>
             <?php endif; ?>
 
             <div class="product-price">
@@ -128,49 +128,39 @@ if (isset($_SESSION['review_error'])) {
         <a href="#" id="toggle-form">-- Give Review --</a>
     </div>
 
-    <div id="review-form" class="hidden">
-        <form method="post" action="submit_review.php">
-            <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
+    <div id="review-form" class="hidden review-form-container">
+    <form method="post" action="submit_review.php">
+        <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
 
-            <!-- Star Rating -->
-            <div class="star-rating">
-                <?php for ($i = 5; $i >= 1; $i--): ?>
-                    <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>" required>
-                    <label for="star<?= $i ?>">★</label>
+        <div class="review-stars">
+            <?php for ($i = 5; $i >= 1; $i--): ?>
+                <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>" required>
+                <label for="star<?= $i ?>">★</label>
+            <?php endfor; ?>
+        </div>
+
+        <textarea name="reviewComment" placeholder="Write your review..." required></textarea>
+
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
+
+<div id="reviews-container" class="hidden review-list">
+    <?php foreach ($reviews as $review): ?>
+        <div class="review-item">
+            <div class="review-meta">
+                <strong><?= htmlspecialchars($review['username']) ?></strong> (<?= htmlspecialchars($review['created_at']) ?>)
+            </div>
+            <div class="review-stars-display">
+                <?php for ($i = 1; $i <= 5; $i++): ?>
+                    <?= $i <= $review['rating'] ? '★' : '☆' ?>
                 <?php endfor; ?>
             </div>
+            <div class="review-text"><?= nl2br(htmlspecialchars($review['reviewComment'])) ?></div>
+        </div>
+    <?php endforeach; ?>
+</div>
 
-            <!-- Comment Box -->
-            <textarea name="reviewComment" placeholder="Write your review..." required></textarea>
-
-            <button type="submit">Submit Review</button>
-        </form>
-    </div>
-
-    <!-- Past reviews -->
-    <div id="reviews-container" class="hidden">
-        <h3>Customer Reviews</h3>
-
-        <?php if (empty($reviews)): ?>
-            <p>No reviews yet.</p>
-        <?php else: ?>
-            <?php foreach ($reviews as $review): ?>
-                <div class="review">
-                    <p><strong><?= htmlspecialchars($review['username']) ?></strong>
-                        (<?= htmlspecialchars($review['created_at']) ?>)</p>
-
-                    <p>
-                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <?= $i <= $review['rating'] ? '★' : '☆' ?>
-                        <?php endfor; ?>
-                    </p>
-
-                    <p><?= nl2br(htmlspecialchars($review['reviewComment'])) ?></p>
-                </div>
-                <hr>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
 
 </div>
 

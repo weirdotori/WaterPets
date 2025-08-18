@@ -25,20 +25,21 @@
 /* ====== Sidebar Filters ====== */
 .filter-sidebar {
   flex: 0 0 250px;
-  background: rgba(255, 255, 255, 0.08);
+  background: #00000049;
   backdrop-filter: blur(12px);
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 15px;
+  border: #ffffff 1px solid;
+  box-shadow: 0 3px 8px rgba(255, 255, 255, 0.522);
+  padding: 20px;
   border-radius: 8px;
+  height: 100%;
 }
 
 .filter-sidebar h5 {
   font-size: 1.2rem;
   margin-bottom: 15px;
   color: #ffffff;
+  font-weight: 600;
 }
-
 .filter-group {
   margin-bottom: 20px;
   color: #ffffff;
@@ -47,10 +48,18 @@
 .filter-group h6 {
   font-size: 1rem;
   margin-bottom: 8px;
+  color: #fcd34d;
 }
 
 .filter-btn {
-  color: #fcd34d;
+  color: rgb(0, 0, 0);
+  background-color: #fcd34d;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.filter-btn:hover {
+  background-color: #ffe695;
 }
 
 
@@ -66,9 +75,10 @@
 }
 
 .filter-tag {
-    background: rgba(59, 130, 246, 0.15); /* Tailwind: bg-blue-500/15 */
-    color: #fcd34d; /* Tailwind: text-blue-600 */
+    background: #fcd34d; /* Tailwind: bg-blue-500/15 */
+    color: #000000; /* Tailwind: text-blue-600 */
     padding: 4px 10px;
+    border: #ffffff 1px solid;
     border-radius: 9999px;
     font-size: 0.85rem;
     text-decoration: none;
@@ -105,36 +115,20 @@
   margin-bottom: 20px;
 }
 
-.search-box {
-  display: flex;
-  gap: 8px;
-}
 
-.search-box input {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #aaa;
-}
-
-.search-box button {
-  padding: 8px 12px;
-  background: transparent;
-  border: 1px solid #007bff;
-  color: #007bff;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.search-box button:hover {
-  background: #007bff;
-  color: white;
-}
 
 .sort-dropdown {
   padding: 8px;
   border-radius: 4px;
-  border: 1px solid #aaa;
+  border: 1px solid #ffffff;
+  background-color: #fcd34d;
 }
+
+
+.sort-dropdown option:hover {
+  background-color: #666363;
+}
+
 
 /* Quick Filter Species from fish */
 .species-buttons {
@@ -147,7 +141,7 @@
 .species-buttons a {
   padding: 6px 10px;
   background: transparent;
-  border: 1px solid #888;
+  border: 1px solid #ffffff;
   font-size: 0.85rem;
   cursor: pointer;
   border-radius: 5px;
@@ -156,11 +150,12 @@
 }
 
 .species-buttons a:hover {
-  background: #ddd;
+  background: #ffe695;
+  color: #000000;
 }
 
 .species-buttons a.active {
-  background-color: #007bff;
+  background-color: #fcd34d;
 }
 
 /* Quick Filter Colors from coral reefs */
@@ -198,12 +193,15 @@
 
 
 .product-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: #00000049;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: 0.3s;
+  border: #ffffff 1px solid;
+  box-shadow: 0 3px 8px rgba(255, 255, 255, 0.522);
+  align-items: center; /* center contents inside card */
 }
 
 .product-card:hover {
@@ -213,7 +211,6 @@
 .product-image {
   height: 200px;
   max-width: 300px;
-  padding-left: 50px;
   object-fit: contain;
 }
 
@@ -243,8 +240,8 @@
 
 .product-card button {
   padding: 8px;
-  background: #007bff;
-  color: white;
+  background: #fcd34d;
+  color: rgb(0, 0, 0);
   border: none;
   cursor: pointer;
   border-radius: 4px;
@@ -252,23 +249,124 @@
 }
 
 .product-card button:hover {
-  background: #0056b3;
+  background: #ffe695;
 }
 
-/* ====== Responsive ====== */
-@media (max-width: 992px) {
+
+/* ====== Media Queries ====== */
+
+/* Medium screens (tablets) */
+@media (max-width: 1024px) {
   .page-container {
     flex-direction: column;
+    padding: 20px;
+    gap: 20px;
   }
+
   .filter-sidebar {
     flex: 1 1 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .shop-main {
+    flex: 1 1 100%;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .product-image {
+    height: 180px;
+    max-width: 100%;
+    padding-left: 0;
+  }
+}
+
+/* Small screens (large phones) */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .filter-sidebar {
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+
+  .search-sort {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sort-dropdown {
+    width: 100%;
+  }
+
+  .species-buttons,
+  .color-buttons {
+    justify-content: flex-start;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .product-card {
+    font-size: 0.9rem;
+  }
+
+  .product-image {
+    height: 160px;
+  }
+}
+
+/* Extra small screens (phones) */
+@media (max-width: 480px) {
+  .filter-sidebar {
+    display: none; /* hide sidebar to save space */
+  }
+
+  .page-container {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .product-card {
+    font-size: 0.85rem;
+  }
+
+  .product-image {
+    height: 140px;
+  }
+
+  .species-buttons a,
+  .color-buttons a {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+  }
+
+  .sort-dropdown {
+    font-size: 0.85rem;
+    padding: 6px;
+  }
+
+  .applied-filters {
+    margin-left: 0;
+    gap: 6px;
   }
 }
 
 
-/* out of stock btn */
-.btn-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+
+
 

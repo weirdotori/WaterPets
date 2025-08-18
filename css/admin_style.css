@@ -241,6 +241,21 @@ body {
     background-color: #c0392b;
 }
 
+/* Sidebar icons inside links */
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* space between icon & text */
+}
+
+.sidebar-icon {
+    width: 24px;
+    height: 24px;
+}
+
+
+
+
 /* =============== */
 /* Main Content */
 /* =============== */
@@ -258,6 +273,87 @@ body {
 }
 
 
+/* ========================= */
+/* Responsive Sidebar - Mobile */
+/* ========================= */
+
+/* Tablet: ≤ 992px */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .main-content {
+        margin-left: 200px;
+    }
+
+    .logo-font {
+        font-size: 1.2rem;
+    }
+
+    .profile-btn {
+        font-size: 0.8rem;
+        padding: 5px;
+    }
+
+    .username {
+        display: none; /* hide long usernames */
+    }
+}
+
+/* Mobile: ≤ 768px */
+@media (max-width: 768px) {
+    /* Collapse sidebar to icons only */
+    .sidebar {
+        width: 70px;
+        padding: 1rem 0;
+    }
+
+    .sidebar ul li a {
+        justify-content: center; /* center icons */
+        padding: 10px 0; /* remove left padding for icons */
+    }
+
+    /* Hide text labels */
+    .sidebar ul li a span {
+        display: none;
+    }
+
+    /* Enlarge icons slightly for visibility */
+    .sidebar-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .main-content {
+        margin-left: 70px; /* match collapsed sidebar width */
+    }
+
+    /* Optional: add a hamburger toggle */
+    .hamburger {
+        display: block;
+        cursor: pointer;
+        font-size: 1.5rem;
+        margin-left: 10px;
+    }
+
+    .top-navbar {
+        padding: 0 10px;
+    }
+}
+
+/* Extra small screens: ≤ 480px */
+@media (max-width: 480px) {
+    .sidebar-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .dropdown-content a {
+        font-size: 0.85rem;
+        padding: 8px 15px;
+    }
+}
 
 
 /* ============================ */

@@ -59,9 +59,11 @@ $discount = 0;
 $totalPrice = $subtotal + $shippingFee;
 
 // Apply coupon if valid
+$discountAmount = 0;
 if (!empty($_SESSION['applied_coupon']) && $_SESSION['applied_coupon']['code'] === $couponCode) {
-    $discount = $_SESSION['applied_coupon']['discount']; // 10%
-    $totalPrice = $totalPrice * (1 - $discount / 100);
+    $discountPercent = $_SESSION['applied_coupon']['discount']; // e.g., 10%
+    $discountAmount = ($subtotal + $shippingFee) * ($discountPercent / 100);
+    $totalPrice = ($subtotal + $shippingFee) - $discountAmount;
 
     // Mark coupon as used in DB
     $stmt = $conn->prepare("UPDATE coupons SET status='used' WHERE couponID=?");
@@ -69,6 +71,7 @@ if (!empty($_SESSION['applied_coupon']) && $_SESSION['applied_coupon']['code'] =
 
     unset($_SESSION['applied_coupon']);
 }
+
 
 // Check if pending order exists
 $stmt = $conn->prepare("SELECT orderID FROM orders WHERE userID = ? AND orderStatus = 'pending' ORDER BY created_at DESC LIMIT 1");
@@ -116,7 +119,7 @@ if ($existingOrder) {
         INSERT INTO orders 
         (userID, firstName, lastName, country, streetAddress, city, state, phone, email, deliveryType, couponCode, totalPrice, orderStatus, created_at)
         VALUES 
-        (:userID, :firstName, :lastName, :country, :streetAddress, :city, :state, :phone, :email, :deliveryType, :couponCode, :totalPrice, 'pending', NOW())
+        (:userID, :firstName, :lastName, :country, :streetAddress, :city, :state, :phone, :email, :deliveryType, :couponCode, :totalPrice, 'Processing', NOW())
     ");
 
     $stmt->execute([
@@ -157,6 +160,7 @@ $_SESSION['pending_order'] = [
     'cart' => $cart,
     'subtotal' => $subtotal,
     'shippingFee' => $shippingFee,
+    'discount' => $discountAmount,
     'totalPrice' => $totalPrice,
 ];
 

@@ -12,6 +12,113 @@
     margin-top: 20px;
 }
 
+
+
+/* Fixed-width Stats Section with Background Image */
+.about-stats-bg {
+    width: 1300px;            /* Fixed width */
+    height: 600px;           /* Fixed height */
+    margin: 50px auto;       /* Center on page with top/bottom space */
+    background: url('/images/about-bg2.jpg') center center/cover no-repeat;
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;        /* Ensure overlay and blur stay inside */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Optional dark overlay for contrast */
+.stats-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Cards Container */
+.stats-container {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* Glass Cards */
+.stat-card {
+    background: rgba(255, 255, 255, 0.15); /* glass effect */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    padding: 30px 50px;
+    min-width: 180px;
+    text-align: center;
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.stat-card p {
+    font-size: 1rem;
+}
+
+/* Responsive for mobile */
+@media (max-width: 992px) {
+    .about-stats-bg {
+        width: 90%;
+        height: 500px;
+    }
+
+    .stat-card {
+        padding: 25px 30px;
+        min-width: 150px;
+    }
+}
+
+@media (max-width: 600px) {
+    .about-stats-bg {
+        height: 450px;
+    }
+
+    .stat-card {
+        padding: 20px 20px;
+        min-width: 120px;
+    }
+
+    .stat-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .stat-card p {
+        font-size: 0.85rem;
+    }
+
+    .stats-container {
+        gap: 15px;
+        flex-direction: column;
+    }
+}
+
+
 /* About Page Content */
 .about-page {
     max-width: 1000px;

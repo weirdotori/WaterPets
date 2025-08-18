@@ -157,37 +157,78 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
     // Toggle chatbox when icon is clicked
-    $('#chatbot-icon').click(function() {
-        let chatbox = $('#chatbox');
-        if (chatbox.is(':visible')) {
-            chatbox.hide();
+    const chatbotIcon = document.getElementById('chatbot-icon');
+    const chatbox = document.getElementById('chatbox');
+
+    chatbotIcon.addEventListener('click', () => {
+        if (chatbox.style.display === 'flex') {
+            chatbox.style.display = 'none';
         } else {
-            chatbox.css('display', 'flex'); // make flex when visible
+            chatbox.style.display = 'flex';
+
+            // Check if messages container is empty
+            if (messagesContainer.children.length === 0) {
+                const botDiv = document.createElement('div');
+                botDiv.className = 'bot-msg';
+                botDiv.textContent = "Hello! How can I assist you today?";
+                messagesContainer.appendChild(botDiv);
+                scrollChat();
+            }
         }
     });
 
 
-
+    // Scroll chat to bottom
     function scrollChat() {
-        let chat = $('#chatbox-messages');
-        chat.scrollTop(chat.prop("scrollHeight"));
+        const chat = document.getElementById('chatbox-messages');
+        chat.scrollTop = chat.scrollHeight;
     }
 
-    $('#chatbox-send').click(function() {
-        let userMsg = $('#chatbox-input').val().trim();
-        if (userMsg !== '') {
-            $.post('chatbot_response.php', {
-                message: userMsg
-            }, function(response) {
-                $('#chatbox-messages').append('<div class="user-msg">' + userMsg + '</div>');
-                $('#chatbox-messages').append('<div class="bot-msg">' + response + '</div>');
-                $('#chatbox-input').val('');
+    // Send message
+    const sendBtn = document.getElementById('chatbox-send');
+    const inputBox = document.getElementById('chatbox-input');
+    const messagesContainer = document.getElementById('chatbox-messages');
+
+    sendBtn.addEventListener('click', () => {
+        const userMsg = inputBox.value.trim();
+        if (!userMsg) return;
+
+        // Show user message
+        const userDiv = document.createElement('div');
+        userDiv.className = 'user-msg';
+        userDiv.textContent = userMsg;
+        messagesContainer.appendChild(userDiv);
+        scrollChat();
+
+        // Send POST request to chatbot_response.php
+        fetch('chatbot_response.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'message=' + encodeURIComponent(userMsg)
+            })
+            .then(response => response.text())
+            .then(botReply => {
+                const botDiv = document.createElement('div');
+                botDiv.className = 'bot-msg';
+                botDiv.textContent = botReply;
+                messagesContainer.appendChild(botDiv);
                 scrollChat();
+            })
+            .catch(err => {
+                console.error('Error:', err);
             });
+
+        inputBox.value = '';
+    });
+
+    // Optional: send message on Enter key
+    inputBox.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            sendBtn.click();
         }
     });
 </script>

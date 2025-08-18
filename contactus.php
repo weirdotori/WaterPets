@@ -53,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
@@ -66,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Left: Info -->
             <div class="contact-info">
                 <h3>Our Information</h3>
-                <p><strong>Address:</strong> 123 Coral Reef Street, Ocean City, Myanmar</p>
+                <p><strong>Address:</strong> No.230, Rose Road, Yangon, MM </p>
                 <p><strong>Phone:</strong> +95 9 123 456 789</p>
                 <p><strong>Email:</strong> support@waterpets.com</p>
 
@@ -78,10 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <a href="https://youtube.com" target="_blank">Discord</a>
                     <a href="https://youtube.com" target="_blank">Telegram</a>
                 </div>
-                <!-- Small image below social media -->
-                <div class="contact-image">
-                    <img src="/images/oystergif.gif" alt="WaterPets Logo">
+                <!-- Google Map embed -->
+                <div class="contact-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3818.434519407103!2d96.17932019999998!3d16.8543865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c1937fd20ba547%3A0xdf6077ff69d92f12!2sAquarium%20World!5e0!3m2!1sen!2smm!4v1755515397808!5m2!1sen!2smm" width="100%" height="250" style="border:0; border-radius:10px;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
+
             </div>
 
             <!-- Right: Form -->

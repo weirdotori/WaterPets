@@ -141,6 +141,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
@@ -229,7 +231,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php $selectedcolor = $_GET['color'] ?? ''; ?>
 
                 <?php if (empty($_GET['id'])): ?>
-                    <div class="color-buttons">
+                    <div class="species-buttons">
                         <a href="coralreefs.php" class="<?= $selectedcolor === '' ? 'active' : '' ?>">All</a>
                         <a href="coralreefs.php?color=Blue" class="<?= $selectedcolor === 'Blue' ? 'active' : '' ?>">Blue</a>
                         <a href="coralreefs.php?color=Red" class="<?= $selectedcolor === 'Red' ? 'active' : '' ?>">Red</a>

@@ -16,6 +16,38 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $orderData = $_SESSION['pending_order'];
 $paymentMethod = $_POST['payment_method'] ?? '';
 
+// Validate payment inputs based on selected method
+if ($paymentMethod === 'paypal') {
+    $paypalEmail = $_POST['paypal_email'] ?? '';
+    if (empty($paypalEmail)) {
+        die("Please enter your PayPal email.");
+    }
+} elseif ($paymentMethod === 'visa' || $paymentMethod === 'credit_card') {
+    $cardNumber = $_POST['card_number'] ?? '';
+    $cardExpiry = $_POST['card_expiry'] ?? '';
+    $cardCvc = $_POST['card_cvc'] ?? '';
+
+    if (empty($cardNumber) || empty($cardExpiry) || empty($cardCvc)) {
+        die("Please enter your card details.");
+    }
+
+    // Optional: you can also add simple format checks here
+    if (!preg_match('/^\d{16}$/', str_replace(' ', '', $cardNumber))) {
+        die("Card number is invalid.");
+    }
+    if (!preg_match('/^\d{2}\/\d{2}$/', $cardExpiry)) {
+        die("Expiry date is invalid.");
+    }
+    if (!preg_match('/^\d{3,4}$/', $cardCvc)) {
+        die("CVC is invalid.");
+    }
+} elseif ($paymentMethod === 'cod') {
+    // No extra validation needed for Cash on Delivery
+} else {
+    die("Please select a payment method.");
+}
+
+
 // Begin transaction to insert data
 try {
     $conn->beginTransaction();
@@ -113,7 +145,38 @@ try {
     unset($_SESSION['cart']);
     unset($_SESSION['pending_order']);
 
-    header("Location: order_success.php?orderID=" . $orderID);
+    // Instead of redirect, show popup
+    echo "
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.createElement('div');
+            popup.style.position = 'fixed';
+            popup.style.top = '0';
+            popup.style.left = '0';
+            popup.style.width = '100%';
+            popup.style.height = '100%';
+            popup.style.background = 'rgba(0,0,0,0.5)';
+            popup.style.display = 'flex';
+            popup.style.alignItems = 'center';
+            popup.style.justifyContent = 'center';
+            popup.style.zIndex = '9999';
+
+            popup.innerHTML = `
+                <div style='background:#fff; padding:30px; border-radius:12px; text-align:center; max-width:400px;'>
+                    <h2>Thank you for shopping with us!</h2>
+                    <p>Your order has been placed successfully.</p>
+                    <button id='closePopup' style='margin-top:20px; padding:10px 20px; border:none; background:#007bff; color:#fff; border-radius:8px; cursor:pointer;'>Close</button>
+                </div>
+            `;
+
+            document.body.appendChild(popup);
+
+            document.getElementById('closePopup').addEventListener('click', function() {
+                window.location.href = 'home.php'; // Redirect to homepage
+            });
+        });
+    </script>
+    ";
     exit();
 } catch (Exception $e) {
     $conn->rollBack();

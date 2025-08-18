@@ -9,22 +9,24 @@ if (empty($_SESSION['user'])) {
 
 $userID = $_SESSION['user']['userID'];
 
-// Fetch existing pending order for this user (latest)
-$stmt = $conn->prepare("SELECT * FROM orders WHERE userID = ? AND orderStatus = 'pending' ORDER BY created_at DESC LIMIT 1");
+// Fetch existing Processing order for this user (latest)
+$stmt = $conn->prepare("SELECT * FROM orders WHERE userID = ? AND orderStatus = 'Processing' ORDER BY created_at DESC LIMIT 1");
 $stmt->execute([$userID]);
-$pendingOrder = $stmt->fetch(PDO::FETCH_ASSOC);
+// Use session pending order first
+$pendingOrder = $_SESSION['pending_order'] ?? null;
 
-// If found, populate variables, else empty string
+// If not in session, just empty strings
 $firstName = $pendingOrder['firstName'] ?? '';
-$lastName = $pendingOrder['lastName'] ?? '';
-$country = $pendingOrder['country'] ?? '';
+$lastName  = $pendingOrder['lastName'] ?? '';
+$country   = $pendingOrder['country'] ?? '';
 $streetAddress = $pendingOrder['streetAddress'] ?? '';
-$city = $pendingOrder['city'] ?? '';
-$state = $pendingOrder['state'] ?? '';
-$phone = $pendingOrder['phone'] ?? '';
-$email = $pendingOrder['email'] ?? '';
+$city      = $pendingOrder['city'] ?? '';
+$state     = $pendingOrder['state'] ?? '';
+$phone     = $pendingOrder['phone'] ?? '';
+$email     = $pendingOrder['email'] ?? '';
 $deliveryType = $pendingOrder['deliveryType'] ?? '';
-$couponCode = $pendingOrder['couponCode'] ?? '';
+$couponCode   = $pendingOrder['couponCode'] ?? '';
+$shippingSpeed = $pendingOrder['shippingSpeed'] ?? '';
 
 // Your cart calculation as before
 $items = $_SESSION['cart'] ?? [];
@@ -41,37 +43,43 @@ foreach ($items as $item) {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Checkout</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/css/checkout_style.css" />
-</head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
+</head>
 <body>
 
-    <section class="checkout-section">
-        <?php include 'header.php'; ?>
-        <hr class="header-divider">
 
+<section class="checkout-section">
+    <?php include 'header.php';?>
+
+        <hr class="header-divider">
         <div class="checkout-container">
             <form class="billing-form" action="checkout_process.php" method="POST" id="checkoutForm">
-                <h2 class="mb-6 font-bold text-2xl">Billing Details</h2>
+                <h2 class="form-title">Billing Details</h2>
+
                 <label for="first_name">First Name *</label>
-                <input type="text" id="first_name" name="first_name" placeholder="Ex. John" value="<?= htmlspecialchars($firstName) ?>" required />
+                <input type="text" id="first_name" name="first_name" placeholder="Ex. John"
+                    value="<?= htmlspecialchars($firstName) ?>" required />
 
                 <label for="last_name">Last Name *</label>
-                <input type="text" id="last_name" name="last_name" placeholder="Ex. Doe" value="<?= htmlspecialchars($lastName) ?>" required />
+                <input type="text" id="last_name" name="last_name" placeholder="Ex. Doe"
+                    value="<?= htmlspecialchars($lastName) ?>" required />
 
                 <label for="country">Country *</label>
                 <select id="country" name="country" required>
                     <option value="">Select Country</option>
                     <option value="Myanmar" <?= $country === 'Myanmar' ? 'selected' : '' ?>>Myanmar</option>
                     <option value="Thailand" <?= $country === 'Thailand' ? 'selected' : '' ?>>Thailand</option>
-                    <!-- more countries -->
                 </select>
 
                 <label for="street">Street Address *</label>
-                <input type="text" id="street" name="street" placeholder="Enter Street Address" value="<?= htmlspecialchars($streetAddress) ?>" required />
+                <input type="text" id="street" name="street" placeholder="Enter Street Address"
+                    value="<?= htmlspecialchars($streetAddress) ?>" required />
 
                 <label for="city">City *</label>
                 <select id="city" name="city" required>
@@ -89,22 +97,23 @@ foreach ($items as $item) {
                 </select>
 
                 <label for="phone">Phone *</label>
-                <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" value="<?= htmlspecialchars($phone) ?>" required />
+                <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number"
+                    value="<?= htmlspecialchars($phone) ?>" required />
 
                 <label for="email">Email *</label>
-                <input type="email" id="email" name="email" placeholder="Enter Email" value="<?= htmlspecialchars($email) ?>" required />
+                <input type="email" id="email" name="email" placeholder="Enter Email"
+                    value="<?= htmlspecialchars($email) ?>" required />
 
-                <!-- Delivery Type radio btn -->
-                <label class="block font-semibold mt-4">Delivery Type *</label>
-                <div class="flex items-center gap-4 mt-2">
+                <!-- Delivery Type -->
+                <p class="field-label">Delivery Type *</p>
+                <div class="radio-group">
                     <label>
                         <input type="radio" name="delivery_type" value="shipping" checked required> Shipping
                     </label>
-
                 </div>
 
-                <!-- Shipping speed only show when delivery is shipping -->
-                <div id="shipping_speed_wrapper" class="mt-4">
+                <!-- Shipping speed -->
+                <div id="shipping_speed_wrapper" class="shipping-speed">
                     <label for="shipping_speed">Shipping Speed *</label>
                     <select id="shipping_speed" name="shipping_speed">
                         <option value="">Select Speed</option>
@@ -113,15 +122,14 @@ foreach ($items as $item) {
                     </select>
                 </div>
 
-                <!-- Coupon Code -->
+                <!-- Coupon -->
                 <label for="coupon_code">Coupon Code</label>
-                <div class="flex gap-2 mb-4">
-                    <input type="text" id="coupon_code" name="coupon_code" placeholder="Enter coupon code" value="<?= htmlspecialchars($couponCode ?? '') ?>">
+                <div class="coupon-row">
+                    <input type="text" id="coupon_code" name="coupon_code" placeholder="Enter coupon code"
+                        value="<?= htmlspecialchars($couponCode ?? '') ?>">
                     <button type="button" id="applyCouponBtn" class="apply-btn">Apply</button>
                 </div>
-                <p id="couponMsg" style="color:red;"></p>
-
-
+                <p id="couponMsg" class="coupon-msg"></p>
 
                 <button type="submit" class="proceed-btn">Proceed to Payment</button>
             </form>
@@ -149,7 +157,7 @@ foreach ($items as $item) {
                     <span id="summary-taxes">$0.00</span>
                 </div>
 
-                <div class="summary-row" style="color: #777;">
+                <div class="summary-row discount">
                     <span>Coupon Discount</span>
                     <span id="summary-coupon">- $0.00</span>
                 </div>
@@ -159,12 +167,11 @@ foreach ($items as $item) {
                     <span id="summary-total">$<?= number_format($subtotal, 2) ?></span>
                 </div>
             </div>
-
         </div>
+        </section>
 
-    </section>
     <?php include 'footer.php'; ?>
-
+    <?php include 'chatbot.php'; ?>
     <?php include 'backToTop.php'; ?>
 
     <script>

@@ -24,7 +24,9 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin_style.css">
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
@@ -36,7 +38,7 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                 <a href="home.php" class="logo-font">WaterPets</a>
             </div>
 
-            
+
 
             <div class="navbar-right">
                 <button id="themeToggle" class="icon-btn">
@@ -55,7 +57,6 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                     </button>
                     <div class="dropdown-content">
                         <a href="adminProfile.php">My Profile</a>
-                        <a href="#">Settings</a>
                         <hr>
                         <a href="adminLogout.php" class="logout-link">Sign out</a>
                     </div>
@@ -72,25 +73,72 @@ $totalReviews = $conn->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
         }
         ?>
 
-        <div class="sidebar">
+
+        <!-- Side bar -->
+        <div class="sidebar" id="sidebar">
             <ul>
-                <li><a href="?page=dashboard_home" class="<?= isActive('dashboard_home', $page) ?>">Dashboard</a></li>
-                <li><a href="?page=analytics" class="<?= isActive('analytics', $page) ?>">Analytics</a></li>
-                <li><a href="?page=manage_users" class="<?= isActive('manage_users', $page) ?>">Manage Users</a></li>
-                <li><a href="?page=manage_orders" class="<?= isActive('manage_orders', $page) ?>">Manage Orders</a></li>
-                <li><a href="?page=manage_products" class="<?= isActive('manage_products', $page) ?>">Manage Products</a></li>
-                <li><a href="?page=manage_inquiries" class="<?= isActive('manage_inquiries', $page) ?>">Manage Inquiries</a></li>
-                <li><a href="?page=manage_faqs" class="<?= isActive('manage_faqs', $page) ?>">Manage FAQs</a></li>
-                <li><a href="?page=manage_chatbot" class="<?= isActive('manage_chatbot', $page) ?>">Manage Chatbot</a></li>
-                <li><a href="?page=settings" class="<?= isActive('settings', $page) ?>">Settings</a></li>
-                <li><a href="adminLogout.php" class="logout">Logout</a></li>
+                <li>
+                    <a href="?page=dashboard_home" class="<?= isActive('dashboard_home', $page) ?>">
+                        <img src="/images/dashboard.png" class="sidebar-icon" alt="Dashboard">
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="?page=analytics" class="<?= isActive('analytics', $page) ?>">
+                        <img src="/images/analysis.png" class="sidebar-icon" alt="Analytics">
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="?page=manage_users" class="<?= isActive('manage_users', $page) ?>">
+                        <img src="/images/management.png" class="sidebar-icon" alt="Users">
+                        <span>Manage Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="?page=manage_orders" class="<?= isActive('manage_orders', $page) ?>">
+                        <img src="/images/inventory-management.png" class="sidebar-icon" alt="Orders">
+                        <span>Manage Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="?page=manage_products" class="<?= isActive('manage_products', $page) ?>">
+                        <img src="/images/features.png" class="sidebar-icon" alt="Products">
+                        <span>Manage Products</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="?page=manage_inquiries" class="<?= isActive('manage_inquiries', $page) ?>">
+                        <img src="/images/survey.png" class="sidebar-icon" alt="Products">
+                        <span>Manage Inquiries</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="?page=manage_faqs" class="<?= isActive('manage_faqs', $page) ?>">
+                        <img src="/images/faq.png" class="sidebar-icon" alt="Products">
+                        <span>Manage FAQs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="?page=manage_chatbot" class="<?= isActive('manage_chatbot', $page) ?>">
+                        <img src="/images/robot.png" class="sidebar-icon" alt="Products">
+                        <span>Manage Chatbot</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="adminLogout.php" class="logout">
+                        <img src="/images/logout1.png" class="sidebar-icon" alt="Logout">
+                        <span>Logout</span>
+                    </a>
+                </li>
             </ul>
         </div>
+
 
         <!-- Main Content -->
         <div class="main-content" id="mainContent">
             <?php
-            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'edit_user', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'add_faqs', 'manage_chatbot', 'add_chatbot', 'settings'];
+            $allowed_pages = ['dashboard_home', 'analytics', 'manage_users', 'edit_user', 'manage_orders', 'view_order', 'manage_products', 'edit_product', 'view_product', 'add_product', 'manage_inquiries', 'manage_faqs', 'add_faqs', 'manage_chatbot', 'add_chatbot'];
             if (in_array($page, $allowed_pages)) {
                 include __DIR__ . "/admin-dashboard-contents/$page.php";
             } else {

@@ -79,7 +79,7 @@ if (!empty($_GET['sort'])) {
             $params = [$categoryID]; // reset params
 
 
-            // Apply other filters manually if needed
+            
             if (!empty($_GET['waterType'])) {
                 $placeholders = implode(',', array_fill(0, count($_GET['waterType']), '?'));
                 $query .= " AND p.waterType IN ($placeholders)";
@@ -128,6 +128,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>

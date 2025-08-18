@@ -151,7 +151,7 @@
       <div class="footer-right">
         <p>Contact</p>
         <p>Phone: +95 123 456 789</p>
-        <p>Email: contact@waterpets.com</p>
+        <p>Email: support@waterpets.com</p>
 
         <!-- Social Icons -->
         <div class="footer-social">

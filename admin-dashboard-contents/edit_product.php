@@ -17,6 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lighting = $_POST['lighting'] ?? '';
     $waterFlow = $_POST['waterFlow'] ?? '';
     $color = $_POST['color'] ?? '';
+    $foodType = $_POST['foodType'] ?? '';
+    $substrateType = $_POST['substrateType'] ?? '';
+    $supplies = $_POST['supplies'] ?? '';
+    $filterType = $_POST['filterType'] ?? '';
+    $heaterWatt = $_POST['heaterWatt'] ?? '';
+    $pumpSize = $_POST['pumpSize'] ?? '';
+    $tankShape = $_POST['tankShape'] ?? '';
+    $equipment = $_POST['equipment'] ?? '';
 
     if (!$productID) {
         echo "<div class='alert-danger'>Invalid product ID.</div>";
@@ -43,17 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($imagePath) {
         $stmt = $conn->prepare("
             UPDATE products
-            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, waterType = ?, difficulty = ?, species = ?, aggressionLevel = ?, coralType = ?, lighting = ?, waterFlow = ?, color = ?, image = ?
+            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, waterType = ?, difficulty = ?, species = ?, aggressionLevel = ?, coralType = ?, lighting = ?, waterFlow = ?, color = ?, foodType = ?, substrateType = ?, supplies = ?, filterType = ?, heaterWatt = ?, pumpSize = ?, tankShape = ?, equipment = ?, image = ?
             WHERE productID = ?
         ");
-        $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $waterType, $difficulty, $species, $aggressionLevel, $coralType, $lighting, $waterFlow, $color, $imagePath, $productID]);
+        $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $waterType, $difficulty, $species, $aggressionLevel, $coralType, $lighting, $waterFlow, $color, $foodType, $substrateType, $supplies, $filterType, $heaterWatt, $pumpSize, $tankShape, $equipment, $imagePath, $productID]);
     } else {
         $stmt = $conn->prepare("
             UPDATE products
-            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, waterType = ?, difficulty = ?, species = ?, aggressionLevel = ?, coralType = ?, lighting = ?, waterFlow = ?, color = ?
+            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, waterType = ?, difficulty = ?, species = ?, aggressionLevel = ?, coralType = ?, lighting = ?, waterFlow = ?, color = ? foodType = ?, substrateType = ?, supplies = ?, filterType = ?, heaterWatt = ?, pumpSize = ?, tankShape = ?, equipment = ?
             WHERE productID = ?
         ");
-        $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $waterType, $difficulty, $species, $aggressionLevel, $coralType, $lighting, $waterFlow, $color, $productID]);
+        $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $waterType, $difficulty, $species, $aggressionLevel, $coralType, $lighting, $waterFlow, $color, $foodType, $substrateType, $supplies, $filterType, $heaterWatt, $pumpSize, $tankShape, $equipment, $productID]);
     }
 
     if ($success) {
@@ -72,7 +80,7 @@ if (!$productID) {
 }
 
 $stmt = $conn->prepare("
-    SELECT productID, pName, description, price, stock, image, categoryID, waterType, difficulty, species, aggressionLevel, coralType, lighting, waterFlow, color
+    SELECT productID, pName, description, price, stock, image, categoryID, waterType, difficulty, species, aggressionLevel, coralType, lighting, waterFlow, color, foodType, substrateType, supplies, filterType, heaterWatt, pumpSize, tankShape, equipment
     FROM products
     WHERE productID = ?
 ");
@@ -168,6 +176,62 @@ if (!$product) {
 
     <label>Color</label>
     <input type="text" name="color" value="<?= htmlspecialchars($product['color']) ?>">
+
+    <label>Food Type</label>
+    <select name="foodType">
+        <option value="">Select Food Type</option>
+        <option value="Flakes" <?= ($product['foodType'] == 'Flakes') ? 'selected' : '' ?>>Flakes</option>
+        <option value="Pellets" <?= ($product['foodType'] == 'Pellets') ? 'selected' : '' ?>>Pellets</option>
+        <option value="Freeze-dried" <?= ($product['foodType'] == 'Freeze-dried') ? 'selected' : '' ?>>Freeze-dried</option>
+        <option value="Frozen" <?= ($product['foodType'] == 'Frozen') ? 'selected' : '' ?>>Frozen</option>
+    </select>
+    
+    <label>Substrate Type</label>
+    <select name="substrateType">
+        <option value="">Select Substrate Type</option>
+        <option value="Sand" <?= ($product['substrateType'] == 'Sand') ? 'selected' : '' ?>>Sand</option>
+        <option value="Gravel" <?= ($product['substrateType'] == 'Gravel') ? 'selected' : '' ?>>Gravel</option>
+        <option value="Soil" <?= ($product['substrateType'] == 'Soil') ? 'selected' : '' ?>>Soil</option>
+    </select>
+
+    <label>Supplies</label>
+    <input type="text" name="supplies" value="<?= htmlspecialchars($product['supplies']) ?>">
+
+    <label>Filter Type</label>
+    <select name="filterType">
+        <option value="">Select Filter Type</option>
+        <option value="Internal" <?= ($product['filterType'] == 'Internal') ? 'selected' : '' ?>>Internal</option>
+        <option value="External" <?= ($product['filterType'] == 'External') ? 'selected' : '' ?>>External</option>
+        <option value="Hang-on" <?= ($product['filterType'] == 'Hang-on') ? 'selected' : '' ?>>Hang-on</option>
+    </select>
+
+    <label>Heater Watt</label>
+    <select name="heaterWatt">
+        <option value="">Select Heater Watt</option>
+        <option value="Small (50–100W)" <?= ($product['heaterWatt'] == 'Small (50–100W)') ? 'selected' : '' ?>>Small (50–100W)</option>
+        <option value="Medium (100–200W)" <?= ($product['heaterWatt'] == 'Medium (100–200W)') ? 'selected' : '' ?>>Medium (100–200W)</option>
+        <option value="Large (200+W)" <?= ($product['heaterWatt'] == 'Large (200+W)') ? 'selected' : '' ?>>Large (200+W)</option>
+    </select>
+
+    <label>Pump Size</label>
+    <select name="pumpSize">
+        <option value="">Select Pump Size</option>
+        <option value="Small" <?= ($product['pumpSize'] == 'Small') ? 'selected' : '' ?>>Small</option>
+        <option value="Medium" <?= ($product['pumpSize'] == 'Medium') ? 'selected' : '' ?>>Medium</option>
+        <option value="Large" <?= ($product['pumpSize'] == 'Large') ? 'selected' : '' ?>>Large</option>
+    </select>
+
+    <label>Tank Shape</label>
+    <select name="tankShape">
+        <option value="">Select Tank Shape</option>
+        <option value="Round" <?= ($product['tankShape'] == 'Round') ? 'selected' : '' ?>>Round</option>
+        <option value="Square" <?= ($product['tankShape'] == 'Square') ? 'selected' : '' ?>>Square</option>
+        <option value="Others" <?= ($product['tankShape'] == 'Others') ? 'selected' : '' ?>>Others</option>
+    </select>
+
+    <label>Equipment</label>
+    <input type="text" name="equipment" value="<?= htmlspecialchars($product['equipment']) ?>">
+
 
     <label>Current Image</label>
     <img src="<?= htmlspecialchars($product['image']) ?>" alt="Product" class="product-edit-img">

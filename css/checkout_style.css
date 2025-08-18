@@ -18,65 +18,84 @@
     margin: 40px auto 0 auto;
     display: flex;
     gap: 2rem;
+    flex-wrap: wrap; /* allow wrapping on small screens */
 }
 
 .billing-form {
-    flex: 2;
-    background: #00000049; /* text/image box bg */
+    flex: 2 1 600px; /* flexible width */
+    background: #00000049;
     color: white;
     padding: 2rem;
     border-radius: 12px;
-    border: 1px solid #ffffff1a; /* subtle border */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.73);
+}
+
+.billing-form h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 400;
 }
 
 .order-summary {
-    flex: 1;
-    background: #3e3d3d49; /* alternate text/image box bg */
+    flex: 1 1 300px;
+    background: #00000049;
     color: white;
     padding: 1.5rem;
     border-radius: 12px;
-    border: 1px solid #ffffff1a;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.623);
     height: fit-content;
 }
 
 .order-summary h3 {
     font-weight: 700;
     margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem !important;
     font-weight: 500;
 }
 
 .summary-total {
     font-weight: 700;
     font-size: 1.25rem;
-    margin-top: 1rem;
+    margin-top: 1.3rem;
     border-top: 1px solid #ffffff1a;
     padding-top: 1rem;
 }
 
 /* Input & Select */
 input,
-select {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
+select,
+textarea {
+    width: 100% !important;
+    padding: 0.8rem 0.9rem !important;
     margin-top: 0.25rem;
     margin-bottom: 1rem;
     border: 1px solid #ffffff1a;
-    border-radius: 6px;
-    font-size: 1rem;
-    background-color: #00000049;
+    border-radius: 8px;
+    font-size: 0.9rem !important;
+    background-color: #0b0b20;
     color: white;
 }
 
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border: 1px solid #fcd34d;
+    box-shadow: 0 0 6px #fcd34d88;
+}
+
 input::placeholder {
-    color: #ffffffaa; /* subtle placeholder */
+    color: #ffffffaa;
 }
 
 label {
@@ -87,8 +106,8 @@ label {
 
 /* Buttons */
 button.proceed-btn {
-    background-color: #fcd34d; /* button bg */
-    color: #060417; /* text on button */
+    background-color: #fcd34d;
+    color: #060417;
     width: 100%;
     padding: 0.75rem;
     font-weight: 700;
@@ -100,25 +119,105 @@ button.proceed-btn {
 }
 
 button.proceed-btn:hover {
-    background-color: #ffe695; /* hover */
+    background-color: #ffe695;
 }
 
-/* Footer (if any inside checkout section) */
-.checkout-section footer {
-    background-color: #060417;
-    color: white;
-    padding: 1rem 0;
-    text-align: center;
-    font-size: 0.9rem;
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
 }
 
-/* Optional: scrollable textarea or long input boxes */
-textarea {
-    background-color: #00000049;
-    color: white;
-    border: 1px solid #ffffff1a;
-    border-radius: 6px;
-    padding: 0.5rem 0.75rem;
-    font-size: 1rem;
-    width: 100%;
+.radio-group input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #fcd34d;
+    cursor: pointer;
+}
+
+.coupon-row button {
+    color: #fcd34d;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.coupon-row button:hover {
+    color: #ffe695;
+}
+
+/* ------------------ Responsive Media Queries ------------------ */
+
+/* Tablets: width <= 768px */
+@media (max-width: 768px) {
+    .checkout-container {
+        flex-direction: column;
+        margin: 20px auto;
+    }
+
+    .billing-form,
+    .order-summary {
+        flex: 1 1 100%;
+    }
+
+    .billing-form h2,
+    .order-summary h3 {
+        font-size: 1.3rem;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 0.85rem !important;
+        padding: 0.7rem 0.8rem !important;
+    }
+
+    button.proceed-btn {
+        padding: 0.7rem;
+    }
+}
+
+/* Mobile: width <= 480px */
+@media (max-width: 480px) {
+    .checkout-container {
+        padding: 0 10px;
+        gap: 1rem;
+    }
+
+    .billing-form {
+        padding: 1.5rem;
+    }
+
+    .order-summary {
+        padding: 1rem;
+    }
+
+    .billing-form h2,
+    .order-summary h3 {
+        font-size: 1.1rem;
+    }
+
+    input,
+    select,
+    textarea {
+        padding: 0.6rem 0.7rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    button.proceed-btn {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+
+    .summary-row {
+        flex-direction: column;
+        gap: 0.3rem;
+        font-size: 0.9rem;
+    }
+
+    .summary-total {
+        font-size: 1.1rem;
+    }
 }

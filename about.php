@@ -19,8 +19,14 @@
         <hr class="header-divider">
 
 
+        
+
+
+
+
         <!-- About Page Content -->
         <div class="about-page">
+
 
             <!-- Hero / Banner Section -->
             <section class="about-hero">
@@ -57,6 +63,28 @@
             </section>
 
         </div>
+
+        <!-- Fullscreen Stats Section -->
+        <section class="about-stats-bg">
+            <div class="stats-overlay">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>5+</h3>
+                        <p>WaterPets is 1 year old.</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3>123433</h3>
+                        <p>Contributors</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3>3.5</h3>
+                        <p>Current version</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </section>
 
     <?php include 'footer.php'; ?>

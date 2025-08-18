@@ -25,27 +25,42 @@ if (strtotime($user["reset_token_expires_at"]) <= time()) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Reset Password</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <title>Reset Password</title>
+     <link rel="stylesheet" href="css/reset-password.css">
+
 </head>
 <body>
+    <div class="login-container">
+        <div class="login-content">
+            <!-- Heading -->
+            <div class="login-heading">
+                <h1>Reset Password</h1>
+                <p>Enter your new password below</p>
+            </div>
 
-    <h1>Reset Password</h1>
+            <!-- Glass form -->
+            <div class="login-right">
+                <h2>Create New Password</h2>
+                <form method="post" action="process-reset-password.php">
+                    <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
 
-    <form method="post" action="process-reset-password.php">
-        <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <input type="password" id="password" name="password" required placeholder="Enter new password">
+                    </div>
 
-        <label for="password">New password</label>
-        <input type="password" id="password" name="password" required>
+                    <div class="form-group">
+                        <label for="password_confirmation">Repeat Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" required placeholder="Repeat new password">
+                    </div>
 
-        <label for="password_confirmation">Repeat password</label>
-        <input type="password" id="password_confirmation" name="password_confirmation" required>
-
-        <button type="submit">Change Password</button>
-    </form>
-
+                    <button type="submit">Change Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

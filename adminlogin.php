@@ -1,9 +1,8 @@
 <?php
-session_name('admin_session'); // unique name for admin sessions
+session_name('admin_session'); 
 session_start();
 
-require_once "db.php"; // PDO connection file
-
+require_once "db.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
     $username = trim($_POST['username']);
@@ -11,12 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
     $password = $_POST['password'];
 
     try {
-        // Query with username + email + role
         $sql = "SELECT userID, username, email, password, role, profile_pic
-        FROM users 
-        WHERE username = :username 
-        AND email = :email 
-        AND role = 'admin'";
+                FROM users 
+                WHERE username = :username 
+                AND email = :email 
+                AND role = 'admin'";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
@@ -26,12 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            // Save all necessary session data
-            // $_SESSION['userID'] = $user['userID'];
-            // $_SESSION['username'] = $user['username'];
-            // $_SESSION['email'] = $user['email'];
-            // $_SESSION['role'] = $user['role'];
-            // $_SESSION['adminLogin'] = true;
             $_SESSION['admin'] = [
                 'userID' => $user['userID'],
                 'username' => $user['username'],
@@ -39,8 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
                 'role' => 'admin',
                 'profile_pic' => $user['profile_pic']
             ];
-
-
 
             header("Location: adminDashboard.php");
             exit();
@@ -60,37 +50,49 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['adminLogin'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/adminLogin_style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-    <div class="container my-5">
-        <h2 class="mb-4">Admin Login</h2>
-
-        <?php if (isset($message)): ?>
-            <div class="alert alert-danger">
-                <?= htmlspecialchars($message) ?>
-            </div>
-        <?php endif; ?>
-
-        <form method="POST" action="">
-            <div class="mb-3">
-                <label class="form-label">Username:</label>
-                <input type="text" name="username" class="form-control" required>
+    <div class="login-container">
+        <div class="login-content">
+            <!-- Heading -->
+            <div class="login-heading">
+                <h1>Admin Portal</h1>
+                <p>Secure access for administrators only</p>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email:</label>
-                <input type="email" name="email" class="form-control" required>
-            </div>
+            <!-- Glass form -->
+            <div class="login-right">
+                <h2>Admin Login</h2>
 
-            <div class="mb-3">
-                <label class="form-label">Password:</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
+                <?php if (isset($message)): ?>
+                    <div class="alert-message">
+                        <?= htmlspecialchars($message) ?>
+                    </div>
+                <?php endif; ?>
 
-            <button type="submit" name="adminLogin" class="btn btn-primary">Login</button>
-        </form>
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" placeholder="Enter username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="Enter email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="Enter password" required>
+                    </div>
+
+                    <button type="submit" name="adminLogin">Login</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 

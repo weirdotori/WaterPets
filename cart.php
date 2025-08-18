@@ -51,6 +51,8 @@ foreach ($items as $item) {
     <link rel="stylesheet" href="/css/cart_style.css">
     <!-- Tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body>
@@ -62,8 +64,14 @@ foreach ($items as $item) {
             <h1>Shopping Cart</h1>
 
             <?php if (empty($items)): ?>
-                <p>Your cart is empty.</p>
+                <div class="empty-cart">
+                    <img src="/images/cart.png" alt="Empty Cart" class="empty-cart-img">
+                    <h2>Your Cart is Empty</h2>
+                    <p>Looks like you haven't added anything to your cart yet.</p>
+                    <a href="fish.php" class="btn-continue-shopping">Continue Shopping</a>
+                </div>
             <?php else: ?>
+
                 <div class="cart-main">
                     <table class="cart-table">
                         <thead>
