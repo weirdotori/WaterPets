@@ -110,14 +110,14 @@ try {
         $stmtShipping->execute([$shippingFee, $orderID, $shippingSpeed]);
     }
 
-    // After committing the order
+    // After placing the order
     if ($orderStatus === 'Completed') {
-        // 1. Count completed orders for this user
+        // Count completed orders for this user
         $stmtCount = $conn->prepare("SELECT COUNT(*) FROM orders WHERE userID = ? AND orderStatus = 'Completed'");
         $stmtCount->execute([$_SESSION['user']['userID']]);
         $completedOrders = (int)$stmtCount->fetchColumn();
 
-        // 2. Generate coupon every 3 orders
+        // Generate coupon every 3 orders
         if ($completedOrders % 3 === 0) {
             // Generate random coupon code
             $randomCode = strtoupper(substr(md5(uniqid()), 0, 8));

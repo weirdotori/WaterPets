@@ -250,7 +250,7 @@ body {
 }
 
 .noti-msg {
-  color: green;
+  color: rgb(47, 255, 0);
 }
 
 
@@ -650,5 +650,187 @@ body {
 
   .profile-content {
     padding: 20px;
+  }
+}
+
+
+/* === Tablets: 769px - 1024px === */
+@media (max-width: 1024px) {
+  .profile-container {
+    margin: 15px;
+  }
+
+  .profile-sidebar {
+    width: 200px;
+    padding: 15px 0;
+  }
+
+  .profile-sidebar a,
+  .delete-account-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  .profile-content {
+    padding: 30px;
+    max-width: 700px;
+  }
+
+  .profile-card {
+    padding: 30px;
+    max-width: 500px;
+  }
+
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+  }
+
+  .form-group input {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .btn-primary,
+  .btn-success,
+  .btn-warning {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+/* === Small tablets & large phones: 481px - 768px === */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    margin: 10px;
+  }
+
+  .profile-sidebar {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
+  }
+
+  .profile-sidebar ul {
+    display: flex;
+    gap: 5px;
+  }
+
+  .profile-sidebar li {
+    flex: 1;
+  }
+
+  .profile-sidebar a {
+    font-size: 13px;
+    padding: 8px 10px;
+    border-radius: 0;
+    text-align: center;
+  }
+
+  .profile-content {
+    padding: 20px;
+  }
+
+  .profile-card {
+    padding: 25px;
+    max-width: 100%;
+  }
+
+  .profile-pic {
+    width: 130px;
+    height: 130px;
+  }
+
+  .form-group input {
+    padding: 9px 11px;
+    font-size: 13px;
+  }
+
+  .btn-primary,
+  .btn-success,
+  .btn-warning {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .order-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-card-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .order-table th,
+  .order-table td {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .coupon-card {
+    padding: 10px;
+    height: auto;
+  }
+}
+
+/* === Mobile: up to 480px === */
+@media (max-width: 480px) {
+  .profile-sidebar a,
+  .delete-account-btn {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  .profile-content {
+    padding: 15px;
+  }
+
+  .profile-card {
+    padding: 20px;
+  }
+
+  .profile-pic {
+    width: 110px;
+    height: 110px;
+  }
+
+  .form-group input {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .btn-primary,
+  .btn-success,
+  .btn-warning {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .section-overview h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .order-card-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .coupon-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .coupon-code,
+  .coupon-desc,
+  .coupon-status {
+    text-align: left;
+    flex: none;
   }
 }

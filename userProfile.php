@@ -34,6 +34,8 @@ $coupons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <link rel="stylesheet" href="/css/userProfile_style.css">
 
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>

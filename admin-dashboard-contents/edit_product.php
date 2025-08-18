@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $stmt = $conn->prepare("
             UPDATE products
-            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, waterType = ?, difficulty = ?, species = ?, aggressionLevel = ?, coralType = ?, lighting = ?, waterFlow = ?, color = ? foodType = ?, substrateType = ?, supplies = ?, filterType = ?, heaterWatt = ?, pumpSize = ?, tankShape = ?, equipment = ?
+            SET pName = ?, description = ?, price = ?, stock = ?, categoryID = ?, waterType = ?, difficulty = ?, species = ?, aggressionLevel = ?, coralType = ?, lighting = ?, waterFlow = ?, color = ?, foodType = ?, substrateType = ?, supplies = ?, filterType = ?, heaterWatt = ?, pumpSize = ?, tankShape = ?, equipment = ?
             WHERE productID = ?
         ");
         $success = $stmt->execute([$pName, $description, $price, $stock, $categoryID, $waterType, $difficulty, $species, $aggressionLevel, $coralType, $lighting, $waterFlow, $color, $foodType, $substrateType, $supplies, $filterType, $heaterWatt, $pumpSize, $tankShape, $equipment, $productID]);
