@@ -138,6 +138,20 @@
         border-top: 1px solid #ddd;
         background: #fff;
     }
+
+    .keyword-btn {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        margin: 3px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 13px;
+    }
+    .keyword-btn:hover {
+        background: #2980b9;
+    }
 </style>
 
 
@@ -158,77 +172,116 @@
 
 
 <script>
-    // Toggle chatbox when icon is clicked
     const chatbotIcon = document.getElementById('chatbot-icon');
     const chatbox = document.getElementById('chatbox');
+    const messagesContainer = document.getElementById('chatbox-messages');
+    const sendBtn = document.getElementById('chatbox-send');
+    const inputBox = document.getElementById('chatbox-input');
+
+    // --- Define keywords & responses ---
+    const keywordResponses = {
+        "order": "You can place an order by visiting our products page.",
+        "price": "Our prices vary depending on the product. Can you tell me which product?",
+        "delivery": "We provide fast delivery within 2-3 business days.",
+        "contact": "You can contact us at support@yourshop.com.",
+        "help": "We are here to assist you 24/7!."
+    };
+
+    // --- Show keyword buttons in greeting ---
+    function showKeywordButtons() {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'bot-msg';
+
+        const text = document.createElement('div');
+        text.textContent = "Here are some quick options:";
+        botDiv.appendChild(text);
+
+        // add buttons
+        Object.keys(keywordResponses).forEach(key => {
+            const btn = document.createElement('button');
+            btn.className = "keyword-btn";
+            btn.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+            btn.onclick = () => handleUserMessage(key); // simulate user typing keyword
+            botDiv.appendChild(btn);
+        });
+
+        messagesContainer.appendChild(botDiv);
+        scrollChat();
+    }
 
     chatbotIcon.addEventListener('click', () => {
         if (chatbox.style.display === 'flex') {
             chatbox.style.display = 'none';
         } else {
             chatbox.style.display = 'flex';
-
-            // Check if messages container is empty
             if (messagesContainer.children.length === 0) {
                 const botDiv = document.createElement('div');
                 botDiv.className = 'bot-msg';
                 botDiv.textContent = "Hello! How can I assist you today?";
                 messagesContainer.appendChild(botDiv);
                 scrollChat();
+                showKeywordButtons(); // show buttons immediately
             }
         }
     });
 
-
-    // Scroll chat to bottom
     function scrollChat() {
-        const chat = document.getElementById('chatbox-messages');
-        chat.scrollTop = chat.scrollHeight;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    // Send message
-    const sendBtn = document.getElementById('chatbox-send');
-    const inputBox = document.getElementById('chatbox-input');
-    const messagesContainer = document.getElementById('chatbox-messages');
-
-    sendBtn.addEventListener('click', () => {
-        const userMsg = inputBox.value.trim();
-        if (!userMsg) return;
-
-        // Show user message
+    // --- Handle user input ---
+    function handleUserMessage(msg) {
+        // Show user msg
         const userDiv = document.createElement('div');
         userDiv.className = 'user-msg';
-        userDiv.textContent = userMsg;
+        userDiv.textContent = msg;
         messagesContainer.appendChild(userDiv);
         scrollChat();
 
-        // Send POST request to chatbot_response.php
-        fetch('chatbot_response.php', {
+        // Try keyword matching first
+        let reply = null;
+        for (let key in keywordResponses) {
+            if (msg.toLowerCase().includes(key)) {
+                reply = keywordResponses[key];
+                break;
+            }
+        }
+
+        if (reply) {
+            // Direct keyword reply
+            const botDiv = document.createElement('div');
+            botDiv.className = 'bot-msg';
+            botDiv.textContent = reply;
+            messagesContainer.appendChild(botDiv);
+            scrollChat();
+        } else {
+            // Fallback: ask server (your current PHP logic)
+            fetch('chatbot_response.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'message=' + encodeURIComponent(userMsg)
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'message=' + encodeURIComponent(msg)
             })
-            .then(response => response.text())
+            .then(r => r.text())
             .then(botReply => {
                 const botDiv = document.createElement('div');
                 botDiv.className = 'bot-msg';
                 botDiv.textContent = botReply;
                 messagesContainer.appendChild(botDiv);
                 scrollChat();
-            })
-            .catch(err => {
-                console.error('Error:', err);
             });
+        }
+    }
 
+    // Send button
+    sendBtn.addEventListener('click', () => {
+        const userMsg = inputBox.value.trim();
+        if (!userMsg) return;
+        handleUserMessage(userMsg);
         inputBox.value = '';
     });
 
-    // Optional: send message on Enter key
-    inputBox.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            sendBtn.click();
-        }
+    // Enter key
+    inputBox.addEventListener('keydown', e => {
+        if (e.key === 'Enter') sendBtn.click();
     });
 </script>

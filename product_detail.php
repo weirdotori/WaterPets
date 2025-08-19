@@ -74,9 +74,17 @@ if (isset($_SESSION['review_error'])) {
                 <p><strong class="detail-title">Water Flow Level:</strong> <?= htmlspecialchars($product['waterFlow'] ?? 'N/A') ?></p>
                 <p><strong class="detail-title">Color:</strong> <?= htmlspecialchars($product['color'] ?? 'N/A') ?></p>
 
-            <?php elseif ($product['categoryName'] === 'Supplies' || $product['categoryName'] === 'Equipment'): ?>
-                <p><strong class="detail-title">Type:</strong> <?= htmlspecialchars($product['equipmentType'] ?? 'N/A') ?></p>
-                <p><strong class="detail-title">Brand:</strong> <?= htmlspecialchars($product['brand'] ?? 'N/A') ?></p>
+            <?php elseif ($product['categoryName'] === 'Supplies'): ?>
+                <p><strong class="detail-title">Foot Type:</strong> <?= htmlspecialchars($product['foodType'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Substrate Type:</strong> <?= htmlspecialchars($product['substrateType'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Supplies:</strong> <?= htmlspecialchars($product['supplies'] ?? 'N/A') ?></p>
+
+            <?php elseif ($product['categoryName'] === 'Equipment'): ?>
+                <p><strong class="detail-title">Filter Type:</strong> <?= htmlspecialchars($product['filterType'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Heater Watt:</strong> <?= htmlspecialchars($product['heaterWatt'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Pump Size:</strong> <?= htmlspecialchars($product['pumpSize'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Tank Shape:</strong> <?= htmlspecialchars($product['tankShape'] ?? 'N/A') ?></p>
+                <p><strong class="detail-title">Equipment:</strong> <?= htmlspecialchars($product['equipment'] ?? 'N/A') ?></p>
             <?php endif; ?>
 
             <div class="product-price">
@@ -129,37 +137,37 @@ if (isset($_SESSION['review_error'])) {
     </div>
 
     <div id="review-form" class="hidden review-form-container">
-    <form method="post" action="submit_review.php">
-        <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
+        <form method="post" action="submit_review.php">
+            <input type="hidden" name="productID" value="<?= $product['productID'] ?>">
 
-        <div class="review-stars">
-            <?php for ($i = 5; $i >= 1; $i--): ?>
-                <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>" required>
-                <label for="star<?= $i ?>">★</label>
-            <?php endfor; ?>
-        </div>
-
-        <textarea name="reviewComment" placeholder="Write your review..." required></textarea>
-
-        <button type="submit">Submit Review</button>
-    </form>
-</div>
-
-<div id="reviews-container" class="hidden review-list">
-    <?php foreach ($reviews as $review): ?>
-        <div class="review-item">
-            <div class="review-meta">
-                <strong><?= htmlspecialchars($review['username']) ?></strong> (<?= htmlspecialchars($review['created_at']) ?>)
-            </div>
-            <div class="review-stars-display">
-                <?php for ($i = 1; $i <= 5; $i++): ?>
-                    <?= $i <= $review['rating'] ? '★' : '☆' ?>
+            <div class="review-stars">
+                <?php for ($i = 5; $i >= 1; $i--): ?>
+                    <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>" required>
+                    <label for="star<?= $i ?>">★</label>
                 <?php endfor; ?>
             </div>
-            <div class="review-text"><?= nl2br(htmlspecialchars($review['reviewComment'])) ?></div>
-        </div>
-    <?php endforeach; ?>
-</div>
+
+            <textarea name="reviewComment" placeholder="Write your review..." required></textarea>
+
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <div id="reviews-container" class="hidden review-list">
+        <?php foreach ($reviews as $review): ?>
+            <div class="review-item">
+                <div class="review-meta">
+                    <strong><?= htmlspecialchars($review['username']) ?></strong> (<?= htmlspecialchars($review['created_at']) ?>)
+                </div>
+                <div class="review-stars-display">
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <?= $i <= $review['rating'] ? '★' : '☆' ?>
+                    <?php endfor; ?>
+                </div>
+                <div class="review-text"><?= nl2br(htmlspecialchars($review['reviewComment'])) ?></div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 
 
 </div>

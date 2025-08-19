@@ -230,10 +230,10 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php if (empty($_GET['id'])): ?>
                     <div class="species-buttons">
                         <a href="equipment.php" class="<?= $selectedEquipment === '' ? 'active' : '' ?>">All</a>
-                        <a href="equipment.php?species=Betta" class="<?= $selectedEquipment === 'Filter' ? 'active' : '' ?>">Filter</a>
-                        <a href="equipment.php?species=Goldfish" class="<?= $selectedEquipment === 'Heater' ? 'active' : '' ?>">Heater</a>
-                        <a href="equipment.php?species=Guppy" class="<?= $selectedEquipment === 'Pump' ? 'active' : '' ?>">Pump</a>
-                        <a href="equipment.php?species=Tetra" class="<?= $selectedEquipment === 'Tank' ? 'active' : '' ?>">Tank</a>
+                        <a href="equipment.php?equipment=Filter" class="<?= $selectedEquipment === 'Filter' ? 'active' : '' ?>">Filter</a>
+                        <a href="equipment.php?equipment=Heater" class="<?= $selectedEquipment === 'Heater' ? 'active' : '' ?>">Heater</a>
+                        <a href="equipment.php?equipment=Pump" class="<?= $selectedEquipment === 'Pump' ? 'active' : '' ?>">Pump</a>
+                        <a href="equipment.php?equipment=Tank" class="<?= $selectedEquipment === 'Tank' ? 'active' : '' ?>">Tank</a>
                     </div>
                 <?php endif; ?>
 
