@@ -8,10 +8,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_faq'])) {
     $answer = $_POST['answer'];
 
     $stmt = $conn->prepare("UPDATE faqs SET question = ?, answer = ?, updated_at = NOW() WHERE faqID = ?");
-    $stmt->execute([$question, $answer, $id]);
+    if ($stmt->execute([$question, $answer, $id])) {
+        $_SESSION['msg'] = "FAQ #$id updated successfully.";
+        $_SESSION['msg_type'] = "success";
+    } else {
+        $_SESSION['msg'] = "Failed to update FAQ #$id.";
+        $_SESSION['msg_type'] = "error";
+    }
 
-     $_SESSION['msg'] = "FAQ #$id updated successfully.";
-    header("Location: ?page=manage_faqs&success=updated");
+    echo "<script>window.location.href='?page=manage_faqs';</script>";
     exit;
 }
 
@@ -19,10 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_faq'])) {
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $stmt = $conn->prepare("DELETE FROM faqs WHERE faqID = ?");
-    $stmt->execute([$id]);
+    if ($stmt->execute([$id])) {
+        $_SESSION['msg'] = "FAQ deleted successfully.";
+        $_SESSION['msg_type'] = "success";
+    } else {
+        $_SESSION['msg'] = "Failed to delete FAQ.";
+        $_SESSION['msg_type'] = "error";
+    }
 
-    $_SESSION['msg'] = "Inquiry deleted.";
-    header("Location: ?page=manage_faqs&success=deleted");
+    echo "<script>window.location.href='?page=manage_faqs';</script>";
     exit;
 }
 
@@ -31,18 +41,21 @@ $faqsStmt = $conn->query("SELECT * FROM faqs ORDER BY created_at DESC");
 $faqs = $faqsStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
 <div class="admin-page-header">
     <h2>Manage FAQs</h2>
     <a href="?page=add_faqs" class="btn-add">+ Add New FAQ</a>
 </div>
 
+<?php if (isset($_SESSION['msg'])): ?>
+    <div class="inquiries-alert <?= $_SESSION['msg_type'] ?>">
+        <?= $_SESSION['msg'] ?>
+    </div>
+    <?php unset($_SESSION['msg'], $_SESSION['msg_type']); ?>
+<?php endif; ?>
+
 <?php if (count($faqs) === 0): ?>
     <p>No FAQs found. Click "Add New FAQ" to create one.</p>
 <?php else: ?>
-    <?php if (isset($_SESSION['msg'])): ?>
-        <div class="inquiries-alert"><?php echo $_SESSION['msg']; unset($_SESSION['msg']); ?></div>
-    <?php endif; ?>
     <table class="faq-table">
         <thead>
             <tr>

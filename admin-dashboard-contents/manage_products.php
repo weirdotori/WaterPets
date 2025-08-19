@@ -7,11 +7,13 @@ if (isset($_GET['delete_id'])) {
     $stmt = $conn->prepare("DELETE FROM products WHERE productID = ?");
     if ($stmt->execute([$delete_id])) {
         $_SESSION['msg'] = "Product deleted successfully.";
+        $_SESSION['msg_type'] = "success";
     } else {
         $_SESSION['msg'] = "Error deleting product.";
+        $_SESSION['msg_type'] = "error";
     }
-    // no header() redirect here, will reload page naturally
 }
+
 
 $where = [];
 $params = [];
@@ -57,10 +59,14 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <h2 class="section-title">Product Catalog</h2>
+<p>View, Edit, Delete Products. Use Search, Sort and Filters for quick access.</p>
 <?php if (isset($_SESSION['msg'])): ?>
-    <div class="alert-msg"><?= $_SESSION['msg'];
-                            unset($_SESSION['msg']); ?></div>
+    <div class="alert-msg <?= $_SESSION['msg_type'] ?? '' ?>">
+        <?= $_SESSION['msg']; ?>
+    </div>
+    <?php unset($_SESSION['msg'], $_SESSION['msg_type']); ?>
 <?php endif; ?>
+
 
 <!-- Search + Filters -->
 <form method="GET" class="filter-form">

@@ -155,10 +155,11 @@
 
 .carousel .list .item .buttons button {
     border: none;
-    background-color: #eee;
+    background-color: #fcd34d;
     letter-spacing: 3px;
     font-family: Poppins;
     font-weight: 500;
+    color: #000000;
 }
 
 .carousel .list .item .buttons button:nth-child(2) {

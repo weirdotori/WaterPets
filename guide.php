@@ -46,11 +46,10 @@
                     <img src="/images/img6.jpg">
                     <div class="content">
                         <div class="author">LUNDEV</div>
-                        <div class="title">DESIGN SLIDER</div>
-                        <div class="topic">ANIMAL</div>
+                        <div class="title">Discus Care Guide</div>
+                        <div class="topic">Freshwater Fish</div>
                         <div class="des">
-                            <!-- lorem 50 -->
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                            Discus are tropical freshwater fish requiring soft, slightly acidic water (pH 6.0–7.0) and a temperature of 28–31°C (82–88°F). They thrive in peaceful community tanks, need high-quality protein-rich food, and require regular water changes to maintain excellent water quality.
                         </div>
                         <div class="buttons">
                             <button>SEE MORE</button>
@@ -62,10 +61,10 @@
                     <img src="images/img5.jpg">
                     <div class="content">
                         <div class="author">LUNDEV</div>
-                        <div class="title">DESIGN SLIDER</div>
-                        <div class="topic">ANIMAL</div>
+                        <div class="title">Yellow Tang Care Guide</div>
+                        <div class="topic">Saltwater Fish</div>
                         <div class="des">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                            Yellow Tangs are marine fish that require a saltwater tank of at least 75 gallons with stable water parameters (specific gravity 1.020–1.025, pH 8.1–8.4). They are herbivores that eat marine algae and seaweed, need hiding spots, and are generally peaceful but can be territorial with other tangs.
                         </div>
                         <div class="buttons">
                             <button>SEE MORE</button>
@@ -77,10 +76,10 @@
                     <img src="images/img7.jpg">
                     <div class="content">
                         <div class="author">LUNDEV</div>
-                        <div class="title">DESIGN SLIDER</div>
-                        <div class="topic">ANIMAL</div>
+                        <div class="title">Betta Care Guide</div>
+                        <div class="topic">Freshwater Fish</div>
                         <div class="des">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                            Bettas need a small, warm freshwater tank (24–30°C / 75–86°F) with gentle filtration. They prefer planted tanks with hiding spots, eat a varied diet of high-quality pellets and frozen/live foods, and should be kept alone or with very peaceful tank mates to avoid aggression.
                         </div>
                         <div class="buttons">
                             <button>SEE MORE</button>
@@ -92,10 +91,10 @@
                     <img src="images/img8.jpg">
                     <div class="content">
                         <div class="author">LUNDEV</div>
-                        <div class="title">DESIGN SLIDER</div>
-                        <div class="topic">ANIMAL</div>
+                        <div class="title">Clownfish Care Guide</div>
+                        <div class="topic">Saltwater Fish</div>
                         <div class="des">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                            Clownfish require a marine tank of at least 20 gallons with stable parameters (pH 8.1–8.4, salinity 1.020–1.025). They are omnivores, eat a mix of pellets, frozen, and live foods, and often thrive with anemones. Compatible with many peaceful reef species.
                         </div>
                         <div class="buttons">
                             <button>SEE MORE</button>
@@ -104,63 +103,47 @@
                     </div>
                 </div>
             </div>
-            <!-- list thumnail -->
+            <!-- list thumbnail -->
             <div class="thumbnail">
                 <div class="item">
                     <img src="/images/img6.jpg">
                     <div class="content">
-                        <div class="title">
-                            Name Slider
-                        </div>
-                        <div class="description">
-                            Description
-                        </div>
+                        <div class="title">Discus</div>
+                        <div class="description">Soft acidic water, 28–31°C, peaceful community fish.</div>
                     </div>
                 </div>
                 <div class="item">
                     <img src="images/img5.jpg">
                     <div class="content">
-                        <div class="title">
-                            Name Slider
-                        </div>
-                        <div class="description">
-                            Description
-                        </div>
+                        <div class="title">Yellow Tang</div>
+                        <div class="description">Saltwater, 75+ gallon tank, herbivore, peaceful but territorial.</div>
                     </div>
                 </div>
                 <div class="item">
                     <img src="images/img7.jpg">
                     <div class="content">
-                        <div class="title">
-                            Name Slider
-                        </div>
-                        <div class="description">
-                            Description
-                        </div>
+                        <div class="title">Betta</div>
+                        <div class="description">Freshwater, warm tank, solo fish, planted tank preferred.</div>
                     </div>
                 </div>
                 <div class="item">
                     <img src="images/img8.jpg">
                     <div class="content">
-                        <div class="title">
-                            Name Slider
-                        </div>
-                        <div class="description">
-                            Description
-                        </div>
+                        <div class="title">Clownfish</div>
+                        <div class="description">Saltwater, 20+ gallon tank, omnivore, compatible with peaceful reef species.</div>
                     </div>
                 </div>
             </div>
             <!-- next prev -->
-
             <div class="arrows">
                 <button id="prev">
-                    < </button>
+                    <</button>
                         <button id="next">></button>
             </div>
             <!-- time running -->
             <div class="time"></div>
         </div>
+
 
     </section>
 

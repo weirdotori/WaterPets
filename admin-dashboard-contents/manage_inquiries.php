@@ -1,16 +1,20 @@
 <?php
 require_once "db.php";
 
-// Handle update (only status editable)
+// Handle update
 if (isset($_POST['update_id'])) {
     $id = intval($_POST['update_id']);
-    $status = $_POST['status'] === 'Resolved' ? 'Resolved' : 'Pending'; // sanitize enum
+    $status = $_POST['status'] === 'Resolved' ? 'Resolved' : 'Pending';
 
     $stmt = $conn->prepare("UPDATE inquiry SET status = ? WHERE inquiryID = ?");
-    $stmt->execute([$status, $id]);
-
-    $_SESSION['msg'] = "Inquiry #$id updated successfully.";
-    header("Location: ?page=manage_inquiries");
+    if ($stmt->execute([$status, $id])) {
+        $_SESSION['msg'] = "Inquiry #$id updated successfully.";
+        $_SESSION['msg_type'] = "success";
+    } else {
+        $_SESSION['msg'] = "Failed to update inquiry #$id.";
+        $_SESSION['msg_type'] = "error";
+    }
+    echo "<script>window.location.href='?page=manage_inquiries';</script>";
     exit;
 }
 
@@ -18,11 +22,17 @@ if (isset($_POST['update_id'])) {
 if (isset($_GET['delete_id'])) {
     $id = intval($_GET['delete_id']);
     $stmt = $conn->prepare("DELETE FROM inquiry WHERE inquiryID = ?");
-    $stmt->execute([$id]);
-    $_SESSION['msg'] = "Inquiry deleted.";
-    header("Location: ?page=manage_inquiries");
+    if ($stmt->execute([$id])) {
+        $_SESSION['msg'] = "Inquiry deleted.";
+        $_SESSION['msg_type'] = "success";
+    } else {
+        $_SESSION['msg'] = "Failed to delete inquiry.";
+        $_SESSION['msg_type'] = "error";
+    }
+    echo "<script>window.location.href='?page=manage_inquiries';</script>";
     exit;
 }
+
 
 // Fetch all inquiries
 $stmt = $conn->query("SELECT * FROM inquiry ORDER BY created_at DESC");
@@ -31,10 +41,14 @@ $inquiries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="inquiries-container">
     <h2 class="inquiries-title">Manage Inquiries</h2>
-
+<p>View, Update and Delete inquiries.</p>
     <?php if (isset($_SESSION['msg'])): ?>
-        <div class="inquiries-alert"><?php echo $_SESSION['msg']; unset($_SESSION['msg']); ?></div>
+        <div class="inquiries-alert <?= $_SESSION['msg_type'] ?>">
+            <?= $_SESSION['msg'] ?>
+        </div>
+        <?php unset($_SESSION['msg'], $_SESSION['msg_type']); ?>
     <?php endif; ?>
+
 
     <table class="inquiries-table">
         <thead>
@@ -69,11 +83,11 @@ $inquiries = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </td>
                     <td><?= $inq['created_at'] ?></td>
                     <td>
-                            <button type="submit" class="inquiries-btn update">Update</button>
+                        <button type="submit" class="inquiries-btn update">Update</button>
                         </form>
                         <a href="?page=manage_inquiries&delete_id=<?= $inq['inquiryID'] ?>"
-                           onclick="return confirm('Are you sure you want to delete this inquiry?')"
-                           class="inquiries-btn delete">Delete</a>
+                            onclick="return confirm('Are you sure you want to delete this inquiry?')"
+                            class="inquiries-btn delete">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

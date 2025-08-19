@@ -8,10 +8,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_chatbot'])) {
     $answer = $_POST['answer'];
 
     $stmt = $conn->prepare("UPDATE chatbot SET question = ?, answer = ?, updated_at = NOW() WHERE chatbotID = ?");
-    $stmt->execute([$question, $answer, $id]);
+    if ($stmt->execute([$question, $answer, $id])) {
+        $_SESSION['msg'] = "Chatbot entry #$id updated successfully.";
+        $_SESSION['msg_type'] = "success";
+    } else {
+        $_SESSION['msg'] = "Failed to update chatbot entry #$id.";
+        $_SESSION['msg_type'] = "error";
+    }
 
-    $_SESSION['msg'] = "Chatbot entry #$id updated successfully.";
-    header("Location: ?page=manage_chatbot&success=updated");
+    echo "<script>window.location.href='?page=manage_chatbot';</script>";
     exit;
 }
 
@@ -19,10 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_chatbot'])) {
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $stmt = $conn->prepare("DELETE FROM chatbot WHERE chatbotID = ?");
-    $stmt->execute([$id]);
+    if ($stmt->execute([$id])) {
+        $_SESSION['msg'] = "Chatbot entry deleted successfully.";
+        $_SESSION['msg_type'] = "success";
+    } else {
+        $_SESSION['msg'] = "Failed to delete chatbot entry.";
+        $_SESSION['msg_type'] = "error";
+    }
 
-    $_SESSION['msg'] = "Chatbot entry deleted.";
-    header("Location: ?page=manage_chatbot&success=deleted");
+    echo "<script>window.location.href='?page=manage_chatbot';</script>";
     exit;
 }
 
@@ -36,12 +46,16 @@ $chatbots = $chatbotStmt->fetchAll(PDO::FETCH_ASSOC);
     <a href="?page=add_chatbot" class="btn-add">+ Add New Entry</a>
 </div>
 
+<?php if (isset($_SESSION['msg'])): ?>
+    <div class="inquiries-alert <?= $_SESSION['msg_type'] ?>">
+        <?= $_SESSION['msg'] ?>
+    </div>
+    <?php unset($_SESSION['msg'], $_SESSION['msg_type']); ?>
+<?php endif; ?>
+
 <?php if (count($chatbots) === 0): ?>
     <p>No chatbot entries found. Click "Add New Entry" to create one.</p>
 <?php else: ?>
-    <?php if (isset($_SESSION['msg'])): ?>
-        <div class="inquiries-alert"><?php echo $_SESSION['msg']; unset($_SESSION['msg']); ?></div>
-    <?php endif; ?>
     <table class="faq-table">
         <thead>
             <tr>

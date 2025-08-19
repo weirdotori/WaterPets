@@ -27,16 +27,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle file upload
     $imagePath = null;
     if (!empty($_FILES['image']['name'])) {
-        $targetDir = "uploads/products/"; 
+        $targetDir = "uploads/products/";
         if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true); 
+            mkdir($targetDir, 0777, true);
         }
 
         $fileName = time() . "_" . basename($_FILES['image']['name']);
         $targetFile = $targetDir . $fileName;
 
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-            $imagePath = $targetFile; 
+            $imagePath = $targetFile;
         }
     }
 
@@ -46,12 +46,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         (pName, description, price, stock, categoryID, waterType, difficulty, species, aggressionLevel, coralType, lighting, waterFlow, color, foodType, substrateType, supplies, filterType, heaterWatt, pumpSize, tankShape, equipment, image, created_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     ");
-    $stmt->execute([
-        $pName, $description, $price, $stock, $categoryID,
-        $waterType, $difficulty, $species, $aggressionLevel, $coralType, $lighting, $waterFlow, $color, $foodType, $substrateType, $supplies, $filterType, $heaterWatt, $pumpSize, $tankShape, $equipment, $imagePath
-    ]);
-
-    header("Location: ?page=manage_products&success=1");
+    if ($stmt->execute([
+        $pName,
+        $description,
+        $price,
+        $stock,
+        $categoryID,
+        $waterType,
+        $difficulty,
+        $species,
+        $aggressionLevel,
+        $coralType,
+        $lighting,
+        $waterFlow,
+        $color,
+        $foodType,
+        $substrateType,
+        $supplies,
+        $filterType,
+        $heaterWatt,
+        $pumpSize,
+        $tankShape,
+        $equipment,
+        $imagePath
+    ])) {
+        $_SESSION['msg'] = "Product added successfully.";
+        $_SESSION['msg_type'] = "success";
+    } else {
+        $_SESSION['msg'] = "Error adding product.";
+        $_SESSION['msg_type'] = "error";
+    }
+    echo "<script>window.location.href='?page=manage_products';</script>";
     exit;
 }
 ?>
@@ -143,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <option value="Freeze-dried">Freeze-dried</option>
         <option value="Frozen">Frozen</option>
     </select>
-    
+
     <label>Substrate Type</label>
     <select name="substrateType">
         <option value="">Select Substrate Type</option>

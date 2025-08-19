@@ -1,7 +1,7 @@
 <?php
-require_once 'db.php'; // adjust to your DB connection file
+require_once 'db.php';
 
-// 1. Handle Delete Request
+//  Handle Delete Request
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     $stmt = $conn->prepare("DELETE FROM users WHERE userID = ?");
@@ -14,7 +14,7 @@ if (isset($_GET['delete_id'])) {
     exit;
 }
 
-// 2. Fetch all users
+//Fetch all users
 $stmt = $conn->query("SELECT * FROM users ORDER BY userID ASC");
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -22,12 +22,12 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="users-container">
     <h2 class="users-title">Manage Users</h2>
+    <p>View, Edit, and Delete User accounts.</p>
 
     <?php if (isset($_SESSION['msg'])): ?>
         <div class="users-alert"><?php echo $_SESSION['msg'];
                                     unset($_SESSION['msg']); ?></div>
     <?php endif; ?>
-
     <table class="users-table">
         <thead>
             <tr>

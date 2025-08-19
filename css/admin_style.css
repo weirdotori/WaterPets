@@ -32,7 +32,6 @@ body {
     --border-color: #ffffff;
     --text-muted: #aaa;
     --accent-color: #fcd34d;
-    /* stays same unless you want a darker accent */
     --table-head-color: #fcd34d;
     --chart-bg-color: #0f0b32;
     --btn-hover-color: #fcd34d;
@@ -67,13 +66,20 @@ body {
     height: 40px;
 }
 
+
+.navbar-left {
+    display: flex;
+    align-items: center; /* vertically centers the logo image and text */
+}
+
 .logo-font {
-    margin-left: 10px;
+    margin-left: 10px; /* space between image and text */
     font-size: 1.5rem;
     font-weight: 600;
     text-decoration: none;
     color: var(--text-color);
 }
+
 
 
 
@@ -1452,6 +1458,21 @@ table tr:hover {
     background-color: #636e72;
 }
 
+.alert-msg {
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.alert-msg.success {
+    background-color: #28a745; /* green */
+}
+
+.alert-msg.error {
+    background-color: #dc3545; /* red */
+}
 
 
 
@@ -1565,6 +1586,23 @@ table tr:hover {
 /* Form inside table cells */
 .inquiries-form {
     margin: 0;
+}
+
+.inquiries-alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+.inquiries-alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.inquiries-alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
 
@@ -1690,6 +1728,22 @@ table tr:hover {
     color: var(--text-color);
 }
 
+.inquiries-alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+.inquiries-alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.inquiries-alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
 
 /* ======================= */
 /* Add FAQs */

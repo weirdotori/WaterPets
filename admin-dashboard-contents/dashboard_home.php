@@ -1,5 +1,5 @@
 <?php
-require_once "db.php"; // your PDO connection
+require_once "db.php"; 
 
 // ---- Cards Data ---- //
 $totalUsers = $conn->query("SELECT COUNT(*) FROM users")->fetchColumn();
@@ -118,7 +118,23 @@ new Chart(document.getElementById('userGrowthChart'), {
   type: 'line',
   data: {
     labels: <?= json_encode(array_column($userGrowth, 'reg_date')) ?>,
-    datasets: [{label: 'Users', data: <?= json_encode(array_column($userGrowth, 'total')) ?>, borderColor: 'blue'}]
+    datasets: [{
+      label: 'Users',
+      data: <?= json_encode(array_column($userGrowth, 'total')) ?>,
+      borderColor: 'blue',
+      fill: false
+    }]
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: 'User Growth (Last 7 Days)',
+        font: { size: 18 }
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false
   }
 });
 
@@ -127,7 +143,21 @@ new Chart(document.getElementById('orderStatusChart'), {
   type: 'pie',
   data: {
     labels: <?= json_encode(array_column($orderStatus, 'orderStatus')) ?>,
-    datasets: [{data: <?= json_encode(array_column($orderStatus, 'total')) ?>, backgroundColor: ['#3498db','#2ecc71','#e74c3c','#f1c40f']}]
+    datasets: [{
+      data: <?= json_encode(array_column($orderStatus, 'total')) ?>,
+      backgroundColor: ['#3498db','#2ecc71','#e74c3c','#f1c40f']
+    }]
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Order Status Distribution',
+        font: { size: 18 }
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false
   }
 });
 
@@ -136,7 +166,21 @@ new Chart(document.getElementById('inquiryStatusChart'), {
   type: 'pie',
   data: {
     labels: <?= json_encode(array_column($inqStatus, 'status')) ?>,
-    datasets: [{data: <?= json_encode(array_column($inqStatus, 'total')) ?>, backgroundColor: ['#9b59b6','#1abc9c','#e67e22']}]
+    datasets: [{
+      data: <?= json_encode(array_column($inqStatus, 'total')) ?>,
+      backgroundColor: ['#9b59b6','#1abc9c','#e67e22']
+    }]
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Inquiry Status Distribution',
+        font: { size: 18 }
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false
   }
 });
 
@@ -145,8 +189,27 @@ new Chart(document.getElementById('revenueOverviewChart'), {
   type: 'line',
   data: {
     labels: <?= json_encode(array_column($revenueOverview, 'rev_date')) ?>,
-    datasets: [{label: 'Revenue', data: <?= json_encode(array_column($revenueOverview, 'total')) ?>, borderColor: 'green'}]
+    datasets: [{
+      label: 'Revenue',
+      data: <?= json_encode(array_column($revenueOverview, 'total')) ?>,
+      borderColor: 'green',
+      fill: false
+    }]
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Revenue Overview (Last 14 Days)',
+        font: { size: 18 }
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false
   }
 });
 </script>
+
+
+
 

@@ -24,6 +24,8 @@ try {
 
     <!-- Tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -48,8 +50,9 @@ try {
         </div>
     </section>
 
+   
     <?php include 'footer.php'; ?>
-
+    <?php include 'chatbot.php'; ?>
     <?php include 'backToTop.php'; ?>
 
     <script>

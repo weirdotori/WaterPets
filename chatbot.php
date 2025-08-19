@@ -61,7 +61,7 @@
 
     /* Chatbox Header */
     #chatbox-header {
-        background: #3498db;
+        background: #fcd34d;
         color: white;
         padding: 12px 15px;
         font-weight: 600;
@@ -94,7 +94,7 @@
     }
 
     .user-msg {
-        background: #3498db;
+        background: #fcd34d;
         color: white;
         align-self: flex-end;
     }
@@ -115,7 +115,7 @@
     }
 
     #chatbox-send {
-        background: #3498db;
+        background: #fcd34d;
         color: white;
         border: none;
         padding: 8px 15px;
@@ -140,7 +140,7 @@
     }
 
     .keyword-btn {
-        background: #3498db;
+        background: #fcd34d;
         color: white;
         border: none;
         padding: 6px 12px;
@@ -157,7 +157,7 @@
 
 <!-- Chatbot Icon -->
 <div id="chatbot-icon">
-    💬
+    🐡
 </div>
 
 <!-- Chatbox -->

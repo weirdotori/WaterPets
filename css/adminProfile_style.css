@@ -166,6 +166,7 @@ input {
     position: absolute;
     right: 10px;
     top: 35px;
+    filter: invert(1);
 }
 
 /* Buttons */
@@ -212,6 +213,7 @@ input {
     font-size: 14px;
     margin-bottom: 10px;
     min-height: 18px;
+    color: rgb(0, 255, 51);
 }
 
 /* ===== Admin Security Setting ====== */

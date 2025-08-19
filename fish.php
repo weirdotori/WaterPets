@@ -214,6 +214,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <a href="fish.php?species=Guppy" class="<?= $selectedSpecies === 'Guppy' ? 'active' : '' ?>">Guppy</a>
                         <a href="fish.php?species=Tetra" class="<?= $selectedSpecies === 'Tetra' ? 'active' : '' ?>">Tetra</a>
                         <a href="fish.php?species=Angelfish" class="<?= $selectedSpecies === 'Angelfish' ? 'active' : '' ?>">Angelfish</a>
+                        <a href="fish.php?species=Tang" class="<?= $selectedSpecies === 'Tang' ? 'active' : '' ?>">Tang</a>
                     </div>
                 <?php endif; ?>
 
