@@ -23,7 +23,7 @@
                 <p class="text-big">Expert Tips & Insights for Your Water Pet's Well-being</p>
                 <p class="text-small">Fish Care Tips, Coral Maintenance Guide and Tank Setup</p>
                 <div class="cta-buttons">
-                    <a href="#guides" class="btn">Explore Guides</a>
+                    <a href="#discus" class="btn">Explore Guides</a>
 
                 </div>
             </div>
@@ -45,16 +45,18 @@
                 <div class="item">
                     <img src="/images/img6.jpg">
                     <div class="content">
-                        <div class="author">LUNDEV</div>
+                        <div class="author" id="discus">LUNDEV</div>
                         <div class="title">Discus Care Guide</div>
                         <div class="topic">Freshwater Fish</div>
                         <div class="des">
                             Discus are tropical freshwater fish requiring soft, slightly acidic water (pH 6.0–7.0) and a temperature of 28–31°C (82–88°F). They thrive in peaceful community tanks, need high-quality protein-rich food, and require regular water changes to maintain excellent water quality.
                         </div>
                         <div class="buttons">
-                            <button>SEE MORE</button>
-                            <button>SUBSCRIBE</button>
+                            <a href="https://youtu.be/oVOWEuyUaQc?si=X6gmEBJtR2c3GF0a" target="_blank" class="btn-link">SEE MORE</a>
                         </div>
+
+
+
                     </div>
                 </div>
                 <div class="item">
@@ -67,8 +69,7 @@
                             Yellow Tangs are marine fish that require a saltwater tank of at least 75 gallons with stable water parameters (specific gravity 1.020–1.025, pH 8.1–8.4). They are herbivores that eat marine algae and seaweed, need hiding spots, and are generally peaceful but can be territorial with other tangs.
                         </div>
                         <div class="buttons">
-                            <button>SEE MORE</button>
-                            <button>SUBSCRIBE</button>
+                            <a href="https://youtu.be/oVOWEuyUaQc?si=X6gmEBJtR2c3GF0a" target="_blank" class="btn-link">SEE MORE</a>
                         </div>
                     </div>
                 </div>
@@ -82,8 +83,7 @@
                             Bettas need a small, warm freshwater tank (24–30°C / 75–86°F) with gentle filtration. They prefer planted tanks with hiding spots, eat a varied diet of high-quality pellets and frozen/live foods, and should be kept alone or with very peaceful tank mates to avoid aggression.
                         </div>
                         <div class="buttons">
-                            <button>SEE MORE</button>
-                            <button>SUBSCRIBE</button>
+                            <a href="https://youtu.be/oVOWEuyUaQc?si=X6gmEBJtR2c3GF0a" target="_blank" class="btn-link">SEE MORE</a>
                         </div>
                     </div>
                 </div>
@@ -97,8 +97,7 @@
                             Clownfish require a marine tank of at least 20 gallons with stable parameters (pH 8.1–8.4, salinity 1.020–1.025). They are omnivores, eat a mix of pellets, frozen, and live foods, and often thrive with anemones. Compatible with many peaceful reef species.
                         </div>
                         <div class="buttons">
-                            <button>SEE MORE</button>
-                            <button>SUBSCRIBE</button>
+                            <a href="https://youtu.be/oVOWEuyUaQc?si=X6gmEBJtR2c3GF0a" target="_blank" class="btn-link">SEE MORE</a>
                         </div>
                     </div>
                 </div>

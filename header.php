@@ -273,7 +273,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="flex items-center space-x-2 animate-logo">
                 <img src="/images/oystergif.gif" alt="waterpets logo" class="h-11 w-11" />
                 <span class="h-8 border-l-2 border-blue-500 mx-3"></span>
-                <a href="#" class="logo-font animate-slide-in-left" data-sound="/sounds/notification_pop.mp3">WaterPets</a>
+                <a href="home.php" class="logo-font animate-slide-in-left" data-sound="/sounds/notification_pop.mp3">WaterPets</a>
             </div>
 
             <!-- Mobile toggle buttons -->
@@ -299,20 +299,20 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <!-- Shop dropdown -->
                 <div class="relative" x-data="{ shopOpen: false }">
-                    <button class="nav-link" @click="shopOpen = !shopOpen">
+                    <button class="nav-link" @click="shopOpen = !shopOpen"  data-sound="/sounds/notification_pop.mp3">
                         Shop
                     </button>
                     <div x-show="shopOpen" @click.outside="shopOpen = false" x-transition class="dropdown-menu">
-                        <a href="fish.php" class="dropdown-item">Fish</a>
-                        <a href="coralreefs.php" class="dropdown-item">Coral Reefs</a>
-                        <a href="supplies.php" class="dropdown-item">Supplies</a>
-                        <a href="equipment.php" class="dropdown-item">Equipment</a>
+                        <a href="fish.php" class="dropdown-item"  data-sound="/sounds/notification_pop.mp3">Fish</a>
+                        <a href="coralreefs.php" class="dropdown-item"  data-sound="/sounds/notification_pop.mp3">Coral Reefs</a>
+                        <a href="supplies.php" class="dropdown-item"  data-sound="/sounds/notification_pop.mp3">Supplies</a>
+                        <a href="equipment.php" class="dropdown-item"  data-sound="/sounds/notification_pop.mp3">Equipment</a>
                     </div>
                 </div>
 
-                <a href="guide.php" class="nav-link">Guide</a>
-                <a href="about.php" class="nav-link">About</a>
-                <a href="contactus.php" class="nav-link">Contact</a>
+                <a href="guide.php" class="nav-link"  data-sound="/sounds/notification_pop.mp3">Guide</a>
+                <a href="about.php" class="nav-link"  data-sound="/sounds/notification_pop.mp3">About</a>
+                <a href="contactus.php" class="nav-link"  data-sound="/sounds/notification_pop.mp3">Contact</a>
             </div>
 
             <!-- Desktop Right side -->
@@ -321,7 +321,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div id="search-container" class="search-container">
 
                     <!-- Search Icon Button -->
-                    <button id="search-toggle" type="button" class="search-icon-btn" aria-label="Toggle Search">
+                    <button id="search-toggle" type="button" class="search-icon-btn" aria-label="Toggle Search"  data-sound="/sounds/notification_pop.mp3">
                         <img src="/images/searchbar.png" alt="Search" />
                     </button>
 
@@ -342,7 +342,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer'): ?>
 
-                    <a href="userProfile.php" title="Profile">
+                    <a href="userProfile.php" title="Profile"  data-sound="/sounds/notification_pop.mp3">
                         <img src="<?= $_SESSION['user']['profile_pic'] ?? '/images/user.png' ?>" alt="Profile" class="h-8 w-8 rounded-full border border-white hover:scale-105 transition" />
                     </a>
                 <?php endif; ?>
@@ -350,17 +350,17 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
                 <!-- Menu Icon -->
-                <button @click="menuOpen = !menuOpen" class="focus:outline-none">
+                <button @click="menuOpen = !menuOpen" class="focus:outline-none"  data-sound="/sounds/notification_pop.mp3">
                     <img src="/images/menu.png" alt="Menu" class="h-8 w-8" />
                 </button>
 
                 <!-- Dropdown -->
                 <div x-show="menuOpen" @click.outside="menuOpen = false" x-transition class="icon-dropdown">
-                    <a href="cart.php">
+                    <a href="cart.php"  data-sound="/sounds/notification_pop.mp3">
                         <img src="/images/cart.png" alt="Cart">
                         <span>Cart</span>
                     </a>
-                    <a href="wishlist.php">
+                    <a href="wishlist.php"  data-sound="/sounds/notification_pop.mp3">
                         <img src="/images/wishlist.png" alt="Wishlist">
                         <span>Wishlist</span>
                     </a>
@@ -369,18 +369,18 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
                         <!-- Logout -->
-                        <a href="userLogout.php">
+                        <a href="userLogout.php"  data-sound="/sounds/notification_pop.mp3">
                             <img src="/images/logout.png" alt="Logout">
                             <span>Logout</span>
                         </a>
                     <?php else: ?>
                         <!-- Guest Login/Register -->
-                        <a href="userLogin.php">
+                        <a href="userLogin.php"  data-sound="/sounds/notification_pop.mp3">
                             <img src="/images/user.png" alt="Login">
                             <span>Login</span>
                         </a>
                         <a href="register.php">
-                            <img src="/images/register.png" alt="Register">
+                            <img src="/images/register.png" alt="Register"  data-sound="/sounds/notification_pop.mp3">
                             <span>Register</span>
                         </a>
                     <?php endif; ?>
@@ -415,7 +415,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="userProfile.php" class="block py-2">Profile</a>
             <a href="userLogout.php" class="block py-2">Logout</a>
         <?php else: ?>
-            <a href="login.php" class="block py-2">Login</a>
+            <a href="userLogin.php" class="block py-2">Login</a>
             <a href="register.php" class="block py-2">Register</a>
         <?php endif; ?>
     </div>

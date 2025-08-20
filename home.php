@@ -56,10 +56,10 @@
         <div class="floating-button-group">
           <button class="main-circle" onclick="toggleOptions()" data-sound="/sounds/click_pop.mp3">Build Your Dream Aquarium Now</button>
 
-          <a href="/fish.html" class="option-button fish" data-sound="/sounds/click_pop.mp3">Fish</a>
-          <a href="/plants.html" class="option-button plants" data-sound="/sounds/click_pop.mp3">Coral Reefs</a>
-          <a href="/supplies.html" class="option-button supplies" data-sound="/sounds/click_pop.mp3">Supplies</a>
-          <a href="/equipment.html" class="option-button equipment" data-sound="/sounds/click_pop.mp3">Equipment</a>
+          <a href="fish.php" class="option-button fish" data-sound="/sounds/click_pop.mp3">Fish</a>
+          <a href="coralreefs.php" class="option-button plants" data-sound="/sounds/click_pop.mp3">Coral Reefs</a>
+          <a href="supplies.php" class="option-button supplies" data-sound="/sounds/click_pop.mp3">Supplies</a>
+          <a href="equipment.php" class="option-button equipment" data-sound="/sounds/click_pop.mp3">Equipment</a>
         </div>
 
       </div>
@@ -101,7 +101,7 @@
       <div class="latest-offer-box" data-aos="zoom-in-up">
         <video autoplay muted loop playsinline class="rounded-lg shadow-xl w-[450px] h-[600px] object-cover">
           <source src="/videos/bettavideo.mp4" type="video/mp4">
-          Your browser does not support the video tag.
+           browser does not support the video tag.
         </video>
       </div>
 
@@ -124,35 +124,35 @@
           <div class="swiper-slide">
             <img src="/images/clownfish.jpg" alt="">
             <div class="title">
-              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Clown Fish</a>
+              <a href="fish.php" data-sound="/sounds/notification_pop.mp3">Clown Fish</a>
             </div>
           </div>
 
           <div class="swiper-slide">
             <img src="/images/blue-betta.jpg" alt="">
             <div class="title">
-              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Navy Blue Betta</a>
+              <a href="fish.php" data-sound="/sounds/notification_pop.mp3">Navy Blue Betta</a>
             </div>
           </div>
 
           <div class="swiper-slide">
             <img src="/images/betta-tank.jpg" alt="">
             <div class="title">
-              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Square Fish Tank</a>
+              <a href="equipment.php" data-sound="/sounds/notification_pop.mp3">Square Fish Tank</a>
             </div>
           </div>
 
           <div class="swiper-slide">
             <img src="/images/seahorse.jpg" alt="">
             <div class="title">
-              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Sea Horse</a>
+              <a href="fish.php" data-sound="/sounds/notification_pop.mp3">Sea Horse</a>
             </div>
           </div>
 
           <div class="swiper-slide">
             <img src="/images/shellfishtank.jpg" alt="">
             <div class="title">
-              <a href="/fish.php#clownfish" data-sound="/sounds/notification_pop.mp3">Fish Tank Decoration</a>
+              <a href="equipment.php" data-sound="/sounds/notification_pop.mp3">Fish Tank Decoration</a>
             </div>
           </div>
 
@@ -163,7 +163,7 @@
       </div>
       <div class="swiper-caption-container" data-aos="fade-up" data-aos-delay="500">
         <p class="swiper-caption">Top-rated picks — only the best for your tank.</p>
-        <a href="shop.php" class="swiper-caption-btn">Shop Now</a>
+        <a href="fish.php" class="swiper-caption-btn">Shop Now</a>
       </div>
     </div>
 
@@ -181,7 +181,7 @@
           <p class="tip-subtitle">Tank Setup</p>
           <h3>Setting Up Your Aquarium</h3>
           <p>Learn how to prepare your tank environment to keep your fish safe, healthy, and happy.</p>
-          <a href="#">read more →</a>
+          <a href="guide.php">read more →</a>
         </div>
       </div>
 
@@ -192,7 +192,7 @@
           <p class="tip-subtitle">Feeding</p>
           <h3>What & When to Feed</h3>
           <p>Tips on feeding schedules, portion sizes, and nutrition for your aquatic friends.</p>
-          <a href="#">read more →</a>
+          <a href="guide.php">read more →</a>
         </div>
       </div>
 

@@ -240,7 +240,7 @@ $isLoggedIn = isset($_SESSION['user']) && $_SESSION['user']['role'] === 'custome
         <div class="flex items-center space-x-2 animate-logo">
             <img src="/images/oystergif.gif" alt="waterpets logo" class="h-11 w-11" />
             <span class="h-8 border-l-2 border-blue-500 mx-3"></span>
-            <a href="#" class="logo-font animate-slide-in-left" data-sound="/sounds/notification_pop.mp3">WaterPets</a>
+            <a href="home.php" class="logo-font animate-slide-in-left" data-sound="/sounds/notification_pop.mp3">WaterPets</a>
         </div>
 
         <!-- Sidebar toggle and sound on small screens -->

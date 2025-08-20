@@ -153,20 +153,27 @@
     margin-top: 20px;
 }
 
-.carousel .list .item .buttons button {
-    border: none;
+/* Style the link like a button */
+.carousel .list .item .buttons .btn-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;   /* remove underline */
     background-color: #fcd34d;
     letter-spacing: 3px;
     font-family: Poppins;
     font-weight: 500;
     color: #000000;
+    border: none;
 }
 
-.carousel .list .item .buttons button:nth-child(2) {
+/* If you have a second button (like your nth-child(2)) */
+.carousel .list .item .buttons .btn-link:nth-child(2) {
     background-color: transparent;
     border: 1px solid #fff;
     color: #eee;
 }
+
 
 /* thumbail */
 .thumbnail {
